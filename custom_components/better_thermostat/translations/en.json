@@ -1,9 +1,9 @@
 {
-  "title": "Better Thermostat",
+  "title": "Smarter Thermostat",
   "config": {
     "step": {
       "user": {
-        "description": "Setup your Better Thermostat to integrate with Home Assistant\n**If you need more info: https://better-thermostat.org/configuration#first-step**",
+        "description": "Setup your Smarter Thermostat to integrate with Home Assistant\n**If you need more info: https://better-thermostat.org/configuration#first-step**",
         "data": {
           "name": "Name",
           "thermostat": "The real thermostat",
@@ -43,15 +43,15 @@
         }
       },
       "confirm": {
-        "title": "Confirm adding a Better Thermostat",
+        "title": "Confirm adding a Smarter Thermostat",
         "description": "You are about to add `{name}` to Home Assistant.\nWith {trv} as the real Thermostat"
       }
     },
     "error": {
       "failed": "Something went wrong.",
       "no_name": "Please enter a name.",
-      "no_off_mode": "Your device is very special and has no off mode :(\nBetter Thermostat will use the minimal target temp instead.",
-      "no_outside_temp": "You have no outside temperature sensor. Better Thermostat will use the weather entity instead."
+      "no_off_mode": "Your device is very special and has no off mode :(\nSmarter Thermostat will use the minimal target temp instead.",
+      "no_outside_temp": "You have no outside temperature sensor. Smarter Thermostat will use the weather entity instead."
     },
     "abort": {
       "single_instance_allowed": "Only a single Thermostat for each real is allowed.",
@@ -61,7 +61,7 @@
   "options": {
     "step": {
       "user": {
-        "description": "Update your Better Thermostat settings",
+        "description": "Update your Smarter Thermostat settings",
         "data": {
           "name": "Name",
           "thermostat": "The real thermostat",

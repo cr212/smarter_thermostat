@@ -5,7 +5,7 @@ throughout the calibration and HVAC action calculation logic.
 
 Related issues:
 - #1792: Rounding to 1 decimal in calibration logic causes TRV to heat when BT shows idle
-- #1789: MPC heats up the room even though BetterThermostat says it is idle
+- #1789: MPC heats up the room even though SmarterThermostat says it is idle
 - #1785: PID controller heats although the temperature is already high
 - #1736: BT says idle, actual TRV is heating (offset based)
 - #1718: Underlying climate entity remains in the heating state even if BT is in idle
@@ -13,7 +13,7 @@ Related issues:
 
 import pytest
 
-from custom_components.better_thermostat.utils.helpers import (
+from custom_components.smarter_thermostat.utils.helpers import (
     convert_to_float,
     round_by_step,
 )

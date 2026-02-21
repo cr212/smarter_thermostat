@@ -4,7 +4,7 @@
 [![Discord](https://img.shields.io/discord/925725316540923914.svg?style=for-the-badge)](https://discord.gg/9BUegWTG3K)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
 
-# Better Thermostat
+# Smarter Thermostat
 
 **For more info visit: https://better-thermostat.org/**
 
@@ -39,7 +39,7 @@ This integration brings some smartness to your connected radiator thermostats se
 
 ### Advanced Control Algorithms
 
-Better Thermostat now supports multiple advanced control strategies to optimize your heating:
+Smarter Thermostat now supports multiple advanced control strategies to optimize your heating:
 
 - **MPC (Model Predictive Control)**: Uses a physical model of your room and radiator to predict future temperature changes and optimize valve opening.
 - **PID Controller**: A classic Proportional-Integral-Derivative controller that learns your room's characteristics to maintain a stable temperature. It features auto-tuning (currently in beta) to automatically find the best parameters (Kp, Ki, Kd) for your room.
@@ -108,7 +108,7 @@ group:
 
 #### Combine multiple TRV to one (Group)
 
-No worry, Better Thermostat supports grouping out of the box
+No worry, Smarter Thermostat supports grouping out of the box
 
 ---
 

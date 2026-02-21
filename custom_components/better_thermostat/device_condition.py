@@ -1,4 +1,4 @@
-"""Provide device conditions for Better Thermostat."""
+"""Provide device conditions for Smarter Thermostat."""
 
 from __future__ import annotations
 
@@ -50,7 +50,7 @@ CONDITION_SCHEMA = vol.Any(HVAC_MODE_CONDITION, HVAC_ACTION_CONDITION)
 async def async_get_conditions(
     hass: HomeAssistant, device_id: str
 ) -> list[dict[str, str]]:
-    """List device conditions for Better Thermostat devices."""
+    """List device conditions for Smarter Thermostat devices."""
     registry = entity_registry.async_get(hass)
     conditions = []
 

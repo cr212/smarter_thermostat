@@ -14,7 +14,7 @@ import logging
 from homeassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
 from homeassistant.helpers import issue_registry as ir
 
-DOMAIN = "better_thermostat"
+DOMAIN = "smarter_thermostat"
 _LOGGER = logging.getLogger(__name__)
 
 # States considered unavailable
@@ -66,7 +66,7 @@ async def check_entity(self, entity) -> bool:
     state = entity_states.state
     if state in UNAVAILABLE_STATES:
         _LOGGER.debug(
-            f"better_thermostat {self.device_name}: {entity} is unavailable. with state {state}"
+            f"smarter_thermostat {self.device_name}: {entity} is unavailable. with state {state}"
         )
         return False
     if entity in self.devices_errors:
@@ -179,7 +179,7 @@ async def check_critical_entities(self) -> bool:
     for entity in critical:
         if not is_entity_available(self.hass, entity):
             _LOGGER.warning(
-                "better_thermostat %s: Critical entity %s is unavailable",
+                "smarter_thermostat %s: Critical entity %s is unavailable",
                 self.device_name,
                 entity,
             )
@@ -229,7 +229,7 @@ async def check_and_update_degraded_mode(self) -> bool:
         if not is_entity_available(self.hass, entity):
             unavailable.append(entity)
             _LOGGER.debug(
-                "better_thermostat %s: Optional sensor %s is unavailable (degraded mode)",
+                "smarter_thermostat %s: Optional sensor %s is unavailable (degraded mode)",
                 self.device_name,
                 entity,
             )
@@ -242,7 +242,7 @@ async def check_and_update_degraded_mode(self) -> bool:
     if not sensor_available:
         unavailable.append(self.sensor_entity_id)
         _LOGGER.warning(
-            "better_thermostat %s: Room temperature sensor %s unavailable, "
+            "smarter_thermostat %s: Room temperature sensor %s unavailable, "
             "falling back to TRV internal temperature",
             self.device_name,
             self.sensor_entity_id,
@@ -258,7 +258,7 @@ async def check_and_update_degraded_mode(self) -> bool:
 
     if self.degraded_mode and not old_degraded:
         _LOGGER.warning(
-            "better_thermostat %s: Entering degraded mode. Unavailable sensors: %s",
+            "smarter_thermostat %s: Entering degraded mode. Unavailable sensors: %s",
             self.device_name,
             ", ".join(unavailable),
         )
@@ -279,7 +279,7 @@ async def check_and_update_degraded_mode(self) -> bool:
         )
     elif not self.degraded_mode and old_degraded:
         _LOGGER.info(
-            "better_thermostat %s: Exiting degraded mode. All sensors available.",
+            "smarter_thermostat %s: Exiting degraded mode. All sensors available.",
             self.device_name,
         )
         ir.async_delete_issue(self.hass, DOMAIN, f"degraded_mode_{self.device_name}")

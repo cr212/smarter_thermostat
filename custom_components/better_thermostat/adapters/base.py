@@ -17,7 +17,7 @@ async def wait_for_calibration_entity_or_timeout(self, entity_id, calibration_en
     Parameters
     ----------
     self :
-        self instance of better_thermostat
+        self instance of smarter_thermostat
     entity_id : str
         The TRV entity ID
     calibration_entity : str
@@ -35,14 +35,14 @@ async def wait_for_calibration_entity_or_timeout(self, entity_id, calibration_en
         _state = self.hass.states.get(calibration_entity)
         if _state is None or _state.state in (STATE_UNAVAILABLE, STATE_UNKNOWN):
             _LOGGER.info(
-                "better_thermostat %s: waiting for TRV/climate entity with id '%s' to become fully available...",
+                "smarter_thermostat %s: waiting for TRV/climate entity with id '%s' to become fully available...",
                 self.device_name,
                 calibration_entity,
             )
             _retry_count += 1
             if _retry_count >= _max_retries:
                 _LOGGER.warning(
-                    "better_thermostat %s: local_temperature_calibration entity '%s' not available after timeout, forcing calibration to 0",
+                    "smarter_thermostat %s: local_temperature_calibration entity '%s' not available after timeout, forcing calibration to 0",
                     self.device_name,
                     calibration_entity,
                 )
@@ -57,7 +57,7 @@ async def wait_for_calibration_entity_or_timeout(self, entity_id, calibration_en
                     )
                 except Exception as e:
                     _LOGGER.error(
-                        "better_thermostat %s: Failed to set calibration to 0 for entity '%s': %s",
+                        "smarter_thermostat %s: Failed to set calibration to 0 for entity '%s': %s",
                         self.device_name,
                         calibration_entity,
                         e,

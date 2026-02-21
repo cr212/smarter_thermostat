@@ -1,4 +1,4 @@
-"""Config flow for Better Thermostat."""
+"""Config flow for Smarter Thermostat."""
 
 from collections import OrderedDict
 from collections.abc import Iterable
@@ -626,7 +626,7 @@ async def _prepare_advanced_context(
 
 
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Config flow for Better Thermostat."""
+    """Config flow for Smarter Thermostat."""
 
     VERSION = 7
     CONNECTION_CLASS = config_entries.CONN_CLASS_LOCAL_POLL

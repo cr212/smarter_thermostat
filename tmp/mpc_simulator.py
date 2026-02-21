@@ -4,7 +4,7 @@ import os
 import sys
 from unittest.mock import patch
 
-from custom_components.better_thermostat.utils.calibration.mpc import (
+from custom_components.smarter_thermostat.utils.calibration.mpc import (
     _MPC_STATES,
     MpcInput,
     MpcParams,
@@ -68,7 +68,7 @@ def run_simulation():
     current_time = 1000.0
 
     with patch(
-        "custom_components.better_thermostat.utils.calibration.mpc.monotonic"
+        "custom_components.smarter_thermostat.utils.calibration.mpc.monotonic"
     ) as mock_time:
         for case in cases:
             _MPC_STATES.clear()

@@ -3,7 +3,7 @@ import os
 import sys
 from unittest.mock import patch
 
-from custom_components.better_thermostat.utils.calibration.pid import (
+from custom_components.smarter_thermostat.utils.calibration.pid import (
     PIDParams,
     compute_pid,
     reset_pid_state,
@@ -93,7 +93,7 @@ def simulate_pid():
 
         # 2. Run PID
         with patch(
-            "custom_components.better_thermostat.utils.calibration.pid.monotonic"
+            "custom_components.smarter_thermostat.utils.calibration.pid.monotonic"
         ) as mock_time:
             mock_time.return_value = sim_time
 

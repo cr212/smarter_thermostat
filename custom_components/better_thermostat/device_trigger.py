@@ -1,7 +1,7 @@
-"""Device trigger helpers for Better Thermostat.
+"""Device trigger helpers for Smarter Thermostat.
 
 This module implements the device trigger helpers and validators used by
-Home Assistant's device trigger integration for Better Thermostat climate
+Home Assistant's device trigger integration for Smarter Thermostat climate
 devices.
 """
 
@@ -35,7 +35,7 @@ from . import DOMAIN
 async def async_get_triggers(
     hass: HomeAssistant, device_id: str
 ) -> list[dict[str, str]]:
-    """List device triggers for Better Thermostat devices."""
+    """List device triggers for Smarter Thermostat devices."""
     registry = entity_registry.async_get(hass)
     triggers = []
 

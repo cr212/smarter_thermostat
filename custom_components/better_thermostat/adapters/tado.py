@@ -1,6 +1,6 @@
-"""Tado adapter helpers for Better Thermostat.
+"""Tado adapter helpers for Smarter Thermostat.
 
-This module implements the thin adapter that maps Better Thermostat actions
+This module implements the thin adapter that maps Smarter Thermostat actions
 onto the Tado climate services (offsets and modes).
 """
 
@@ -48,7 +48,7 @@ async def get_current_offset(self, entity_id):
         return float(str(state.attributes.get("offset_celsius", 0)))
     except (ValueError, TypeError):
         _LOGGER.warning(
-            "better_thermostat %s: Could not convert calibration offset '%s' to float, using 0",
+            "smarter_thermostat %s: Could not convert calibration offset '%s' to float, using 0",
             self.device_name,
             state.attributes.get("offset_celsius"),
         )

@@ -1,4 +1,4 @@
-"""Provides device actions for Better Thermostat."""
+"""Provides device actions for Smarter Thermostat."""
 
 from __future__ import annotations
 
@@ -40,7 +40,7 @@ _ACTION_SCHEMA = cv.DEVICE_ACTION_BASE_SCHEMA.extend(
 async def async_get_actions(
     hass: HomeAssistant, device_id: str
 ) -> list[dict[str, str]]:
-    """List device actions for Better Thermostat devices."""
+    """List device actions for Smarter Thermostat devices."""
     registry = entity_registry.async_get(hass)
     actions = []
 

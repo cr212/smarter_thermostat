@@ -1,5 +1,5 @@
 """
-PID controller for Better Thermostat calibration.
+PID controller for Smarter Thermostat calibration.
 
 Goals:
 - Provide a classic PID controller with conservative auto-tuning for temperature control.
@@ -142,7 +142,7 @@ def compute_pid(
     st = _PID_STATES.setdefault(key, PIDState())
 
     _LOGGER.debug(
-        "better_thermostat PID: input for %s: target=%.1f current=%.1f trv=%.1f slope=%.3f kp=%.1f ki=%.3f kd=%.1f",
+        "smarter_thermostat PID: input for %s: target=%.1f current=%.1f trv=%.1f slope=%.3f kp=%.1f ki=%.3f kd=%.1f",
         key,
         inp_target_temp_C or 0.0,
         inp_current_temp_C or 0.0,
@@ -390,7 +390,7 @@ def compute_pid(
         pid_dbg = {"mode": "pid", "error": "debug_failed"}
 
     _LOGGER.debug(
-        "better_thermostat PID: output for %s: percent=%.1f%%, p_term=%.2f, i_term=%.2f, d_term=%.2f, integral=%.2f",
+        "smarter_thermostat PID: output for %s: percent=%.1f%%, p_term=%.2f, i_term=%.2f, d_term=%.2f, integral=%.2f",
         key,
         percent,
         p_term or 0.0,
@@ -520,7 +520,7 @@ def build_pid_key(self, entity_id: str) -> str:
     where target_temp is rounded to 0.5°C buckets.
 
     Args:
-        self: BetterThermostat instance with unique_id and bt_target_temp
+        self: SmarterThermostat instance with unique_id and bt_target_temp
         entity_id: TRV entity ID
 
     Returns

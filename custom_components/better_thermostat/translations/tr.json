@@ -1,9 +1,9 @@
 {
-  "title": "Better Thermostat",
+  "title": "Smarter Thermostat",
   "config": {
     "step": {
       "user": {
-        "description": "Better Thermostat'ınızı Home Assistant ile entegre etmek için yapılandırın\n**Daha fazla bilgi için: https://better-thermostat.org/configuration#first-step**",
+        "description": "Smarter Thermostat'ınızı Home Assistant ile entegre etmek için yapılandırın\n**Daha fazla bilgi için: https://better-thermostat.org/configuration#first-step**",
         "data": {
           "name": "Ad",
           "thermostat": "Gerçek termostat",
@@ -42,7 +42,7 @@
           "no_off_system_mode": "TRV'niz kapalı modu desteklemiyorsa, bunun yerine hedef sıcaklık 5°C kullanmak için bunu etkinleştirebilirsiniz"
         },
         "data_description": {
-          "balance_mode": "Better Thermostat'ın odalardaki vana açıklığını nasıl uyarlayacağını seçin.\n***Yok / Kapalı***: Dengeleme yok; TRV'ler olduğu gibi çalışır.\n***Sezgisel (Deneysel)***: Basit kural tabanlı dengeleme.\n***PID (Deneysel)***: Otomatik ayarlı klasik geri bildirim denetleyicisi.\n\nNot: Hidrolik denge Beta aşamasındadır ve değişebilir.",
+          "balance_mode": "Smarter Thermostat'ın odalardaki vana açıklığını nasıl uyarlayacağını seçin.\n***Yok / Kapalı***: Dengeleme yok; TRV'ler olduğu gibi çalışır.\n***Sezgisel (Deneysel)***: Basit kural tabanlı dengeleme.\n***PID (Deneysel)***: Otomatik ayarlı klasik geri bildirim denetleyicisi.\n\nNot: Hidrolik denge Beta aşamasındadır ve değişebilir.",
           "mpc_thermal_gain": "Adım başına tam vana açıklığında tahmini sıcaklık hatası azalması.",
           "mpc_loss_coeff": "Kesirli hata kayması (sızıntı). Daha yüksek değerler = oda daha hızlı ısı kaybeder.",
           "mpc_control_penalty": "Yüksek vana açıklıklarını cezalandıran ağırlık (enerji tasarrufu).",
@@ -57,15 +57,15 @@
         }
       },
       "confirm": {
-        "title": "Better Thermostat eklemeyi onayla",
+        "title": "Smarter Thermostat eklemeyi onayla",
         "description": "`{name}` Home Assistant'a eklenecek.\n{trv} gerçek Termostat olarak kullanılacak"
       }
     },
     "error": {
       "failed": "Bir şeyler yanlış gitti.",
       "no_name": "Lütfen bir ad girin.",
-      "no_off_mode": "Cihazınız çok özel ve kapalı modu yok :(\nBetter Thermostat bunun yerine minimum hedef sıcaklığı kullanacak.",
-      "no_outside_temp": "Dış ortam sıcaklık sensörünüz yok. Better Thermostat bunun yerine hava durumu varlığını kullanacak."
+      "no_off_mode": "Cihazınız çok özel ve kapalı modu yok :(\nSmarter Thermostat bunun yerine minimum hedef sıcaklığı kullanacak.",
+      "no_outside_temp": "Dış ortam sıcaklık sensörünüz yok. Smarter Thermostat bunun yerine hava durumu varlığını kullanacak."
     },
     "abort": {
       "single_instance_allowed": "Her gerçek termostat için yalnızca tek bir Termostat'a izin verilir.",
@@ -75,7 +75,7 @@
   "options": {
     "step": {
       "user": {
-        "description": "Better Thermostat ayarlarınızı güncelleyin",
+        "description": "Smarter Thermostat ayarlarınızı güncelleyin",
         "data": {
           "name": "Ad",
           "thermostat": "Gerçek termostat",
@@ -118,7 +118,7 @@
           "no_off_system_mode": "TRV'niz kapalı modu desteklemiyorsa, bunun yerine hedef sıcaklık 5°C kullanmak için bunu etkinleştirebilirsiniz"
         },
         "data_description": {
-          "balance_mode": "Better Thermostat'ın odalardaki vana açıklığını nasıl uyarlayacağını seçin.\n***Yok / Kapalı***: Dengeleme yok; TRV'ler olduğu gibi çalışır.\n***Sezgisel (Deneysel)***: Basit kural tabanlı dengeleme.\n***PID (Deneysel)***: Otomatik ayarlı klasik geri bildirim denetleyicisi.\n\nNot: Hidrolik denge Beta aşamasındadır ve değişebilir.",
+          "balance_mode": "Smarter Thermostat'ın odalardaki vana açıklığını nasıl uyarlayacağını seçin.\n***Yok / Kapalı***: Dengeleme yok; TRV'ler olduğu gibi çalışır.\n***Sezgisel (Deneysel)***: Basit kural tabanlı dengeleme.\n***PID (Deneysel)***: Otomatik ayarlı klasik geri bildirim denetleyicisi.\n\nNot: Hidrolik denge Beta aşamasındadır ve değişebilir.",
           "mpc_thermal_gain": "Adım başına tam vana açıklığında tahmini sıcaklık hatası azalması.",
           "mpc_loss_coeff": "Kesirli hata kayması (sızıntı). Daha yüksek değerler = oda daha hızlı ısı kaybeder.",
           "mpc_control_penalty": "Yüksek vana açıklıklarını cezalandıran ağırlık (enerji tasarrufu).",

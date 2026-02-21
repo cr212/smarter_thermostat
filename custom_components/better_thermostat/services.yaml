@@ -4,7 +4,7 @@ save_current_target_temperature:
   target:
     entity:
       domain: climate
-      integration: better_thermostat
+      integration: smarter_thermostat
 
 restore_saved_target_temperature:
   name: Restore target temperature
@@ -12,7 +12,7 @@ restore_saved_target_temperature:
   target:
     entity:
       domain: climate
-      integration: better_thermostat
+      integration: smarter_thermostat
 
 reset_heating_power:
   name: Reset heating power
@@ -20,7 +20,7 @@ reset_heating_power:
   target:
     entity:
       domain: climate
-      integration: better_thermostat
+      integration: smarter_thermostat
 
 set_temp_target_temperature:
   name: Set temporary (ECO) target temperature
@@ -40,16 +40,16 @@ set_temp_target_temperature:
   target:
     entity:
       domain: climate
-      integration: better_thermostat
+      integration: smarter_thermostat
 
 
 run_valve_maintenance:
   name: Run valve maintenance now
-  description: Run the valve maintenance cycle immediately for this Better Thermostat entity.
+  description: Run the valve maintenance cycle immediately for this Smarter Thermostat entity.
   target:
     entity:
       domain: climate
-      integration: better_thermostat
+      integration: smarter_thermostat
 
 reset_pid_learnings:
   name: Reset PID learnings
@@ -99,4 +99,4 @@ reset_pid_learnings:
   target:
     entity:
       domain: climate
-      integration: better_thermostat
+      integration: smarter_thermostat

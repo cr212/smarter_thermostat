@@ -1,7 +1,7 @@
 """Generic adapter helpers used by multiple TRV integrations.
 
 This module implements the generic, default behaviour for TRV adapters
-used by Better Thermostat when a device-specific adapter does not exist.
+used by Smarter Thermostat when a device-specific adapter does not exist.
 """
 
 import asyncio
@@ -40,7 +40,7 @@ async def init(self, entity_id):
             "local_temperature_calibration_entity"
         ] = await find_local_calibration_entity(self, entity_id)
         _LOGGER.debug(
-            "better_thermostat %s: uses local calibration entity %s",
+            "smarter_thermostat %s: uses local calibration entity %s",
             self.device_name,
             self.real_trvs[entity_id]["local_temperature_calibration_entity"],
         )
@@ -63,7 +63,7 @@ async def get_current_offset(self, entity_id):
             return float(str(state.state))
         except (ValueError, TypeError):
             _LOGGER.warning(
-                "better_thermostat %s: Could not convert calibration offset '%s' to float, using 0",
+                "smarter_thermostat %s: Could not convert calibration offset '%s' to float, using 0",
                 self.device_name,
                 state.state,
             )
@@ -127,7 +127,7 @@ async def set_hvac_mode(self, entity_id, hvac_mode):
 
     hvac_mode_norm = normalize_hvac_mode(hvac_mode)
     _LOGGER.debug(
-        "better_thermostat %s: set_hvac_mode %s -> %s",
+        "smarter_thermostat %s: set_hvac_mode %s -> %s",
         self.device_name,
         hvac_mode,
         hvac_mode_norm,
@@ -148,7 +148,7 @@ async def set_hvac_mode(self, entity_id, hvac_mode):
         )
     except Exception as exc:
         _LOGGER.exception(
-            "better_thermostat %s: Exception in set_hvac_mode for %s with %s: %s",
+            "smarter_thermostat %s: Exception in set_hvac_mode for %s with %s: %s",
             self.device_name,
             entity_id,
             hvac_mode_norm,

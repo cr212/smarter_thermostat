@@ -1,7 +1,7 @@
 """MQTT adapter for TRV devices.
 
 This module implements MQTT-specific behaviour for TRV devices used by
-the Better Thermostat integration.
+the Smarter Thermostat integration.
 """
 
 import asyncio
@@ -60,7 +60,7 @@ async def init(self, entity_id):
             "local_temperature_calibration_entity"
         ] = await find_local_calibration_entity(self, entity_id)
         _LOGGER.debug(
-            "better_thermostat %s: uses local calibration entity %s",
+            "smarter_thermostat %s: uses local calibration entity %s",
             self.device_name,
             self.real_trvs[entity_id]["local_temperature_calibration_entity"],
         )
@@ -104,7 +104,7 @@ async def get_current_offset(self, entity_id):
         return float(str(state.state))
     except (ValueError, TypeError):
         _LOGGER.warning(
-            "better_thermostat %s: Could not convert calibration offset '%s' to float, using 0",
+            "smarter_thermostat %s: Could not convert calibration offset '%s' to float, using 0",
             self.device_name,
             state.state,
         )
@@ -175,14 +175,14 @@ async def set_offset(self, entity_id, offset):
 async def set_valve(self, entity_id, valve):
     """Set new target valve."""
     _LOGGER.debug(
-        "better_thermostat %s: TO TRV %s set_valve: %s",
+        "smarter_thermostat %s: TO TRV %s set_valve: %s",
         self.device_name,
         entity_id,
         valve,
     )
     if self.real_trvs.get(entity_id, {}).get("valve_position_writable") is False:
         _LOGGER.debug(
-            "better_thermostat %s: valve entity for %s is read-only, skip adapter write",
+            "smarter_thermostat %s: valve entity for %s is read-only, skip adapter write",
             self.device_name,
             entity_id,
         )

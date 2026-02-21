@@ -1,4 +1,4 @@
-"""External temperature event handlers for Better Thermostat.
+"""External temperature event handlers for Smarter Thermostat.
 
 This module includes logic to handle external temperature updates and apply
 debounce, anti-flicker, accumulation, and plateau acceptance heuristics used
@@ -54,7 +54,7 @@ def _update_external_temp_ema(self, temp_q: float) -> float:
         ema = float(prev_ema) + alpha * (float(temp_q) - float(prev_ema))
 
         _LOGGER.debug(
-            "better_thermostat %s: EMA calc: prev=%.3f input=%.3f dt=%.1fs alpha=%.4f -> new=%.3f",
+            "smarter_thermostat %s: EMA calc: prev=%.3f input=%.3f dt=%.1fs alpha=%.4f -> new=%.3f",
             self.device_name,
             float(prev_ema),
             float(temp_q),
@@ -73,7 +73,7 @@ def _update_external_temp_ema(self, temp_q: float) -> float:
 async def _apply_temperature_update(self, new_temp):
     """Apply the new external temperature and trigger updates."""
     _LOGGER.debug(
-        "better_thermostat %s: _apply_temperature_update called with %.2f",
+        "smarter_thermostat %s: _apply_temperature_update called with %.2f",
         self.device_name,
         new_temp,
     )
@@ -111,7 +111,7 @@ async def _apply_temperature_update(self, new_temp):
     self.async_write_ha_state()
     if _ema is not None:
         _LOGGER.debug(
-            "better_thermostat %s: external_temperature filtered (ema_tau_s=%s) raw=%.2f ema=%.2f",
+            "smarter_thermostat %s: external_temperature filtered (ema_tau_s=%s) raw=%.2f ema=%.2f",
             self.device_name,
             self.external_temp_ema_tau_s,
             float(new_temp_q),
@@ -134,13 +134,13 @@ async def _apply_temperature_update(self, new_temp):
                 await quirks.maybe_set_external_temperature(self, trv_id, self.cur_temp)
             else:
                 _LOGGER.debug(
-                    "better_thermostat %s: no quirks with maybe_set_external_temperature for %s",
+                    "smarter_thermostat %s: no quirks with maybe_set_external_temperature for %s",
                     self.device_name,
                     trv_id,
                 )
     except (AttributeError, KeyError, TypeError, ValueError, RuntimeError):
         _LOGGER.debug(
-            "better_thermostat %s: external_temperature write to TRV failed (non critical)",
+            "smarter_thermostat %s: external_temperature write to TRV failed (non critical)",
             self.device_name,
         )
     # Enqueue control action (skip during valve maintenance to avoid overwriting exercise).
@@ -152,7 +152,7 @@ async def _apply_temperature_update(self, new_temp):
         else:
             await self.control_queue_task.put(self)
     _LOGGER.debug(
-        "better_thermostat %s: _apply_temperature_update finished", self.device_name
+        "smarter_thermostat %s: _apply_temperature_update finished", self.device_name
     )
 
 
@@ -163,7 +163,7 @@ async def trigger_temperature_change(self, event):
     Parameters
     ----------
     self :
-            self instance of better_thermostat
+            self instance of smarter_thermostat
     event :
             Event object from the eventbus. Contains the current trigger time.
 
@@ -209,14 +209,14 @@ async def trigger_temperature_change(self, event):
     if _incoming_temperature_q is None or _incoming_temperature_q < -50:
         # raise a ha repair notication
         _LOGGER.error(
-            "better_thermostat %s: external_temperature is not a valid number: %s",
+            "smarter_thermostat %s: external_temperature is not a valid number: %s",
             self.device_name,
             new_state.state,
         )
         # Minimal kompatibler Aufruf (Parameter-Namen angepasst an aktuelle HA API)
         ir.async_create_issue(
             hass=self.hass,
-            domain="better_thermostat",
+            domain="smarter_thermostat",
             issue_id=f"invalid_external_temperature_{self.device_name}",
             is_fixable=False,
             severity=ir.IssueSeverity.ERROR,
@@ -288,7 +288,7 @@ async def trigger_temperature_change(self, event):
                     if _val_q is not None and cand is not None and _val_q == cand:
                         if _val_q != self.cur_temp:
                             _LOGGER.debug(
-                                "better_thermostat %s: external_temperature flicker revert auto-accepted after %ss (value=%.2f)",
+                                "smarter_thermostat %s: external_temperature flicker revert auto-accepted after %ss (value=%.2f)",
                                 self.device_name,
                                 FLICKER_REVERT_WINDOW,
                                 _val_q,
@@ -306,7 +306,7 @@ async def trigger_temperature_change(self, event):
                                 _update_external_temp_ema(self, float(_val_q))
                             except Exception:
                                 _LOGGER.debug(
-                                    "better_thermostat %s: external_temperature EMA update failed (non critical)",
+                                    "smarter_thermostat %s: external_temperature EMA update failed (non critical)",
                                     self.device_name,
                                 )
                             self.last_external_sensor_change = datetime.now()
@@ -346,7 +346,7 @@ async def trigger_temperature_change(self, event):
                                 RuntimeError,
                             ):
                                 _LOGGER.debug(
-                                    "better_thermostat %s: external_temperature write to TRV failed (non critical)",
+                                    "smarter_thermostat %s: external_temperature write to TRV failed (non critical)",
                                     self.device_name,
                                 )
                             if self.control_queue_task is not None:
@@ -363,7 +363,7 @@ async def trigger_temperature_change(self, event):
             self.hass, remaining + 0.1, _deadline_cb
         )
         _LOGGER.debug(
-            "better_thermostat %s: external_temperature flicker revert ignored (current=%.2f revert=%.2f age=%.1fs < %ss)",
+            "smarter_thermostat %s: external_temperature flicker revert ignored (current=%.2f revert=%.2f age=%.1fs < %ss)",
             self.device_name,
             _cur_q,
             _incoming_temperature_q,
@@ -393,7 +393,7 @@ async def trigger_temperature_change(self, event):
 
     if _block_flip_small:
         _LOGGER.debug(
-            "better_thermostat %s: external_temperature opposite-direction change ignored (current=%.2f new=%.2f diff=%.2f age=%.1fs <= %ss threshold=%.2f)",
+            "smarter_thermostat %s: external_temperature opposite-direction change ignored (current=%.2f new=%.2f diff=%.2f age=%.1fs <= %ss threshold=%.2f)",
             self.device_name,
             (_cur_q if _cur_q is not None else float("nan")),
             _incoming_temperature_q,
@@ -479,7 +479,7 @@ async def trigger_temperature_change(self, event):
                 self.plateau_timer_cancel = None
                 if self.pending_temp is not None:
                     _LOGGER.debug(
-                        "better_thermostat %s: external_temperature plateau auto-accepted (value=%.2f)",
+                        "smarter_thermostat %s: external_temperature plateau auto-accepted (value=%.2f)",
                         self.device_name,
                         self.pending_temp,
                     )
@@ -501,7 +501,7 @@ async def trigger_temperature_change(self, event):
     if _accept_reason is not None:
         # Verarbeite sofort, wenn Intervall abgelaufen ODER Änderung sehr groß
         _LOGGER.debug(
-            "better_thermostat %s: external_temperature update accepted (old=%.2f new=%.2f diff=%.2f age=%.1fs threshold=%.2f interval=%ss reason=%s accum=%.2f dir=%s)",
+            "smarter_thermostat %s: external_temperature update accepted (old=%.2f new=%.2f diff=%.2f age=%.1fs threshold=%.2f interval=%ss reason=%s accum=%.2f dir=%s)",
             self.device_name,
             (_cur_q if _cur_q is not None else float("nan")),
             _incoming_temperature_q,
@@ -516,7 +516,7 @@ async def trigger_temperature_change(self, event):
         await _apply_temperature_update(self, _incoming_temperature_q)
     else:
         _LOGGER.debug(
-            "better_thermostat %s: external_temperature ignored (old=%.2f new=%.2f diff=%s age=%.1fs sig=%s interval_ok=%s threshold=%.2f accum=%.2f dir=%s pending=%s pending_age=%ss)",
+            "smarter_thermostat %s: external_temperature ignored (old=%.2f new=%.2f diff=%s age=%.1fs sig=%s interval_ok=%s threshold=%.2f accum=%.2f dir=%s pending=%s pending_age=%ss)",
             self.device_name,
             (_cur_q if _cur_q is not None else float("nan")),
             _incoming_temperature_q,

@@ -1,4 +1,4 @@
-"""The better_thermostat component."""
+"""The smarter_thermostat component."""
 
 from asyncio import Lock
 import logging
@@ -19,7 +19,7 @@ from .utils.const import (
 )
 
 _LOGGER = logging.getLogger(__name__)
-DOMAIN = "better_thermostat"
+DOMAIN = "smarter_thermostat"
 PLATFORMS = [Platform.CLIMATE, Platform.SENSOR, Platform.NUMBER, Platform.SWITCH]
 CONFIG_SCHEMA = vol.Schema({DOMAIN: vol.Schema({})}, extra=vol.ALLOW_EXTRA)
 
@@ -46,7 +46,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         )
     except Exception:
         _LOGGER.exception(
-            "better_thermostat: Fehler beim Laden der Plattformen für Entry %s",
+            "smarter_thermostat: Fehler beim Laden der Plattformen für Entry %s",
             entry.entry_id,
         )
         return False

@@ -1,6 +1,6 @@
 # Calibration Algorithms
 
-Better Thermostat offers several calibration algorithms (also called "Calibration Modes") that control how your TRV (Thermostatic Radiator Valve) is adjusted to maintain your desired temperature. Each algorithm has different characteristics and is suited for different situations.
+Smarter Thermostat offers several calibration algorithms (also called "Calibration Modes") that control how your TRV (Thermostatic Radiator Valve) is adjusted to maintain your desired temperature. Each algorithm has different characteristics and is suited for different situations.
 
 ## Choosing the Right Algorithm
 
@@ -184,7 +184,7 @@ If you want to tune PID parameters manually or understand what the auto-tuning i
 
 You can monitor the learned PID values in Home Assistant:
 1. Go to Developer Tools → States
-2. Find your Better Thermostat entity
+2. Find your Smarter Thermostat entity
 3. Look for attributes containing PID debug info showing current Kp, Ki, Kd values
 
 **Tips for Best PID Performance:**
@@ -253,15 +253,15 @@ The **Calibration Mode** (algorithm) works together with the **Calibration Type*
 
 - **Offset Based:** The algorithm calculates what temperature offset to send to the TRV. For example, if the TRV's internal sensor reads 21°C but your external sensor reads 20°C, it sends an offset of -1°C.
 
-Not all TRVs support offset-based calibration. Better Thermostat will automatically detect your TRV's capabilities and offer appropriate options.
+Not all TRVs support offset-based calibration. Smarter Thermostat will automatically detect your TRV's capabilities and offer appropriate options.
 
 ## Direct Valve Control
 
-Some TRV devices support **direct valve control**, where Better Thermostat can directly set the valve opening percentage (0-100%) instead of only adjusting target temperatures or offsets. This provides more precise control and is particularly beneficial with advanced algorithms.
+Some TRV devices support **direct valve control**, where Smarter Thermostat can directly set the valve opening percentage (0-100%) instead of only adjusting target temperatures or offsets. This provides more precise control and is particularly beneficial with advanced algorithms.
 
 ### What is Direct Valve Control?
 
-With direct valve control, Better Thermostat can:
+With direct valve control, Smarter Thermostat can:
 - Set the exact valve opening (e.g., "open valve to 45%")
 - Bypass the TRV's internal temperature control logic
 - Achieve more precise and responsive heating control
@@ -274,7 +274,7 @@ Direct valve control is available for TRVs that expose valve position as a contr
 - **TRVs exposed via MQTT** with valve position entities
 - **Other Zigbee TRVs** that expose valve control through their integration
 
-Better Thermostat automatically detects if your TRV supports direct valve control.
+Smarter Thermostat automatically detects if your TRV supports direct valve control.
 
 ### How Algorithms Use Direct Valve Control
 
@@ -290,7 +290,7 @@ When direct valve control is available:
 
 ### Without Direct Valve Control
 
-If your TRV doesn't support direct valve control, Better Thermostat uses **setpoint manipulation**:
+If your TRV doesn't support direct valve control, Smarter Thermostat uses **setpoint manipulation**:
 - Adjusts the target temperature sent to the TRV
 - Or adjusts the temperature offset (if supported)
 - The TRV's internal controller then adjusts the valve based on its own logic
@@ -299,7 +299,7 @@ This still works well but gives the TRV's internal algorithm more influence over
 
 ### Checking If You Have Direct Valve Control
 
-1. Go to your Better Thermostat device in Home Assistant
+1. Go to your Smarter Thermostat device in Home Assistant
 2. Check the device attributes for entries like:
    - `valve_position_entity`
    - `valve_position_writable`
@@ -319,7 +319,7 @@ For MQTT/Zigbee2MQTT users, you can also check if your TRV exposes entities like
 
 ### Recommendation
 
-If you're purchasing new TRVs and want the best performance from Better Thermostat's advanced algorithms (especially MPC Predictive or PID Controller), consider devices that support direct valve control through Zigbee2MQTT or similar integrations.
+If you're purchasing new TRVs and want the best performance from Smarter Thermostat's advanced algorithms (especially MPC Predictive or PID Controller), consider devices that support direct valve control through Zigbee2MQTT or similar integrations.
 
 ## Tips for Best Results
 
@@ -363,11 +363,11 @@ If you're purchasing new TRVs and want the best performance from Better Thermost
 
 For developers and advanced users who want to understand the implementation details, see:
 - [Hydraulic Balance Design Document](/hydraulic_balance_design) - Deep technical documentation
-- Source code in `custom_components/better_thermostat/utils/calibration/` directory
+- Source code in `custom_components/smarter_thermostat/utils/calibration/` directory
 
 ## Need More Help?
 
 If you're still unsure which algorithm to use or experiencing issues:
 1. Check the [Q&A section](../Q&A/qanda) for common questions
-2. Visit the [GitHub Discussions](https://github.com/KartoffelToby/better_thermostat/discussions)
-3. Report bugs on [GitHub Issues](https://github.com/KartoffelToby/better_thermostat/issues)
+2. Visit the [GitHub Discussions](https://github.com/KartoffelToby/smarter_thermostat/discussions)
+3. Report bugs on [GitHub Issues](https://github.com/KartoffelToby/smarter_thermostat/issues)

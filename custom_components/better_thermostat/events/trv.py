@@ -1,7 +1,7 @@
-"""TRV event handlers and helpers for better_thermostat.
+"""TRV event handlers and helpers for smarter_thermostat.
 
 This module contains the various Home Assistant TRV event handlers and
-helper functions used by the Better Thermostat integration to read and
+helper functions used by the Smarter Thermostat integration to read and
 convert thermostat states and prepare outbound payloads.
 """
 
@@ -51,7 +51,7 @@ async def trigger_trv_change(self, event):
 
     if None in (new_state, old_state, new_state.attributes):
         _LOGGER.debug(
-            "better_thermostat %s: TRV %s update contained not all necessary data for processing, skipping",
+            "smarter_thermostat %s: TRV %s update contained not all necessary data for processing, skipping",
             self.device_name,
             entity_id,
         )
@@ -59,7 +59,7 @@ async def trigger_trv_change(self, event):
 
     if not isinstance(new_state, State) or not isinstance(old_state, State):
         _LOGGER.debug(
-            "better_thermostat %s: TRV %s update contained not a State, skipping",
+            "smarter_thermostat %s: TRV %s update contained not a State, skipping",
             self.device_name,
             entity_id,
         )
@@ -70,7 +70,7 @@ async def trigger_trv_change(self, event):
     if self.context == event.context:
         return
 
-    # _LOGGER.debug(f"better_thermostat {self.device_name}: TRV {entity_id} update received")
+    # _LOGGER.debug(f"smarter_thermostat {self.device_name}: TRV {entity_id} update received")
 
     _org_trv_state = self.hass.states.get(entity_id)
     child_lock = self.real_trvs[entity_id]["advanced"].get("child_lock")
@@ -91,7 +91,7 @@ async def trigger_trv_change(self, event):
                     if isinstance(detected, str) and detected:
                         if prev_model != detected:
                             _LOGGER.info(
-                                "better_thermostat %s: TRV %s model changed: %s -> %s; reloading quirks",
+                                "smarter_thermostat %s: TRV %s model changed: %s -> %s; reloading quirks",
                                 self.device_name,
                                 entity_id,
                                 prev_model,
@@ -102,7 +102,7 @@ async def trigger_trv_change(self, event):
                             self.real_trvs[entity_id]["model_quirks"] = quirks
     except Exception as e:
         _LOGGER.debug(
-            "better_thermostat %s: dynamic model detection failed for %s: %s",
+            "smarter_thermostat %s: dynamic model detection failed for %s: %s",
             self.device_name,
             entity_id,
             e,
@@ -136,7 +136,7 @@ async def trigger_trv_change(self, event):
         _old_temp = self.real_trvs[entity_id]["current_temperature"]
         self.real_trvs[entity_id]["current_temperature"] = _new_current_temp
         _LOGGER.debug(
-            "better_thermostat %s: TRV %s sends new internal temperature from %s to %s",
+            "smarter_thermostat %s: TRV %s sends new internal temperature from %s to %s",
             self.device_name,
             entity_id,
             _old_temp,
@@ -149,7 +149,7 @@ async def trigger_trv_change(self, event):
         if self.real_trvs[entity_id]["calibration_received"] is False:
             self.real_trvs[entity_id]["calibration_received"] = True
             _LOGGER.debug(
-                "better_thermostat %s: calibration accepted by TRV %s",
+                "smarter_thermostat %s: calibration accepted by TRV %s",
                 self.device_name,
                 entity_id,
             )
@@ -166,7 +166,7 @@ async def trigger_trv_change(self, event):
         mapped_state = convert_inbound_states(self, entity_id, _org_trv_state)
     except TypeError:
         _LOGGER.debug(
-            "better_thermostat %s: remapping TRV %s state failed, skipping",
+            "smarter_thermostat %s: remapping TRV %s state failed, skipping",
             self.device_name,
             entity_id,
         )
@@ -184,7 +184,7 @@ async def trigger_trv_change(self, event):
             if prev != val:
                 _main_change = True
                 _LOGGER.debug(
-                    "better_thermostat %s: TRV %s hvac_action changed: %s -> %s",
+                    "smarter_thermostat %s: TRV %s hvac_action changed: %s -> %s",
                     self.device_name,
                     entity_id,
                     prev,
@@ -208,7 +208,7 @@ async def trigger_trv_change(self, event):
         ):
             _old = self.real_trvs[entity_id]["hvac_mode"]
             _LOGGER.debug(
-                "better_thermostat %s: TRV %s decoded TRV mode changed from %s to %s - converted %s",
+                "smarter_thermostat %s: TRV %s decoded TRV mode changed from %s to %s - converted %s",
                 self.device_name,
                 entity_id,
                 _old,
@@ -246,7 +246,7 @@ async def trigger_trv_change(self, event):
         and self.bt_hvac_mode is not HVACMode.OFF
     ):
         _LOGGER.debug(
-            "better_thermostat %s: trigger_trv_change / _old_heating_setpoint: %s - _new_heating_setpoint: %s - _last_temperature: %s",
+            "smarter_thermostat %s: trigger_trv_change / _old_heating_setpoint: %s - _new_heating_setpoint: %s - _last_temperature: %s",
             self.device_name,
             _old_heating_setpoint,
             _new_heating_setpoint,
@@ -257,7 +257,7 @@ async def trigger_trv_change(self, event):
             or self.bt_max_temp < _new_heating_setpoint
         ):
             _LOGGER.warning(
-                "better_thermostat %s: New TRV %s setpoint outside of range, overwriting it",
+                "smarter_thermostat %s: New TRV %s setpoint outside of range, overwriting it",
                 self.device_name,
                 entity_id,
             )
@@ -283,14 +283,14 @@ async def trigger_trv_change(self, event):
             _calibration_type = self.real_trvs[entity_id]["advanced"].get("calibration")
             if _calibration_type == CalibrationType.TARGET_TEMP_BASED:
                 _LOGGER.debug(
-                    "better_thermostat %s: TRV %s target temp change ignored because of calibration type %s",
+                    "smarter_thermostat %s: TRV %s target temp change ignored because of calibration type %s",
                     self.device_name,
                     entity_id,
                     _calibration_type,
                 )
             else:
                 _LOGGER.debug(
-                    "better_thermostat %s: TRV %s decoded TRV target temp changed from %s to %s",
+                    "smarter_thermostat %s: TRV %s decoded TRV target temp changed from %s to %s",
                     self.device_name,
                     entity_id,
                     self.bt_target_temp,
@@ -333,7 +333,7 @@ def convert_inbound_states(self, entity_id, state: State) -> str | None:
     Parameters
     ----------
     self :
-        self instance of better_thermostat
+        self instance of smarter_thermostat
     state : State
         Inbound thermostat state, which will be modified
 
@@ -372,7 +372,7 @@ def convert_outbound_states(self, entity_id, hvac_mode) -> dict | None:
 
         if _calibration_type is None:
             _LOGGER.warning(
-                "better_thermostat %s: no calibration type found in device config, talking to the TRV using fallback mode",
+                "smarter_thermostat %s: no calibration type found in device config, talking to the TRV using fallback mode",
                 self.device_name,
             )
             # Fallback: keine lokale Kalibrierung durchführen, nur Solltemperatur setzen
@@ -396,7 +396,7 @@ def convert_outbound_states(self, entity_id, hvac_mode) -> dict | None:
         else:
             # Unknown calibration type - use fallback
             _LOGGER.warning(
-                "better_thermostat %s: unknown calibration type %s, using fallback mode",
+                "smarter_thermostat %s: unknown calibration type %s, using fallback mode",
                 self.device_name,
                 _calibration_type,
             )
@@ -411,7 +411,7 @@ def convert_outbound_states(self, entity_id, hvac_mode) -> dict | None:
         _orig_mode = hvac_mode
         hvac_mode = mode_remap(self, entity_id, hvac_mode, False)
         _LOGGER.debug(
-            "better_thermostat %s: convert_outbound_states(%s) system_mode in=%s out=%s",
+            "smarter_thermostat %s: convert_outbound_states(%s) system_mode in=%s out=%s",
             self.device_name,
             entity_id,
             _orig_mode,
@@ -420,14 +420,14 @@ def convert_outbound_states(self, entity_id, hvac_mode) -> dict | None:
 
         if not _has_system_mode:
             _LOGGER.debug(
-                "better_thermostat %s: device config expects no system mode, while the device has one. Device system mode will be ignored",
+                "smarter_thermostat %s: device config expects no system mode, while the device has one. Device system mode will be ignored",
                 self.device_name,
             )
             if hvac_mode == HVACMode.OFF:
                 _new_heating_setpoint = self.real_trvs[entity_id]["min_temp"]
             hvac_mode = None
             _LOGGER.debug(
-                "better_thermostat %s: convert_outbound_states(%s) suppressing system_mode for no-off device",
+                "smarter_thermostat %s: convert_outbound_states(%s) suppressing system_mode for no-off device",
                 self.device_name,
                 entity_id,
             )
@@ -437,7 +437,7 @@ def convert_outbound_states(self, entity_id, hvac_mode) -> dict | None:
         ):
             _min_temp = self.real_trvs[entity_id]["min_temp"]
             _LOGGER.debug(
-                "better_thermostat %s: sending %s°C to the TRV because this device has no system mode off and heater should be off",
+                "smarter_thermostat %s: sending %s°C to the TRV because this device has no system mode off and heater should be off",
                 self.device_name,
                 _min_temp,
             )

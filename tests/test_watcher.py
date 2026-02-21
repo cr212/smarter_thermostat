@@ -36,7 +36,7 @@ def mock_hass():
 
 @pytest.fixture
 def mock_bt_instance(mock_hass):
-    """Create a mock BetterThermostat instance."""
+    """Create a mock SmarterThermostat instance."""
     bt = MagicMock()
     bt.hass = mock_hass
     bt.device_name = "Test Thermostat"
@@ -57,7 +57,7 @@ class TestIsEntityAvailable:
 
     def test_returns_false_for_none_entity(self, mock_hass):
         """Test that None entity returns False."""
-        from custom_components.better_thermostat.utils.watcher import (
+        from custom_components.smarter_thermostat.utils.watcher import (
             is_entity_available,
         )
 
@@ -66,7 +66,7 @@ class TestIsEntityAvailable:
 
     def test_returns_false_for_missing_entity(self, mock_hass):
         """Test that non-existent entity returns False."""
-        from custom_components.better_thermostat.utils.watcher import (
+        from custom_components.smarter_thermostat.utils.watcher import (
             is_entity_available,
         )
 
@@ -76,7 +76,7 @@ class TestIsEntityAvailable:
 
     def test_returns_false_for_unavailable_state(self, mock_hass):
         """Test that entity with 'unavailable' state returns False."""
-        from custom_components.better_thermostat.utils.watcher import (
+        from custom_components.smarter_thermostat.utils.watcher import (
             is_entity_available,
         )
 
@@ -89,7 +89,7 @@ class TestIsEntityAvailable:
 
     def test_returns_false_for_unknown_state(self, mock_hass):
         """Test that entity with 'unknown' state returns False."""
-        from custom_components.better_thermostat.utils.watcher import (
+        from custom_components.smarter_thermostat.utils.watcher import (
             is_entity_available,
         )
 
@@ -102,7 +102,7 @@ class TestIsEntityAvailable:
 
     def test_returns_true_for_valid_state(self, mock_hass):
         """Test that entity with valid state returns True."""
-        from custom_components.better_thermostat.utils.watcher import (
+        from custom_components.smarter_thermostat.utils.watcher import (
             is_entity_available,
         )
 
@@ -115,7 +115,7 @@ class TestIsEntityAvailable:
 
     def test_returns_true_for_on_state(self, mock_hass):
         """Test that entity with 'on' state returns True."""
-        from custom_components.better_thermostat.utils.watcher import (
+        from custom_components.smarter_thermostat.utils.watcher import (
             is_entity_available,
         )
 
@@ -132,7 +132,7 @@ class TestGetOptionalSensors:
 
     def test_returns_all_optional_sensors(self, mock_bt_instance):
         """Test that all configured optional sensors are returned."""
-        from custom_components.better_thermostat.utils.watcher import (
+        from custom_components.smarter_thermostat.utils.watcher import (
             get_optional_sensors,
         )
 
@@ -146,7 +146,7 @@ class TestGetOptionalSensors:
 
     def test_excludes_none_sensors(self, mock_bt_instance):
         """Test that None sensors are not included."""
-        from custom_components.better_thermostat.utils.watcher import (
+        from custom_components.smarter_thermostat.utils.watcher import (
             get_optional_sensors,
         )
 
@@ -161,7 +161,7 @@ class TestGetOptionalSensors:
 
     def test_returns_empty_list_when_no_optional_sensors(self, mock_bt_instance):
         """Test that empty list is returned when no optional sensors configured."""
-        from custom_components.better_thermostat.utils.watcher import (
+        from custom_components.smarter_thermostat.utils.watcher import (
             get_optional_sensors,
         )
 
@@ -180,7 +180,7 @@ class TestGetCriticalEntities:
 
     def test_returns_all_trvs(self, mock_bt_instance):
         """Test that all TRVs are returned as critical entities."""
-        from custom_components.better_thermostat.utils.watcher import (
+        from custom_components.smarter_thermostat.utils.watcher import (
             get_critical_entities,
         )
 
@@ -192,7 +192,7 @@ class TestGetCriticalEntities:
 
     def test_returns_empty_list_when_no_trvs(self, mock_bt_instance):
         """Test that empty list is returned when no TRVs configured."""
-        from custom_components.better_thermostat.utils.watcher import (
+        from custom_components.smarter_thermostat.utils.watcher import (
             get_critical_entities,
         )
 
@@ -209,7 +209,7 @@ class TestCheckCriticalEntities:
     @pytest.mark.anyio
     async def test_returns_true_when_all_trvs_available(self, mock_bt_instance):
         """Test that True is returned when all TRVs are available."""
-        from custom_components.better_thermostat.utils.watcher import (
+        from custom_components.smarter_thermostat.utils.watcher import (
             check_critical_entities,
         )
 
@@ -217,7 +217,7 @@ class TestCheckCriticalEntities:
         mock_state.state = "heat"
         mock_bt_instance.hass.states.get.return_value = mock_state
 
-        with patch("custom_components.better_thermostat.utils.watcher.ir"):
+        with patch("custom_components.smarter_thermostat.utils.watcher.ir"):
             result = await check_critical_entities(mock_bt_instance)
 
         assert result is True
@@ -225,7 +225,7 @@ class TestCheckCriticalEntities:
     @pytest.mark.anyio
     async def test_returns_false_when_trv_unavailable(self, mock_bt_instance):
         """Test that False is returned when a TRV is unavailable."""
-        from custom_components.better_thermostat.utils.watcher import (
+        from custom_components.smarter_thermostat.utils.watcher import (
             check_critical_entities,
         )
 
@@ -233,7 +233,7 @@ class TestCheckCriticalEntities:
         mock_state.state = "unavailable"
         mock_bt_instance.hass.states.get.return_value = mock_state
 
-        with patch("custom_components.better_thermostat.utils.watcher.ir"):
+        with patch("custom_components.smarter_thermostat.utils.watcher.ir"):
             result = await check_critical_entities(mock_bt_instance)
 
         assert result is False
@@ -248,7 +248,7 @@ class TestCheckAndUpdateDegradedMode:
         self, mock_bt_instance
     ):
         """Test that degraded_mode is set when an optional sensor is unavailable."""
-        from custom_components.better_thermostat.utils.watcher import (
+        from custom_components.smarter_thermostat.utils.watcher import (
             check_and_update_degraded_mode,
         )
 
@@ -262,7 +262,7 @@ class TestCheckAndUpdateDegradedMode:
 
         mock_bt_instance.hass.states.get.side_effect = mock_get
 
-        with patch("custom_components.better_thermostat.utils.watcher.ir"):
+        with patch("custom_components.smarter_thermostat.utils.watcher.ir"):
             result = await check_and_update_degraded_mode(mock_bt_instance)
 
         assert result is True
@@ -272,7 +272,7 @@ class TestCheckAndUpdateDegradedMode:
     @pytest.mark.anyio
     async def test_no_degraded_mode_when_all_sensors_available(self, mock_bt_instance):
         """Test that degraded_mode is False when all sensors are available."""
-        from custom_components.better_thermostat.utils.watcher import (
+        from custom_components.smarter_thermostat.utils.watcher import (
             check_and_update_degraded_mode,
         )
 
@@ -280,7 +280,7 @@ class TestCheckAndUpdateDegradedMode:
         mock_state.state = "20.0"
         mock_bt_instance.hass.states.get.return_value = mock_state
 
-        with patch("custom_components.better_thermostat.utils.watcher.ir"):
+        with patch("custom_components.smarter_thermostat.utils.watcher.ir"):
             result = await check_and_update_degraded_mode(mock_bt_instance)
 
         assert result is False
@@ -290,7 +290,7 @@ class TestCheckAndUpdateDegradedMode:
     @pytest.mark.anyio
     async def test_includes_room_sensor_in_unavailable_list(self, mock_bt_instance):
         """Test that room temperature sensor is added to unavailable list when unavailable."""
-        from custom_components.better_thermostat.utils.watcher import (
+        from custom_components.smarter_thermostat.utils.watcher import (
             check_and_update_degraded_mode,
         )
 
@@ -304,7 +304,7 @@ class TestCheckAndUpdateDegradedMode:
 
         mock_bt_instance.hass.states.get.side_effect = mock_get
 
-        with patch("custom_components.better_thermostat.utils.watcher.ir"):
+        with patch("custom_components.smarter_thermostat.utils.watcher.ir"):
             result = await check_and_update_degraded_mode(mock_bt_instance)
 
         assert result is True
@@ -315,7 +315,7 @@ class TestCheckAndUpdateDegradedMode:
         self, mock_bt_instance
     ):
         """Test that get_battery_status is called for available sensors."""
-        from custom_components.better_thermostat.utils.watcher import (
+        from custom_components.smarter_thermostat.utils.watcher import (
             check_and_update_degraded_mode,
         )
 
@@ -323,9 +323,9 @@ class TestCheckAndUpdateDegradedMode:
         mock_state.state = "20.0"
         mock_bt_instance.hass.states.get.return_value = mock_state
 
-        with patch("custom_components.better_thermostat.utils.watcher.ir"):
+        with patch("custom_components.smarter_thermostat.utils.watcher.ir"):
             with patch(
-                "custom_components.better_thermostat.utils.watcher.get_battery_status"
+                "custom_components.smarter_thermostat.utils.watcher.get_battery_status"
             ):
                 await check_and_update_degraded_mode(mock_bt_instance)
 
@@ -340,7 +340,7 @@ class TestBatteryStatusCalls:
     @pytest.mark.anyio
     async def test_check_critical_entities_calls_battery_status(self, mock_bt_instance):
         """Test that check_critical_entities calls get_battery_status for available TRVs."""
-        from custom_components.better_thermostat.utils.watcher import (
+        from custom_components.smarter_thermostat.utils.watcher import (
             check_critical_entities,
         )
 
@@ -348,9 +348,9 @@ class TestBatteryStatusCalls:
         mock_state.state = "heat"
         mock_bt_instance.hass.states.get.return_value = mock_state
 
-        with patch("custom_components.better_thermostat.utils.watcher.ir"):
+        with patch("custom_components.smarter_thermostat.utils.watcher.ir"):
             with patch(
-                "custom_components.better_thermostat.utils.watcher.get_battery_status"
+                "custom_components.smarter_thermostat.utils.watcher.get_battery_status"
             ):
                 result = await check_critical_entities(mock_bt_instance)
 
@@ -363,7 +363,7 @@ class TestBatteryStatusCalls:
         self, mock_bt_instance
     ):
         """Test that get_battery_status is not called for unavailable TRVs."""
-        from custom_components.better_thermostat.utils.watcher import (
+        from custom_components.smarter_thermostat.utils.watcher import (
             check_critical_entities,
         )
 
@@ -371,9 +371,9 @@ class TestBatteryStatusCalls:
         mock_state.state = "unavailable"
         mock_bt_instance.hass.states.get.return_value = mock_state
 
-        with patch("custom_components.better_thermostat.utils.watcher.ir"):
+        with patch("custom_components.smarter_thermostat.utils.watcher.ir"):
             with patch(
-                "custom_components.better_thermostat.utils.watcher.get_battery_status"
+                "custom_components.smarter_thermostat.utils.watcher.get_battery_status"
             ):
                 result = await check_critical_entities(mock_bt_instance)
 

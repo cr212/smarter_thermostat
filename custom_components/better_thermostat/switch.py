@@ -1,4 +1,4 @@
-"""Better Thermostat Switch Platform."""
+"""Smarter Thermostat Switch Platform."""
 
 import logging
 
@@ -14,13 +14,13 @@ from .utils.calibration.pid import _PID_STATES, DEFAULT_PID_AUTO_TUNE, build_pid
 from .utils.const import CalibrationMode
 
 _LOGGER = logging.getLogger(__name__)
-DOMAIN = "better_thermostat"
+DOMAIN = "smarter_thermostat"
 
 
 async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
-    """Set up Better Thermostat switches."""
+    """Set up Smarter Thermostat switches."""
     bt_climate = hass.data[DOMAIN][entry.entry_id].get("climate")
     if not bt_climate:
         return
@@ -31,12 +31,12 @@ async def async_setup_entry(
         advanced = trv_data.get("advanced", {})
         if advanced.get("calibration_mode") == CalibrationMode.PID_CALIBRATION:
             switches.append(
-                BetterThermostatPIDAutoTuneSwitch(
+                SmarterThermostatPIDAutoTuneSwitch(
                     bt_climate, trv_entity_id, has_multiple_trvs
                 )
             )
         switches.append(
-            BetterThermostatChildLockSwitch(
+            SmarterThermostatChildLockSwitch(
                 bt_climate, trv_entity_id, has_multiple_trvs
             )
         )
@@ -44,7 +44,7 @@ async def async_setup_entry(
     async_add_entities(switches)
 
 
-class BetterThermostatPIDAutoTuneSwitch(SwitchEntity, RestoreEntity):
+class SmarterThermostatPIDAutoTuneSwitch(SwitchEntity, RestoreEntity):
     """Switch for PID Auto Tune."""
 
     _attr_has_entity_name = True
@@ -105,7 +105,7 @@ class BetterThermostatPIDAutoTuneSwitch(SwitchEntity, RestoreEntity):
         self.async_write_ha_state()
 
 
-class BetterThermostatChildLockSwitch(SwitchEntity, RestoreEntity):
+class SmarterThermostatChildLockSwitch(SwitchEntity, RestoreEntity):
     """Switch for Child Lock."""
 
     _attr_has_entity_name = True
@@ -199,7 +199,7 @@ class BetterThermostatChildLockSwitch(SwitchEntity, RestoreEntity):
                     cur = self._bt_climate.hass.states.get(cl_entity)
                     if cur and cur.state != target_state:
                         _LOGGER.debug(
-                            "Better Thermostat Child Lock: Setting child lock (switch) for %s to %s",
+                            "Smarter Thermostat Child Lock: Setting child lock (switch) for %s to %s",
                             cl_entity,
                             target_state,
                         )
@@ -212,7 +212,7 @@ class BetterThermostatChildLockSwitch(SwitchEntity, RestoreEntity):
                     cur = self._bt_climate.hass.states.get(cl_entity)
                     if cur and cur.state != target_lock:
                         _LOGGER.debug(
-                            "Better Thermostat Child Lock: Setting child lock (lock) for %s to %s",
+                            "Smarter Thermostat Child Lock: Setting child lock (lock) for %s to %s",
                             cl_entity,
                             target_lock,
                         )
@@ -222,7 +222,7 @@ class BetterThermostatChildLockSwitch(SwitchEntity, RestoreEntity):
                         )
             except Exception as e:
                 _LOGGER.warning(
-                    "Better Thermostat Child Lock: Failed to set child lock for %s: %s",
+                    "Smarter Thermostat Child Lock: Failed to set child lock for %s: %s",
                     cl_entity,
                     e,
                 )

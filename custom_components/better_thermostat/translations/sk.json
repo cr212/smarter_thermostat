@@ -1,5 +1,5 @@
 {
-  "title": "Better Thermostat",
+  "title": "Smarter Thermostat",
   "config": {
     "step": {
       "user": {
@@ -43,15 +43,15 @@
         }
       },
       "confirm": {
-        "title": "Potvrďte pridanie Better Thermostat",
+        "title": "Potvrďte pridanie Smarter Thermostat",
         "description": "Chystáte sa pridať `{name}` do Home Assistant.\nS {trv} ako reálny termostat"
       }
     },
     "error": {
       "failed": "niečo sa pokazilo.",
       "no_name": "Zadajte meno.",
-      "no_off_mode": "Vaše zariadenie je veľmi špeciálne a nemá režim vypnutia :(\nBetter Thermostat namiesto toho použije minimálnu cieľovú teplotu.",
-      "no_outside_temp": "Nemáte snímač vonkajšej teploty. Better Thermostat namiesto toho použije entitu počasie."
+      "no_off_mode": "Vaše zariadenie je veľmi špeciálne a nemá režim vypnutia :(\nSmarter Thermostat namiesto toho použije minimálnu cieľovú teplotu.",
+      "no_outside_temp": "Nemáte snímač vonkajšej teploty. Smarter Thermostat namiesto toho použije entitu počasie."
     },
     "abort": {
       "single_instance_allowed": "Pre každý real je povolený len jeden termostat.",
@@ -61,7 +61,7 @@
   "options": {
     "step": {
       "user": {
-        "description": "Aktualizujte Better Thermostat nastavenia",
+        "description": "Aktualizujte Smarter Thermostat nastavenia",
         "data": {
           "name": "Názov",
           "thermostat": "Reálny thermostat",

@@ -1,7 +1,7 @@
 """Time Proportional Integrator (TPI) controller with self-learning.
 
 This module is inspired by the TPI logic used in jmcollin78/versatile_thermostat,
-adapted to Better Thermostat architecture. It computes a duty cycle for a fixed
+adapted to Smarter Thermostat architecture. It computes a duty cycle for a fixed
 cycle duration and exposes rich debug logs for diagnostics.
 """
 
@@ -126,7 +126,7 @@ def compute_tpi(inp: TpiInput, params: TpiParams) -> TpiOutput | None:
     entity = inp.entity_id or "unknown"
 
     _LOGGER.debug(
-        "better_thermostat %s: TPI input (%s) target=%s current=%s outdoor=%s window_open=%s allowed=%s last_percent=%s",
+        "smarter_thermostat %s: TPI input (%s) target=%s current=%s outdoor=%s window_open=%s allowed=%s last_percent=%s",
         name,
         entity,
         _round_dbg(inp.target_temp_C),
@@ -203,7 +203,7 @@ def _finalize_output(
     name = inp.bt_name or "BT"
     entity = inp.entity_id or "unknown"
     _LOGGER.debug(
-        "better_thermostat %s: TPI output (%s) duty=%s%% debug=%s",
+        "smarter_thermostat %s: TPI output (%s) duty=%s%% debug=%s",
         name,
         entity,
         _round_dbg(duty_pct, 2),

@@ -8,18 +8,18 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from custom_components.better_thermostat.calibration import (
+from custom_components.smarter_thermostat.calibration import (
     calculate_calibration_local,
     calculate_calibration_setpoint,
 )
-from custom_components.better_thermostat.utils.const import CalibrationMode
+from custom_components.smarter_thermostat.utils.const import CalibrationMode
 
 
 @pytest.fixture
 def bt_default_mode():
-    """Return a minimal BetterThermostat mock configured for DEFAULT mode."""
+    """Return a minimal SmarterThermostat mock configured for DEFAULT mode."""
     bt = MagicMock()
-    bt.name = "better_thermostat"
+    bt.name = "smarter_thermostat"
     bt.device_name = "Test BT"
     bt.tolerance = 0.5
     bt.attr_hvac_action = None

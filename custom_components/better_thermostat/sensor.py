@@ -1,4 +1,4 @@
-"""Better Thermostat Sensor Platform."""
+"""Smarter Thermostat Sensor Platform."""
 
 import logging
 import time
@@ -15,32 +15,38 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.event import async_track_state_change_event
 
 from .calibration import _get_current_solar_intensity
-from .utils.const import CONF_CALIBRATION_MODE, CalibrationMode
+from .utils.const import (
+    ATTR_TRV_INTERNAL_TEMPERATURE,
+    CONF_CALIBRATION_MODE,
+    CalibrationMode,
+)
+from .utils.helpers import get_trv_internal_temperatures
 
 _LOGGER = logging.getLogger(__name__)
-DOMAIN = "better_thermostat"
+DOMAIN = "smarter_thermostat"
 
 
 async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
-    """Set up Better Thermostat sensors."""
+    """Set up Smarter Thermostat sensors."""
     bt_climate = hass.data[DOMAIN][entry.entry_id].get("climate")
     if not bt_climate:
         _LOGGER.warning(
-            "Better Thermostat climate entity not found for entry %s. "
+            "Smarter Thermostat climate entity not found for entry %s. "
             "Sensors will not be added.",
             entry.entry_id,
         )
         return
 
     sensors = [
-        BetterThermostatExternalTempSensor(bt_climate),
-        BetterThermostatExternalTemp1hEMASensor(bt_climate),
-        BetterThermostatTempSlopeSensor(bt_climate),
-        BetterThermostatHeatingPowerSensor(bt_climate),
-        BetterThermostatHeatLossSensor(bt_climate),
-        BetterThermostatSolarIntensitySensor(bt_climate),
+        SmarterThermostatExternalTempSensor(bt_climate),
+        SmarterThermostatExternalTemp1hEMASensor(bt_climate),
+        SmarterThermostatTempSlopeSensor(bt_climate),
+        SmarterThermostatHeatingPowerSensor(bt_climate),
+        SmarterThermostatHeatLossSensor(bt_climate),
+        SmarterThermostatSolarIntensitySensor(bt_climate),
+        SmarterThermostatTrvInternalTempSensor(bt_climate),
     ]
 
     has_mpc = False
@@ -54,19 +60,19 @@ async def async_setup_entry(
     if has_mpc:
         sensors.extend(
             [
-                BetterThermostatVirtualTempSensor(bt_climate),
-                BetterThermostatMpcGainSensor(bt_climate),
-                BetterThermostatMpcLossSensor(bt_climate),
-                BetterThermostatMpcKaSensor(bt_climate),
-                BetterThermostatMpcStatusSensor(bt_climate),
+                SmarterThermostatVirtualTempSensor(bt_climate),
+                SmarterThermostatMpcGainSensor(bt_climate),
+                SmarterThermostatMpcLossSensor(bt_climate),
+                SmarterThermostatMpcKaSensor(bt_climate),
+                SmarterThermostatMpcStatusSensor(bt_climate),
             ]
         )
 
     async_add_entities(sensors)
 
 
-class BetterThermostatExternalTempSensor(SensorEntity):
-    """Representation of a Better Thermostat External Temperature Sensor (EMA)."""
+class SmarterThermostatExternalTempSensor(SensorEntity):
+    """Representation of a Smarter Thermostat External Temperature Sensor (EMA)."""
 
     _attr_has_entity_name = True
     _attr_name = "Temperature EMA"
@@ -93,7 +99,7 @@ class BetterThermostatExternalTempSensor(SensorEntity):
             )
         else:
             _LOGGER.warning(
-                "Better Thermostat climate entity has no entity_id yet. "
+                "Smarter Thermostat climate entity has no entity_id yet. "
                 "Sensor update might be delayed."
             )
 
@@ -122,8 +128,8 @@ class BetterThermostatExternalTempSensor(SensorEntity):
             self._attr_native_value = None
 
 
-class BetterThermostatExternalTemp1hEMASensor(SensorEntity):
-    """Representation of a Better Thermostat External Temperature 1h EMA Sensor."""
+class SmarterThermostatExternalTemp1hEMASensor(SensorEntity):
+    """Representation of a Smarter Thermostat External Temperature 1h EMA Sensor."""
 
     _attr_has_entity_name = True
     _attr_name = "Temperature EMA 1h"
@@ -154,7 +160,7 @@ class BetterThermostatExternalTemp1hEMASensor(SensorEntity):
             )
         else:
             _LOGGER.warning(
-                "Better Thermostat climate entity has no entity_id yet. "
+                "Smarter Thermostat climate entity has no entity_id yet. "
                 "Sensor update might be delayed."
             )
         # Also update initially
@@ -202,8 +208,8 @@ class BetterThermostatExternalTemp1hEMASensor(SensorEntity):
             self._attr_native_value = None
 
 
-class BetterThermostatTempSlopeSensor(SensorEntity):
-    """Representation of a Better Thermostat Temperature Slope Sensor."""
+class SmarterThermostatTempSlopeSensor(SensorEntity):
+    """Representation of a Smarter Thermostat Temperature Slope Sensor."""
 
     _attr_has_entity_name = True
     _attr_name = "Temperature Slope"
@@ -247,8 +253,8 @@ class BetterThermostatTempSlopeSensor(SensorEntity):
             self._attr_native_value = None
 
 
-class BetterThermostatHeatingPowerSensor(SensorEntity):
-    """Representation of a Better Thermostat Heating Power Sensor."""
+class SmarterThermostatHeatingPowerSensor(SensorEntity):
+    """Representation of a Smarter Thermostat Heating Power Sensor."""
 
     _attr_has_entity_name = True
     _attr_name = "Heating Power"
@@ -293,8 +299,8 @@ class BetterThermostatHeatingPowerSensor(SensorEntity):
             self._attr_native_value = None
 
 
-class BetterThermostatHeatLossSensor(SensorEntity):
-    """Representation of a Better Thermostat Heat Loss Sensor."""
+class SmarterThermostatHeatLossSensor(SensorEntity):
+    """Representation of a Smarter Thermostat Heat Loss Sensor."""
 
     _attr_has_entity_name = True
     _attr_name = "Heat Loss"
@@ -339,8 +345,8 @@ class BetterThermostatHeatLossSensor(SensorEntity):
             self._attr_native_value = None
 
 
-class BetterThermostatVirtualTempSensor(SensorEntity):
-    """Representation of a Better Thermostat Virtual Temperature Sensor (MPC)."""
+class SmarterThermostatVirtualTempSensor(SensorEntity):
+    """Representation of a Smarter Thermostat Virtual Temperature Sensor (MPC)."""
 
     _attr_has_entity_name = True
     _attr_name = "Virtual Temperature"
@@ -394,8 +400,68 @@ class BetterThermostatVirtualTempSensor(SensorEntity):
             self._attr_native_value = None
 
 
-class BetterThermostatMpcGainSensor(SensorEntity):
-    """Representation of a Better Thermostat MPC Gain Sensor."""
+class SmarterThermostatTrvInternalTempSensor(SensorEntity):
+    """Representation of TRV internal temperature as a first-class sensor.
+
+    Uses the computed internal temperatures (before offset) from LOCAL_BASED TRVs.
+    The sensor state is the average internal temperature across all eligible TRVs,
+    with per-TRV values exposed as an attribute.
+    """
+
+    _attr_has_entity_name = True
+    _attr_name = "TRV Internal Temperature"
+    _attr_device_class = SensorDeviceClass.TEMPERATURE
+    _attr_state_class = SensorStateClass.MEASUREMENT
+    _attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
+    _attr_should_poll = False
+
+    def __init__(self, bt_climate):
+        """Initialize the sensor."""
+        self._bt_climate = bt_climate
+        self._attr_unique_id = f"{bt_climate.unique_id}_trv_internal_temp"
+        self._attr_device_info = bt_climate.device_info
+
+    async def async_added_to_hass(self):
+        """Register callbacks."""
+        if self._bt_climate.entity_id:
+            self.async_on_remove(
+                async_track_state_change_event(
+                    self.hass, [self._bt_climate.entity_id], self._on_climate_update
+                )
+            )
+        self._update_state()
+
+    @callback
+    def _on_climate_update(self, event):
+        """Handle climate entity update."""
+        self._update_state()
+        self.async_write_ha_state()
+
+    def _update_state(self):
+        """Update state from TRV internal temperatures."""
+        internal_temps = {}
+        try:
+            if hasattr(self._bt_climate, "real_trvs"):
+                internal_temps = get_trv_internal_temperatures(
+                    getattr(self._bt_climate, "real_trvs", None)
+                )
+        except Exception:
+            internal_temps = {}
+
+        if internal_temps:
+            values = list(internal_temps.values())
+            avg = sum(values) / len(values)
+            self._attr_native_value = round(float(avg), 1)
+            self._attr_extra_state_attributes = {
+                ATTR_TRV_INTERNAL_TEMPERATURE: internal_temps
+            }
+        else:
+            self._attr_native_value = None
+            self._attr_extra_state_attributes = {}
+
+
+class SmarterThermostatMpcGainSensor(SensorEntity):
+    """Representation of a Smarter Thermostat MPC Gain Sensor."""
 
     _attr_has_entity_name = True
     _attr_name = "MPC Gain"
@@ -449,8 +515,8 @@ class BetterThermostatMpcGainSensor(SensorEntity):
             self._attr_native_value = None
 
 
-class BetterThermostatMpcLossSensor(SensorEntity):
-    """Representation of a Better Thermostat MPC Loss Sensor."""
+class SmarterThermostatMpcLossSensor(SensorEntity):
+    """Representation of a Smarter Thermostat MPC Loss Sensor."""
 
     _attr_has_entity_name = True
     _attr_name = "MPC Loss"
@@ -504,8 +570,8 @@ class BetterThermostatMpcLossSensor(SensorEntity):
             self._attr_native_value = None
 
 
-class BetterThermostatMpcKaSensor(SensorEntity):
-    """Representation of a Better Thermostat MPC Insulation (Ka) Sensor."""
+class SmarterThermostatMpcKaSensor(SensorEntity):
+    """Representation of a Smarter Thermostat MPC Insulation (Ka) Sensor."""
 
     _attr_has_entity_name = True
     _attr_name = "MPC Insulation"
@@ -559,8 +625,8 @@ class BetterThermostatMpcKaSensor(SensorEntity):
             self._attr_native_value = None
 
 
-class BetterThermostatSolarIntensitySensor(SensorEntity):
-    """Representation of a Better Thermostat Solar Intensity Sensor."""
+class SmarterThermostatSolarIntensitySensor(SensorEntity):
+    """Representation of a Smarter Thermostat Solar Intensity Sensor."""
 
     _attr_has_entity_name = True
     _attr_name = "Sun Intensity Heatup"
@@ -607,8 +673,8 @@ class BetterThermostatSolarIntensitySensor(SensorEntity):
             self._attr_native_value = None
 
 
-class BetterThermostatMpcStatusSensor(SensorEntity):
-    """Representation of a Better Thermostat MPC Status Sensor."""
+class SmarterThermostatMpcStatusSensor(SensorEntity):
+    """Representation of a Smarter Thermostat MPC Status Sensor."""
 
     _attr_has_entity_name = True
     _attr_name = "Learning Status"

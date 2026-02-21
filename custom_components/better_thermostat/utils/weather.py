@@ -30,7 +30,7 @@ async def check_weather(self) -> bool:
     Parameters
     ----------
     self :
-            self instance of better_thermostat
+            self instance of smarter_thermostat
 
     Returns
     -------
@@ -64,13 +64,13 @@ async def check_weather(self) -> bool:
             if _sensor_unavailable:
                 # Sensor not ready yet - expected during startup, just debug
                 _LOGGER.debug(
-                    "better_thermostat %s: outdoor sensor not yet available, fallback to heat",
+                    "smarter_thermostat %s: outdoor sensor not yet available, fallback to heat",
                     self.device_name,
                 )
             else:
                 # Sensor is available but we have no cached data - unexpected, warn
                 _LOGGER.warning(
-                    "better_thermostat %s: outdoor sensor available but no data cached, fallback to heat",
+                    "smarter_thermostat %s: outdoor sensor available but no data cached, fallback to heat",
                     self.device_name,
                 )
             _call_for_heat_outdoor = True
@@ -101,13 +101,13 @@ async def check_weather_prediction(self) -> bool | None:
     """
     if self.weather_entity is None:
         _LOGGER.warning(
-            "better_thermostat %s: weather entity not available.", self.device_name
+            "smarter_thermostat %s: weather entity not available.", self.device_name
         )
         return False
 
     if self.off_temperature is None or not isinstance(self.off_temperature, float):
         _LOGGER.warning(
-            "better_thermostat %s: off_temperature not set or not a float.",
+            "smarter_thermostat %s: off_temperature not set or not a float.",
             self.device_name,
         )
         return False
@@ -124,7 +124,7 @@ async def check_weather_prediction(self) -> bool | None:
             ftype = "hourly"
         else:
             _LOGGER.warning(
-                "better_thermostat %s: weather entity '%s' does not advertise any forecast support.",
+                "smarter_thermostat %s: weather entity '%s' does not advertise any forecast support.",
                 self.device_name,
                 self.weather_entity,
             )
@@ -189,7 +189,7 @@ async def check_weather_prediction(self) -> bool | None:
             raise TypeError
     except (TypeError, ServiceNotSupported, HomeAssistantError):
         _LOGGER.warning(
-            "better_thermostat %s: no weather entity data found.", self.device_name
+            "smarter_thermostat %s: no weather entity data found.", self.device_name
         )
         return False
 
@@ -209,7 +209,7 @@ async def check_ambient_air_temperature(self):
 
     if self.off_temperature is None or not isinstance(self.off_temperature, float):
         _LOGGER.warning(
-            "better_thermostat %s: off_temperature not set or not a float.",
+            "smarter_thermostat %s: off_temperature not set or not a float.",
             self.device_name,
         )
         return None
@@ -218,7 +218,7 @@ async def check_ambient_air_temperature(self):
     outdoor_state = self.hass.states.get(self.outdoor_sensor)
     if outdoor_state is None or outdoor_state.state in ("unavailable", "unknown", None):
         _LOGGER.debug(
-            "better_thermostat %s: outdoor sensor %s unavailable, skipping ambient check",
+            "smarter_thermostat %s: outdoor sensor %s unavailable, skipping ambient check",
             self.device_name,
             self.outdoor_sensor,
         )
@@ -277,7 +277,7 @@ async def check_ambient_air_temperature(self):
         avg_temp = self.last_avg_outdoor_temp
 
     _LOGGER.debug(
-        "better_thermostat %s: avg outdoor temp: %s, threshold is %s",
+        "smarter_thermostat %s: avg outdoor temp: %s, threshold is %s",
         self.device_name,
         avg_temp,
         self.off_temperature,

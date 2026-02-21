@@ -1,4 +1,4 @@
-"""Retry utility for Better Thermostat."""
+"""Retry utility for Smarter Thermostat."""
 
 import asyncio
 from collections.abc import Callable
@@ -47,7 +47,7 @@ def async_retry(
             ):  # Assuming self and entity_id are first two args
                 entity_id = args[1]
 
-            log_prefix = f"better_thermostat{f' {identifier}' if identifier else ''}: "
+            log_prefix = f"smarter_thermostat{f' {identifier}' if identifier else ''}: "
             entity_suffix = f" to entity {entity_id}" if entity_id else ""
 
             for attempt in range(retries + 1):

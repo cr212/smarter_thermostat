@@ -1,4 +1,4 @@
-"""Helper functions for the Better Thermostat component."""
+"""Helper functions for the Smarter Thermostat component."""
 
 from datetime import datetime
 from enum import Enum
@@ -12,7 +12,6 @@ from homeassistant.helpers import device_registry as dr, entity_registry as er
 from homeassistant.helpers.entity_registry import async_entries_for_config_entry
 
 from custom_components.better_thermostat.utils.const import (
-    CalibrationType,
     CONF_HEAT_AUTO_SWAPPED,
     MAX_HEATING_POWER,
     MIN_HEATING_POWER,
@@ -22,6 +21,7 @@ from custom_components.better_thermostat.utils.const import (
     VALVE_MIN_SMALL_DIFF_THRESHOLD,
     VALVE_MIN_THRESHOLD_TEMP_DIFF,
     CalibrationMode,
+    CalibrationType,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -90,7 +90,7 @@ def get_trv_internal_temperatures(real_trvs: dict[str, Any] | None) -> dict[str,
     Parameters
     ----------
     real_trvs : dict or None
-        The real_trvs dict from BetterThermostat, keyed by TRV entity_id.
+        The real_trvs dict from SmarterThermostat, keyed by TRV entity_id.
 
     Returns
     -------
@@ -113,7 +113,7 @@ def get_trv_internal_temperatures(real_trvs: dict[str, Any] | None) -> dict[str,
 
 
 def get_hvac_bt_mode(self, mode: str) -> str:
-    """Return the main HVAC mode mapping for the Better Thermostat.
+    """Return the main HVAC mode mapping for the Smarter Thermostat.
 
     The function handles simple mapping from HVACMode.HEAT to configured
     internal modes used by the integration.
@@ -202,7 +202,7 @@ def mode_remap(self, entity_id, hvac_mode: str, inbound: bool = False) -> str:
         return hvac_mode
 
     _LOGGER.error(
-        f"better_thermostat {self.device_name}: {entity_id} HVAC mode {
+        f"smarter_thermostat {self.device_name}: {entity_id} HVAC mode {
             hvac_mode
         } is not supported by this device, is it possible that you forgot to set the heat auto swapped option?"
     )
@@ -247,7 +247,7 @@ def heating_power_valve_position(self, entity_id):
     valve_pos = max(0.0, min(1.0, valve_pos))
 
     _LOGGER.debug(
-        f"better_thermostat {self.device_name}: {
+        f"smarter_thermostat {self.device_name}: {
             entity_id
         } / heating_power_valve_position - temp diff: {
             round(_temp_diff, 1)
@@ -601,7 +601,7 @@ async def _find_lowest_battery_in_group(self, member_ids, visited=None):
 
     Parameters
     ----------
-    self : BetterThermostat instance
+    self : SmarterThermostat instance
     member_ids : list of entity_id strings
     visited : set of already visited entity_ids to prevent infinite recursion
 
@@ -633,7 +633,7 @@ async def _find_lowest_battery_in_group(self, member_ids, visited=None):
             level = float(battery_state.state)
         except (ValueError, TypeError):
             _LOGGER.debug(
-                "better_thermostat: non-numeric battery state '%s' for %s",
+                "smarter_thermostat: non-numeric battery state '%s' for %s",
                 battery_state.state,
                 battery_id,
             )
@@ -656,7 +656,7 @@ async def find_local_calibration_entity(self, entity_id):
     Parameters
     ----------
     self :
-            self instance of better_thermostat
+            self instance of smarter_thermostat
 
     Returns
     -------
@@ -700,7 +700,7 @@ async def get_trv_intigration(self, entity_id):
     Parameters
     ----------
     self :
-            self instance of better_thermostat
+            self instance of smarter_thermostat
 
     Returns
     -------
@@ -763,7 +763,7 @@ async def get_device_model(self, entity_id: str) -> str:
         # Selection exclusively via Device-Registry
         try:
             _LOGGER.debug(
-                "better_thermostat %s: device registry -> manufacturer=%s model=%s model_id=%s name=%s identifiers=%s",
+                "smarter_thermostat %s: device registry -> manufacturer=%s model=%s model_id=%s name=%s identifiers=%s",
                 self.device_name,
                 getattr(device, "manufacturer", None),
                 getattr(device, "model", None),
@@ -781,7 +781,7 @@ async def get_device_model(self, entity_id: str) -> str:
         else:
             model_str = getattr(device, "model", None)
             _LOGGER.debug(
-                "better_thermostat %s: device.model raw='%s'",
+                "smarter_thermostat %s: device.model raw='%s'",
                 self.device_name,
                 model_str,
             )
@@ -807,7 +807,7 @@ async def get_device_model(self, entity_id: str) -> str:
         source = "default"
 
     _LOGGER.debug(
-        "better_thermostat %s: get_device_model(%s) selected='%s' via %s",
+        "smarter_thermostat %s: get_device_model(%s) selected='%s' via %s",
         self.device_name,
         entity_id,
         selected,

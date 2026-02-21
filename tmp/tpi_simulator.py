@@ -8,7 +8,7 @@ import logging
 from pathlib import Path
 import sys
 
-from custom_components.better_thermostat.utils.tpi import (
+from custom_components.smarter_thermostat.utils.tpi import (
     TpiInput,
     TpiParams,
     build_tpi_key,

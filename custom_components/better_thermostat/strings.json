@@ -2,7 +2,7 @@
         "config": {
                 "step": {
                         "user": {
-                                "description": "Setup your Better Thermostat to integrate with Home Assistant\n**If you need more info: https://better-thermostat.org/configuration#first-step**",
+                                "description": "Setup your Smarter Thermostat to integrate with Home Assistant\n**If you need more info: https://better-thermostat.org/configuration#first-step**",
                                 "data": {
                                         "name": "Name",
                                         "thermostat": "The real thermostat",
@@ -41,25 +41,25 @@
                                 }
                         },
                         "confirm": {
-                                "title": "Confirm adding a Better Thermostat",
+                                "title": "Confirm adding a Smarter Thermostat",
                                 "description": "You are about to add `{name}` to Home Assistant.\nWith {trv} as the real Thermostat"
                         }
                 },
                 "error": {
                         "failed": "Something went wrong.",
                         "no_name": "Please enter a name.",
-                        "no_off_mode": "Your device is special and has no off mode :(\nBetter Thermostat will use the minimal target temp instead.",
-                        "no_outside_temp": "You have no outside temperature sensor. Better Thermostat will use the weather entity instead."
+                        "no_off_mode": "Your device is special and has no off mode :(\nSmarter Thermostat will use the minimal target temp instead.",
+                        "no_outside_temp": "You have no outside temperature sensor. Smarter Thermostat will use the weather entity instead."
                 },
                 "abort": {
-                        "single_instance_allowed": "Only a single Better Thermostat is allowed for each real thermostat.",
+                        "single_instance_allowed": "Only a single Smarter Thermostat is allowed for each real thermostat.",
                         "no_devices_found": "No thermostat entity found, make sure you have a climate entity in your Home Assistant"
                 }
         },
         "options": {
                 "step": {
                         "user": {
-                                "description": "Update your Better Thermostat settings",
+                                "description": "Update your Smarter Thermostat settings",
                                 "data": {
                                         "name": "Name",
                                         "thermostat": "The real thermostat",
@@ -120,11 +120,11 @@
                 },
                 "degraded_mode": {
                         "title": "BT: {name} - running in degraded mode",
-                        "description": "Better Thermostat is running in degraded mode because some sensors are unavailable: {sensors}\n\nThe thermostat will continue to operate with reduced functionality. For example:\n- If the room temperature sensor is unavailable, the TRV's internal sensor will be used instead.\n- If window sensors are unavailable, windows are assumed to be closed.\n- If outdoor/weather sensors are unavailable, heating will always be enabled.\n\nCheck if the affected devices have battery issues or connectivity problems."
+                        "description": "Smarter Thermostat is running in degraded mode because some sensors are unavailable: {sensors}\n\nThe thermostat will continue to operate with reduced functionality. For example:\n- If the room temperature sensor is unavailable, the TRV's internal sensor will be used instead.\n- If window sensors are unavailable, windows are assumed to be closed.\n- If outdoor/weather sensors are unavailable, heating will always be enabled.\n\nCheck if the affected devices have battery issues or connectivity problems."
                 },
                 "invalid_window_state": {
                         "title": "BT: {name} - invalid window sensor state",
-                        "description": "The window sensor for Better Thermostat {name} reported an unrecognized state: {state}.\n\nExpected states are: 'on', 'off', 'true', 'false', 'open', 'closed'.\n\nPlease check your window sensor configuration."
+                        "description": "The window sensor for Smarter Thermostat {name} reported an unrecognized state: {state}.\n\nExpected states are: 'on', 'off', 'true', 'false', 'open', 'closed'.\n\nPlease check your window sensor configuration."
                 }
         },
         "services": {

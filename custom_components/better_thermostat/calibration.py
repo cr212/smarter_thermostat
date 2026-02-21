@@ -1,4 +1,4 @@
-"""Helper functions for the Better Thermostat component."""
+"""Helper functions for the Smarter Thermostat component."""
 
 import logging
 
@@ -146,7 +146,7 @@ def _supports_direct_valve_control(self, entity_id: str) -> bool:
     )
     if _calibration_type != CalibrationType.DIRECT_VALVE_BASED:
         _LOGGER.debug(
-            "better_thermostat %s: TRV %s does not support direct valve control due to calibration type %s",
+            "smarter_thermostat %s: TRV %s does not support direct valve control due to calibration type %s",
             self.device_name,
             entity_id,
             _calibration_type,
@@ -222,7 +222,7 @@ def _compute_mpc_balance(self, entity_id: str):
         )
     except (ValueError, TypeError, ZeroDivisionError) as err:
         _LOGGER.debug(
-            "better_thermostat %s: MPC calibration compute failed for %s: %s",
+            "smarter_thermostat %s: MPC calibration compute failed for %s: %s",
             self.device_name,
             entity_id,
             err,
@@ -283,7 +283,7 @@ def _compute_tpi_balance(self, entity_id: str):
         )
     except (ValueError, TypeError, ZeroDivisionError) as err:
         _LOGGER.debug(
-            "better_thermostat %s: TPI calibration compute failed for %s: %s",
+            "smarter_thermostat %s: TPI calibration compute failed for %s: %s",
             self.device_name,
             entity_id,
             err,
@@ -358,7 +358,7 @@ def _compute_pid_balance(self, entity_id: str):
     )
 
     _LOGGER.debug(
-        "better_thermostat %s: Running PID calibration for %s",
+        "smarter_thermostat %s: Running PID calibration for %s",
         self.device_name,
         entity_id,
     )
@@ -377,7 +377,7 @@ def _compute_pid_balance(self, entity_id: str):
         self.schedule_save_pid_state()
     except (ValueError, TypeError, ZeroDivisionError) as err:
         _LOGGER.debug(
-            "better_thermostat %s: PID calibration compute failed for %s: %s",
+            "smarter_thermostat %s: PID calibration compute failed for %s: %s",
             self.device_name,
             entity_id,
             err,
@@ -397,7 +397,7 @@ def _compute_pid_balance(self, entity_id: str):
     }
 
     _LOGGER.debug(
-        "better_thermostat %s: PID calibration for %s: valve_percent=%.1f%%, apply_valve=%s, debug=%s",
+        "smarter_thermostat %s: PID calibration for %s: valve_percent=%.1f%%, apply_valve=%s, debug=%s",
         getattr(self, "device_name", "unknown"),
         entity_id,
         percent,
@@ -417,7 +417,7 @@ def calculate_calibration_local(self, entity_id) -> float | None:
     Parameters
     ----------
     self :
-            self instance of better_thermostat
+            self instance of smarter_thermostat
 
     Returns
     -------
@@ -682,7 +682,7 @@ def calculate_calibration_local(self, entity_id) -> float | None:
     _log_current_calibration: float = round(_current_trv_calibration, 2)
 
     _logmsg = (
-        "better_thermostat %s: %s - new local calibration: %s | external_temp: %s, "
+        "smarter_thermostat %s: %s - new local calibration: %s | external_temp: %s, "
         "trv_temp: %s, calibration: %s"
     )
 
@@ -708,7 +708,7 @@ def calculate_calibration_setpoint(self, entity_id) -> float | None:
     Parameters
     ----------
     self :
-            self instance of better_thermostat
+            self instance of smarter_thermostat
 
     Returns
     -------
@@ -908,7 +908,7 @@ def calculate_calibration_setpoint(self, entity_id) -> float | None:
         _calibrated_setpoint = min(_calibrated_setpoint, float(t_max))
 
     _logmsg = (
-        "better_thermostat %s: %s - new setpoint calibration: %s | external_temp: %s, "
+        "smarter_thermostat %s: %s - new setpoint calibration: %s | external_temp: %s, "
         "target_temp: %s, trv_temp: %s"
     )
 

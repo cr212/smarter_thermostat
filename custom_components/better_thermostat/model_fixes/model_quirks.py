@@ -31,7 +31,7 @@ async def load_model_quirks(self, model, entity_id):
     try:
         self.model_quirks = await async_import_module(self.hass, module_path)
         _LOGGER.debug(
-            "better_thermostat %s: using quirks module '%s' for model '%s' (trv %s)",
+            "smarter_thermostat %s: using quirks module '%s' for model '%s' (trv %s)",
             self.device_name,
             module_path,
             model_str or "<none>",
@@ -43,7 +43,7 @@ async def load_model_quirks(self, model, entity_id):
         try:
             self.model_quirks = await async_import_module(self.hass, default_module)
             _LOGGER.debug(
-                "better_thermostat %s: quirks module '%s' not available for model '%s' (trv %s): %s; using default",
+                "smarter_thermostat %s: quirks module '%s' not available for model '%s' (trv %s): %s; using default",
                 self.device_name,
                 module_path,
                 model_str or "<none>",
@@ -53,7 +53,7 @@ async def load_model_quirks(self, model, entity_id):
         except ImportError as e2:
             # This should never happen, but make it visible if it does
             _LOGGER.error(
-                "better_thermostat %s: failed to import default quirks module '%s' after error loading '%s' for model '%s' (trv %s): %s",
+                "smarter_thermostat %s: failed to import default quirks module '%s' after error loading '%s' for model '%s' (trv %s): %s",
                 self.device_name,
                 default_module,
                 module_path,
@@ -81,7 +81,7 @@ def fix_local_calibration(self, entity_id, offset):
 
     if offset != _new_offset:
         _LOGGER.debug(
-            "better_thermostat %s: %s - calibration offset model fix: %s to %s",
+            "smarter_thermostat %s: %s - calibration offset model fix: %s to %s",
             self.device_name,
             entity_id,
             offset,
@@ -106,7 +106,7 @@ def fix_valve_calibration(self, entity_id, valve):
 
     if valve != _new_valve:
         _LOGGER.debug(
-            "better_thermostat %s: %s - valve calibration model fix: %s to %s",
+            "smarter_thermostat %s: %s - valve calibration model fix: %s to %s",
             self.device_name,
             entity_id,
             valve,
@@ -129,7 +129,7 @@ def fix_target_temperature_calibration(self, entity_id, temperature):
 
     if temperature != _new_temperature:
         _LOGGER.debug(
-            "better_thermostat %s: %s - temperature offset model fix: %s to %s",
+            "smarter_thermostat %s: %s - temperature offset model fix: %s to %s",
             self.device_name,
             entity_id,
             temperature,

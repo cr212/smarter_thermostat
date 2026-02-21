@@ -2,7 +2,7 @@
 """Model quirks for BTH-RM230Z thermostats.
 
 Contains small device-specific fixes and overrides necessary for
-compatibility with the Better Thermostat integration.
+compatibility with the Smarter Thermostat integration.
 """
 
 import logging
@@ -42,7 +42,7 @@ async def override_set_temperature(self, entity_id, temperature):
     model = self.real_trvs[entity_id]["model"]
     if model == "BTH-RM230Z":
         _LOGGER.debug(
-            f"better_thermostat {self.device_name}: TRV {entity_id} device quirk bth-rm230z for set_temperature active"
+            f"smarter_thermostat {self.device_name}: TRV {entity_id} device quirk bth-rm230z for set_temperature active"
         )
         entity_reg = er.async_get(self.hass)
         entry = entity_reg.async_get(entity_id)
@@ -50,7 +50,7 @@ async def override_set_temperature(self, entity_id, temperature):
         hvac_modes = entry.capabilities.get("hvac_modes", [])
 
         _LOGGER.debug(
-            f"better_thermostat {self.device_name}: TRV {entity_id} device quirk bth-rm230z found hvac_modes {hvac_modes}"
+            f"smarter_thermostat {self.device_name}: TRV {entity_id} device quirk bth-rm230z found hvac_modes {hvac_modes}"
         )
 
         if entry.platform == "mqtt" and "cool" in hvac_modes and "heat" in hvac_modes:

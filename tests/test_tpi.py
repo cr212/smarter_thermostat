@@ -1,6 +1,6 @@
 """Tests for the TPI (Time Proportional Integrator) controller."""
 
-from custom_components.better_thermostat.utils.calibration.tpi import (
+from custom_components.smarter_thermostat.utils.calibration.tpi import (
     TpiInput,
     TpiParams,
     build_tpi_key,

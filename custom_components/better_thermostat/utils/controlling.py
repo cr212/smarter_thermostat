@@ -1,4 +1,4 @@
-"""Controlling module for Better Thermostat."""
+"""Controlling module for Smarter Thermostat."""
 
 import asyncio
 import logging
@@ -27,7 +27,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class TaskManager:
-    """Task manager for Better Thermostat."""
+    """Task manager for Smarter Thermostat."""
 
     def __init__(self):
         """Initialize the task manager."""
@@ -47,7 +47,7 @@ async def control_queue(self):
     Parameters
     ----------
     self :
-            instance of better_thermostat
+            instance of smarter_thermostat
 
     Returns
     -------
@@ -75,7 +75,7 @@ async def control_queue(self):
                         await self.calculate_heating_power()
                     except Exception:
                         _LOGGER.exception(
-                            "better_thermostat %s: ERROR calculating heating power",
+                            "smarter_thermostat %s: ERROR calculating heating power",
                             self.device_name,
                         )
 
@@ -84,7 +84,7 @@ async def control_queue(self):
                         await self.calculate_heat_loss()
                     except Exception:
                         _LOGGER.exception(
-                            "better_thermostat %s: ERROR calculating heat loss",
+                            "smarter_thermostat %s: ERROR calculating heat loss",
                             self.device_name,
                         )
 
@@ -94,7 +94,7 @@ async def control_queue(self):
                             await control_cooler(self)
                         except Exception:
                             _LOGGER.exception(
-                                "better_thermostat %s: ERROR controlling cooler",
+                                "smarter_thermostat %s: ERROR controlling cooler",
                                 self.device_name,
                             )
 
@@ -111,7 +111,7 @@ async def control_queue(self):
                         if isinstance(res, Exception):
                             trv_id = list(self.real_trvs.keys())[i]
                             _LOGGER.error(
-                                "better_thermostat %s: ERROR controlling TRV %s: %s",
+                                "smarter_thermostat %s: ERROR controlling TRV %s: %s",
                                 self.device_name,
                                 trv_id,
                                 res,
@@ -127,7 +127,7 @@ async def control_queue(self):
                             self.control_queue_task.put_nowait(self)
                         except asyncio.QueueFull:
                             _LOGGER.debug(
-                                "better_thermostat %s: control queue is full, discarding task",
+                                "smarter_thermostat %s: control queue is full, discarding task",
                                 self.device_name,
                             )
 
@@ -139,7 +139,7 @@ async def control_queue(self):
                         self.async_write_ha_state()
     except asyncio.CancelledError:
         _LOGGER.debug(
-            "better_thermostat %s: control_queue task cancelled, cleaning up",
+            "smarter_thermostat %s: control_queue task cancelled, cleaning up",
             self.device_name,
         )
         raise
@@ -240,7 +240,7 @@ async def control_trv(self, heater_entity_id=None):
     Parameters
     ----------
     self :
-            instance of better_thermostat
+            instance of smarter_thermostat
 
     Returns
     -------
@@ -261,7 +261,7 @@ async def control_trv(self, heater_entity_id=None):
                 self.attr_hvac_action = self._compute_hvac_action()
         except Exception:
             _LOGGER.debug(
-                "better_thermostat %s: hvac action recompute failed (non critical)",
+                "smarter_thermostat %s: hvac action recompute failed (non critical)",
                 getattr(self, "device_name", "unknown"),
             )
         await self.calculate_heating_power()
@@ -274,7 +274,7 @@ async def control_trv(self, heater_entity_id=None):
     # Check if TRV is available before attempting to control it
     if _trv is None or _trv.state in (STATE_UNAVAILABLE, STATE_UNKNOWN):
         _LOGGER.debug(
-            "better_thermostat %s: TRV %s is unavailable, skipping control. "
+            "smarter_thermostat %s: TRV %s is unavailable, skipping control. "
             "Control will resume when TRV becomes available.",
             self.device_name,
             heater_entity_id,
@@ -285,7 +285,7 @@ async def control_trv(self, heater_entity_id=None):
         )
         if not isinstance(_remapped_states, dict):
             _LOGGER.debug(
-                "better_thermostat %s: ERROR %s %s",
+                "smarter_thermostat %s: ERROR %s %s",
                 self.device_name,
                 heater_entity_id,
                 _remapped_states,
@@ -377,7 +377,7 @@ async def control_trv(self, heater_entity_id=None):
                 if bal is not None:
                     target_pct = int(round(bal.get("valve_percent", 0)))
                     _LOGGER.debug(
-                        "better_thermostat %s: TO TRV set_valve: %s to: %s%% (source=%s)",
+                        "smarter_thermostat %s: TO TRV set_valve: %s to: %s%% (source=%s)",
                         self.device_name,
                         heater_entity_id,
                         target_pct,
@@ -386,7 +386,7 @@ async def control_trv(self, heater_entity_id=None):
                     ok = await set_valve(self, heater_entity_id, target_pct)
                     if not ok:
                         _LOGGER.debug(
-                            "better_thermostat %s: delegate.set_valve returned False (target=%s%%, entity=%s, source=%s)",
+                            "smarter_thermostat %s: delegate.set_valve returned False (target=%s%%, entity=%s, source=%s)",
                             self.device_name,
                             target_pct,
                             heater_entity_id,
@@ -394,14 +394,14 @@ async def control_trv(self, heater_entity_id=None):
                         )
             else:
                 _LOGGER.debug(
-                    "better_thermostat %s: TRV %s does not support direct valve control due to calibration type %s",
+                    "smarter_thermostat %s: TRV %s does not support direct valve control due to calibration type %s",
                     self.device_name,
                     heater_entity_id,
                     _calibration_type,
                 )
         except Exception:
             _LOGGER.debug(
-                "better_thermostat %s: set_valve not applied for %s (unsupported or failed)",
+                "smarter_thermostat %s: set_valve not applied for %s (unsupported or failed)",
                 self.device_name,
                 heater_entity_id,
             )
@@ -488,7 +488,7 @@ async def control_trv(self, heater_entity_id=None):
         if _no_off_system_mode is True and _new_hvac_mode == HVACMode.OFF:
             _min_temp = self.real_trvs[heater_entity_id]["min_temp"]
             _LOGGER.debug(
-                "better_thermostat %s: sending %s°C to the TRV because this device has no system mode off and heater should be off",
+                "smarter_thermostat %s: sending %s°C to the TRV because this device has no system mode off and heater should be off",
                 self.device_name,
                 _min_temp,
             )
@@ -504,7 +504,7 @@ async def control_trv(self, heater_entity_id=None):
             )
         ):
             _LOGGER.debug(
-                "better_thermostat %s: TO TRV set_hvac_mode: %s from: %s to: %s",
+                "smarter_thermostat %s: TO TRV set_hvac_mode: %s from: %s to: %s",
                 self.device_name,
                 heater_entity_id,
                 _trv.state,
@@ -530,7 +530,7 @@ async def control_trv(self, heater_entity_id=None):
 
             if _current_calibration_s is None:
                 _LOGGER.error(
-                    "better_thermostat %s: calibration fatal error %s",
+                    "smarter_thermostat %s: calibration fatal error %s",
                     self.device_name,
                     heater_entity_id,
                 )
@@ -553,7 +553,7 @@ async def control_trv(self, heater_entity_id=None):
                 "calibration_received"
             ] is True and float(_old_calibration) != float(_calibration):
                 _LOGGER.debug(
-                    "better_thermostat %s: TO TRV set_local_temperature_calibration: %s from: %s to: %s",
+                    "smarter_thermostat %s: TO TRV set_local_temperature_calibration: %s from: %s to: %s",
                     self.device_name,
                     heater_entity_id,
                     _old_calibration,
@@ -572,7 +572,7 @@ async def control_trv(self, heater_entity_id=None):
             if _temperature != _current_set_temperature:
                 old = self.real_trvs[heater_entity_id].get("last_temperature", "?")
                 _LOGGER.debug(
-                    "better_thermostat %s: TO TRV set_temperature: %s from: %s to: %s",
+                    "smarter_thermostat %s: TO TRV set_temperature: %s from: %s to: %s",
                     self.device_name,
                     heater_entity_id,
                     old,
@@ -602,7 +602,7 @@ async def control_trv(self, heater_entity_id=None):
     )
     if not isinstance(_remapped_states, dict):
         _LOGGER.debug(
-            "better_thermostat %s: ERROR %s %s",
+            "smarter_thermostat %s: ERROR %s %s",
             self.device_name,
             heater_entity_id,
             _remapped_states,
@@ -672,7 +672,7 @@ async def control_trv(self, heater_entity_id=None):
             if bal is not None:
                 target_pct = int(round(bal.get("valve_percent", 0)))
                 _LOGGER.debug(
-                    "better_thermostat %s: TO TRV set_valve: %s to: %s%% (source=%s)",
+                    "smarter_thermostat %s: TO TRV set_valve: %s to: %s%% (source=%s)",
                     self.device_name,
                     heater_entity_id,
                     target_pct,
@@ -681,7 +681,7 @@ async def control_trv(self, heater_entity_id=None):
                 ok = await set_valve(self, heater_entity_id, target_pct)
                 if not ok:
                     _LOGGER.debug(
-                        "better_thermostat %s: delegate.set_valve returned False (target=%s%%, entity=%s, source=%s)",
+                        "smarter_thermostat %s: delegate.set_valve returned False (target=%s%%, entity=%s, source=%s)",
                         self.device_name,
                         target_pct,
                         heater_entity_id,
@@ -689,14 +689,14 @@ async def control_trv(self, heater_entity_id=None):
                     )
         else:
             _LOGGER.debug(
-                "better_thermostat %s: TRV %s does not support direct valve control due to calibration type %s",
+                "smarter_thermostat %s: TRV %s does not support direct valve control due to calibration type %s",
                 self.device_name,
                 heater_entity_id,
                 _calibration_type,
             )
     except Exception:
         _LOGGER.debug(
-            "better_thermostat %s: set_valve not applied for %s (unsupported or failed)",
+            "smarter_thermostat %s: set_valve not applied for %s (unsupported or failed)",
             self.device_name,
             heater_entity_id,
         )
@@ -723,7 +723,7 @@ async def control_trv(self, heater_entity_id=None):
     if _no_off_system_mode is True and _new_hvac_mode == HVACMode.OFF:
         _min_temp = self.real_trvs[heater_entity_id]["min_temp"]
         _LOGGER.debug(
-            "better_thermostat %s: sending %s°C to the TRV because this device has no system mode off and heater should be off",
+            "smarter_thermostat %s: sending %s°C to the TRV because this device has no system mode off and heater should be off",
             self.device_name,
             _min_temp,
         )
@@ -739,7 +739,7 @@ async def control_trv(self, heater_entity_id=None):
         )
     ):
         _LOGGER.debug(
-            "better_thermostat %s: TO TRV set_hvac_mode: %s from: %s to: %s",
+            "smarter_thermostat %s: TO TRV set_hvac_mode: %s from: %s to: %s",
             self.device_name,
             heater_entity_id,
             _trv.state,
@@ -765,7 +765,7 @@ async def control_trv(self, heater_entity_id=None):
 
         if _current_calibration_s is None:
             _LOGGER.error(
-                "better_thermostat %s: calibration fatal error %s",
+                "smarter_thermostat %s: calibration fatal error %s",
                 self.device_name,
                 heater_entity_id,
             )
@@ -794,7 +794,7 @@ async def control_trv(self, heater_entity_id=None):
             and abs(float(_current_calibration) - float(_calibration)) < 0.5
         ):
             _LOGGER.debug(
-                "better_thermostat %s: TRV %s calibration already at target (%s), "
+                "smarter_thermostat %s: TRV %s calibration already at target (%s), "
                 "resetting calibration_received flag",
                 self.device_name,
                 heater_entity_id,
@@ -806,7 +806,7 @@ async def control_trv(self, heater_entity_id=None):
             _old_calibration
         ) != float(_calibration):
             _LOGGER.debug(
-                "better_thermostat %s: TO TRV set_local_temperature_calibration: %s from: %s to: %s",
+                "smarter_thermostat %s: TO TRV set_local_temperature_calibration: %s from: %s to: %s",
                 self.device_name,
                 heater_entity_id,
                 _old_calibration,
@@ -822,7 +822,7 @@ async def control_trv(self, heater_entity_id=None):
         if _temperature != _current_set_temperature:
             old = self.real_trvs[heater_entity_id].get("last_temperature", "?")
             _LOGGER.debug(
-                "better_thermostat %s: TO TRV set_temperature: %s from: %s to: %s",
+                "smarter_thermostat %s: TO TRV set_temperature: %s from: %s to: %s",
                 self.device_name,
                 heater_entity_id,
                 old,
@@ -855,7 +855,7 @@ async def check_system_mode(self, heater_entity_id=None):
     while _real_trv["hvac_mode"] != _real_trv["last_hvac_mode"]:
         if _timeout > 360:
             _LOGGER.debug(
-                "better_thermostat %s: %s the real TRV did not respond to the system mode change",
+                "smarter_thermostat %s: %s the real TRV did not respond to the system mode change",
                 self.device_name,
                 heater_entity_id,
             )
@@ -884,7 +884,7 @@ async def check_target_temperature(self, heater_entity_id=None):
         )
         if _timeout == 0:
             _LOGGER.debug(
-                "better_thermostat %s: %s / check_target_temp / _last: %s - _current: %s",
+                "smarter_thermostat %s: %s / check_target_temp / _last: %s - _current: %s",
                 self.device_name,
                 heater_entity_id,
                 _real_trv["last_temperature"],
@@ -898,7 +898,7 @@ async def check_target_temperature(self, heater_entity_id=None):
             break
         if _timeout > 360:
             _LOGGER.debug(
-                "better_thermostat %s: %s the real TRV did not respond to the target temperature change",
+                "smarter_thermostat %s: %s the real TRV did not respond to the target temperature change",
                 self.device_name,
                 heater_entity_id,
             )

@@ -1,9 +1,9 @@
 {
-  "title": "Better Thermostat",
+  "title": "Smarter Thermostat",
   "config": {
     "step": {
       "user": {
-        "description": "Настройте термостат Better Thermostat для интеграции с Home Assistant\n**Если вам нужна дополнительная информация: https://better-thermostat.org/configuration#first-step**",
+        "description": "Настройте термостат Smarter Thermostat для интеграции с Home Assistant\n**Если вам нужна дополнительная информация: https://better-thermostat.org/configuration#first-step**",
         "data": {
           "name": "Имя",
           "thermostat": "Реальный термостат",
@@ -45,8 +45,8 @@
     "error": {
       "failed": "Something went wrong.",
       "no_name": "Пожалуйста, введите имя.",
-      "no_off_mode": "Ваше устройство очень особенное и не имеет режима выключения :(\nBetter Thermostat вместо этого будет использовать минимальную целевую температуру.",
-      "no_outside_temp": "У вас нет датчика наружной температуры. Вместо этого Better Thermostat будет использовать объект погоды."
+      "no_off_mode": "Ваше устройство очень особенное и не имеет режима выключения :(\nSmarter Thermostat вместо этого будет использовать минимальную целевую температуру.",
+      "no_outside_temp": "У вас нет датчика наружной температуры. Вместо этого Smarter Thermostat будет использовать объект погоды."
     },
     "abort": {
       "single_instance_allowed": "Разрешается использовать только один термостат для каждого реального устройства.",

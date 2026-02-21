@@ -1,4 +1,4 @@
-"""Better Thermostat Number Platform."""
+"""Smarter Thermostat Number Platform."""
 
 import logging
 
@@ -21,17 +21,17 @@ from .utils.calibration.pid import (
 from .utils.const import CONF_CALIBRATION_MODE, CalibrationMode
 
 _LOGGER = logging.getLogger(__name__)
-DOMAIN = "better_thermostat"
+DOMAIN = "smarter_thermostat"
 
 
 async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
-    """Set up Better Thermostat numbers."""
+    """Set up Smarter Thermostat numbers."""
     bt_climate = hass.data[DOMAIN][entry.entry_id].get("climate")
     if not bt_climate:
         _LOGGER.warning(
-            "Better Thermostat climate entity not found for entry %s. "
+            "Smarter Thermostat climate entity not found for entry %s. "
             "Numbers will not be added.",
             entry.entry_id,
         )
@@ -40,12 +40,12 @@ async def async_setup_entry(
     numbers = []
     # Create a number entity for each preset mode (except NONE)
     _LOGGER.debug(
-        "Better Thermostat Number: Found preset modes: %s", bt_climate.preset_modes
+        "Smarter Thermostat Number: Found preset modes: %s", bt_climate.preset_modes
     )
     for preset_mode in bt_climate.preset_modes:
         if preset_mode == PRESET_NONE:
             continue
-        numbers.append(BetterThermostatPresetNumber(bt_climate, preset_mode))
+        numbers.append(SmarterThermostatPresetNumber(bt_climate, preset_mode))
 
     # Create PID numbers for each TRV if PID calibration is enabled
     if hasattr(bt_climate, "all_trvs"):
@@ -58,17 +58,17 @@ async def async_setup_entry(
             advanced = trv_conf.get("advanced", {})
             if advanced.get(CONF_CALIBRATION_MODE) == CalibrationMode.PID_CALIBRATION:
                 numbers.append(
-                    BetterThermostatPIDNumber(
+                    SmarterThermostatPIDNumber(
                         bt_climate, trv_entity_id, "kp", has_multiple_trvs
                     )
                 )
                 numbers.append(
-                    BetterThermostatPIDNumber(
+                    SmarterThermostatPIDNumber(
                         bt_climate, trv_entity_id, "ki", has_multiple_trvs
                     )
                 )
                 numbers.append(
-                    BetterThermostatPIDNumber(
+                    SmarterThermostatPIDNumber(
                         bt_climate, trv_entity_id, "kd", has_multiple_trvs
                     )
                 )
@@ -76,8 +76,8 @@ async def async_setup_entry(
     async_add_entities(numbers)
 
 
-class BetterThermostatPresetNumber(NumberEntity, RestoreEntity):
-    """Representation of a Better Thermostat Preset Temperature Number."""
+class SmarterThermostatPresetNumber(NumberEntity, RestoreEntity):
+    """Representation of a Smarter Thermostat Preset Temperature Number."""
 
     _attr_has_entity_name = True
     _attr_device_class = NumberDeviceClass.TEMPERATURE
@@ -141,8 +141,8 @@ class BetterThermostatPresetNumber(NumberEntity, RestoreEntity):
         self._bt_climate.async_write_ha_state()
 
 
-class BetterThermostatPIDNumber(NumberEntity, RestoreEntity):
-    """Representation of a Better Thermostat PID Parameter Number."""
+class SmarterThermostatPIDNumber(NumberEntity, RestoreEntity):
+    """Representation of a Smarter Thermostat PID Parameter Number."""
 
     _attr_has_entity_name = True
     _attr_mode = NumberMode.BOX

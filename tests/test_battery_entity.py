@@ -31,7 +31,7 @@ def mock_hass():
 
 @pytest.fixture
 def mock_bt_instance(mock_hass):
-    """Create a mock BetterThermostat instance."""
+    """Create a mock SmarterThermostat instance."""
     bt = MagicMock()
     bt.hass = mock_hass
     return bt
@@ -43,7 +43,7 @@ class TestFindBatteryEntity:
     @pytest.mark.anyio
     async def test_returns_none_for_unknown_entity(self, mock_bt_instance):
         """Test that None is returned when entity is not in registry."""
-        from custom_components.better_thermostat.utils.helpers import (
+        from custom_components.smarter_thermostat.utils.helpers import (
             find_battery_entity,
         )
 
@@ -51,7 +51,7 @@ class TestFindBatteryEntity:
         mock_registry.entities.get.return_value = None
 
         with patch(
-            "custom_components.better_thermostat.utils.helpers.er.async_get",
+            "custom_components.smarter_thermostat.utils.helpers.er.async_get",
             return_value=mock_registry,
         ):
             result = await find_battery_entity(
@@ -62,7 +62,7 @@ class TestFindBatteryEntity:
     @pytest.mark.anyio
     async def test_returns_battery_for_physical_device(self, mock_bt_instance):
         """Test that battery entity is found for physical device."""
-        from custom_components.better_thermostat.utils.helpers import (
+        from custom_components.smarter_thermostat.utils.helpers import (
             find_battery_entity,
         )
 
@@ -81,7 +81,7 @@ class TestFindBatteryEntity:
         mock_registry.entities.values.return_value = [mock_battery_entity]
 
         with patch(
-            "custom_components.better_thermostat.utils.helpers.er.async_get",
+            "custom_components.smarter_thermostat.utils.helpers.er.async_get",
             return_value=mock_registry,
         ):
             result = await find_battery_entity(mock_bt_instance, "binary_sensor.window")
@@ -92,7 +92,7 @@ class TestFindBatteryEntity:
         self, mock_bt_instance
     ):
         """Test that None is returned for virtual entity that is not a group."""
-        from custom_components.better_thermostat.utils.helpers import (
+        from custom_components.smarter_thermostat.utils.helpers import (
             find_battery_entity,
         )
 
@@ -109,7 +109,7 @@ class TestFindBatteryEntity:
         mock_bt_instance.hass.states.get.return_value = mock_state
 
         with patch(
-            "custom_components.better_thermostat.utils.helpers.er.async_get",
+            "custom_components.smarter_thermostat.utils.helpers.er.async_get",
             return_value=mock_registry,
         ):
             result = await find_battery_entity(
@@ -120,7 +120,7 @@ class TestFindBatteryEntity:
     @pytest.mark.anyio
     async def test_returns_lowest_battery_for_group(self, mock_bt_instance):
         """Test that lowest battery is returned for a group of sensors."""
-        from custom_components.better_thermostat.utils.helpers import (
+        from custom_components.smarter_thermostat.utils.helpers import (
             find_battery_entity,
         )
 
@@ -189,7 +189,7 @@ class TestFindBatteryEntity:
         mock_bt_instance.hass.states.get.side_effect = mock_states_get
 
         with patch(
-            "custom_components.better_thermostat.utils.helpers.er.async_get",
+            "custom_components.smarter_thermostat.utils.helpers.er.async_get",
             return_value=mock_registry,
         ):
             result = await find_battery_entity(
@@ -201,7 +201,7 @@ class TestFindBatteryEntity:
     @pytest.mark.anyio
     async def test_group_with_no_batteries_returns_none(self, mock_bt_instance):
         """Test that None is returned for group where no member has battery."""
-        from custom_components.better_thermostat.utils.helpers import (
+        from custom_components.smarter_thermostat.utils.helpers import (
             find_battery_entity,
         )
 
@@ -231,7 +231,7 @@ class TestFindBatteryEntity:
         mock_bt_instance.hass.states.get.return_value = mock_group_state
 
         with patch(
-            "custom_components.better_thermostat.utils.helpers.er.async_get",
+            "custom_components.smarter_thermostat.utils.helpers.er.async_get",
             return_value=mock_registry,
         ):
             result = await find_battery_entity(

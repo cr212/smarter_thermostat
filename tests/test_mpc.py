@@ -1,6 +1,6 @@
 """Tests for the MPC (Model Predictive Control) controller."""
 
-from custom_components.better_thermostat.utils.calibration.mpc import (
+from custom_components.smarter_thermostat.utils.calibration.mpc import (
     MpcInput,
     MpcParams,
     compute_mpc,
@@ -13,7 +13,7 @@ class TestMPCController:
     def setup_method(self):
         """Reset MPC states before each test."""
         # Reset all states to ensure clean tests
-        import custom_components.better_thermostat.utils.calibration.mpc as mpc_module
+        import custom_components.smarter_thermostat.utils.calibration.mpc as mpc_module
 
         mpc_module._MPC_STATES.clear()
 
@@ -136,7 +136,7 @@ class TestMPCController:
 
     def test_adaptive_parameter_estimation(self):
         """Test adaptive estimation of thermal gain and loss coefficients."""
-        from custom_components.better_thermostat.utils.calibration.mpc import (
+        from custom_components.smarter_thermostat.utils.calibration.mpc import (
             _MPC_STATES,
         )
 
@@ -241,7 +241,7 @@ class TestMPCController:
 
         from time import monotonic
 
-        from custom_components.better_thermostat.utils.calibration.mpc import (
+        from custom_components.smarter_thermostat.utils.calibration.mpc import (
             _MPC_STATES,
         )
 
@@ -283,7 +283,7 @@ class TestMPCController:
 
         from time import monotonic
 
-        from custom_components.better_thermostat.utils.calibration.mpc import (
+        from custom_components.smarter_thermostat.utils.calibration.mpc import (
             _MPC_STATES,
         )
 
@@ -327,7 +327,7 @@ class TestMPCController:
 
         from time import monotonic
 
-        from custom_components.better_thermostat.utils.calibration.mpc import (
+        from custom_components.smarter_thermostat.utils.calibration.mpc import (
             _MPC_STATES,
         )
 
@@ -422,7 +422,7 @@ class TestMPCController:
 
     def test_heating_sequence_simulation(self):
         """Simulate a heating sequence to test controller behavior over time."""
-        from custom_components.better_thermostat.utils.calibration.mpc import (
+        from custom_components.smarter_thermostat.utils.calibration.mpc import (
             export_mpc_state_map,
         )
 

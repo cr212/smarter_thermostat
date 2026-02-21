@@ -11,12 +11,12 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from custom_components.better_thermostat.utils.const import ATTR_STATE_OFF_TEMPERATURE
+from custom_components.smarter_thermostat.utils.const import ATTR_STATE_OFF_TEMPERATURE
 
 
 @pytest.fixture
 def mock_bt_with_off_temperature():
-    """Create a mock BetterThermostat instance with off_temperature configured."""
+    """Create a mock SmarterThermostat instance with off_temperature configured."""
     bt = MagicMock()
     bt.device_name = "Test Thermostat"
     bt.off_temperature = 20.0
@@ -41,7 +41,7 @@ def mock_bt_with_off_temperature():
 
 @pytest.fixture
 def mock_bt_without_off_temperature():
-    """Create a mock BetterThermostat instance without off_temperature configured."""
+    """Create a mock SmarterThermostat instance without off_temperature configured."""
     bt = MagicMock()
     bt.device_name = "Test Thermostat No Off Temp"
     bt.off_temperature = None

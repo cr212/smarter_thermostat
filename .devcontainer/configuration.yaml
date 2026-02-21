@@ -92,22 +92,19 @@ template:
         state_class: measurement
         device_class: temperature
         unit_of_measurement: "°C"
-        state: '{{ states.input_number.external_sensor.state | round(1, default=18) }}'
+        state: "{{ states.input_number.external_sensor.state | round(1, default=18) }}"
       - name: "External Humidity Sensor"
         unique_id: external_humidity_sensor
         state_class: measurement
         device_class: humidity
         unit_of_measurement: "%"
-        state: '{{ states.input_number.humidity_sensor.state | round(1, default=50) }}'
+        state: "{{ states.input_number.humidity_sensor.state | round(1, default=50) }}"
       - name: "Outside Temperature Sensor"
         unique_id: outside_temperature_sensor
         state_class: measurement
         device_class: temperature
         unit_of_measurement: "°C"
-        state: '{{ states.input_number.outside_sensor.state | round(1, default=18) }}'
-
+        state: "{{ states.input_number.outside_sensor.state | round(1, default=18) }}"
 
 # If you need to debug uncomment the line below (doc: https://www.home-assistant.io/integrations/debugpy/)
 debugpy:
-
-

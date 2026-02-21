@@ -1,9 +1,9 @@
 {
-  "title": "Better Thermostat",
+  "title": "Smarter Thermostat",
   "config": {
     "step": {
       "user": {
-        "description": "Konfigurer din Better Thermostat til at integrere med Home Assistant\n**Hvis du har brug for mere info: https://better-thermostat.org/configuration#first-step**",
+        "description": "Konfigurer din Smarter Thermostat til at integrere med Home Assistant\n**Hvis du har brug for mere info: https://better-thermostat.org/configuration#first-step**",
         "data": {
           "name": "Navn",
           "thermostat": "Den rigtige termostat",
@@ -38,7 +38,7 @@
         }
       },
       "confirm": {
-        "title": "Bekræft tilføjelse af en Better Thermostat",
+        "title": "Bekræft tilføjelse af en Smarter Thermostat",
         "description": "Du er ved at tilføje {name} til Home Assistant.\nMed {trv} som en rigtige termostat"
       }
     },
@@ -46,7 +46,7 @@
       "failed": "Noget gik galt.",
       "no_name": "Indtast venligst et navn.",
       "no_off_mode": "Din enhed er meget speciel og har ingen slukket tilstand :(\nDet virker alligevel, men du skal oprette en automatisering, der passer til dine specialer baseret på enhedsbegivenhederne",
-      "no_outside_temp": "Du har ingen udetemperaturføler. Better Thermostat vil bruge vejret i stedet."
+      "no_outside_temp": "Du har ingen udetemperaturføler. Smarter Thermostat vil bruge vejret i stedet."
     },
     "abort": {
       "single_instance_allowed": "Kun en enkelt termostat for hver virkelige er tilladt.",
@@ -56,7 +56,7 @@
   "options": {
     "step": {
       "user": {
-        "description": "Opdater dine Better Thermostat indstillinger",
+        "description": "Opdater dine Smarter Thermostat indstillinger",
         "data": {
           "name": "Navn",
           "thermostat": "Den rigtige termostat",

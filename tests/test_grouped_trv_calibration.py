@@ -38,7 +38,7 @@ def mock_hass():
 
 @pytest.fixture
 def mock_bt_instance(mock_hass):
-    """Create a mock BetterThermostat instance for grouped TRV testing."""
+    """Create a mock SmarterThermostat instance for grouped TRV testing."""
     bt = MagicMock()
     bt.hass = mock_hass
     bt.device_name = "Test Thermostat"
@@ -104,7 +104,7 @@ class TestCalibrationReceivedReset:
         - TRV's current calibration (2.0) matches target calibration (2.0)
         - The flag should be reset to True
         """
-        from custom_components.better_thermostat.utils.controlling import control_trv
+        from custom_components.smarter_thermostat.utils.controlling import control_trv
 
         entity_id = "climate.trv_3"
 
@@ -117,26 +117,26 @@ class TestCalibrationReceivedReset:
         # Mock the adapter functions
         with (
             patch(
-                "custom_components.better_thermostat.utils.controlling.get_current_offset",
+                "custom_components.smarter_thermostat.utils.controlling.get_current_offset",
                 new_callable=AsyncMock,
             ) as mock_get_offset,
             patch(
-                "custom_components.better_thermostat.utils.controlling.convert_outbound_states"
+                "custom_components.smarter_thermostat.utils.controlling.convert_outbound_states"
             ) as mock_convert,
             patch(
-                "custom_components.better_thermostat.utils.controlling.set_offset",
+                "custom_components.smarter_thermostat.utils.controlling.set_offset",
                 new_callable=AsyncMock,
             ) as mock_set_offset,
             patch(
-                "custom_components.better_thermostat.utils.controlling.set_temperature",
+                "custom_components.smarter_thermostat.utils.controlling.set_temperature",
                 new_callable=AsyncMock,
             ),
             patch(
-                "custom_components.better_thermostat.utils.controlling.set_hvac_mode",
+                "custom_components.smarter_thermostat.utils.controlling.set_hvac_mode",
                 new_callable=AsyncMock,
             ),
             patch(
-                "custom_components.better_thermostat.utils.controlling.set_valve",
+                "custom_components.smarter_thermostat.utils.controlling.set_valve",
                 new_callable=AsyncMock,
             ),
             patch("asyncio.sleep", new_callable=AsyncMock),
@@ -175,7 +175,7 @@ class TestCalibrationReceivedReset:
         - The flag should stay False (TRV hasn't acknowledged yet)
         - No new calibration should be sent (blocked by False flag)
         """
-        from custom_components.better_thermostat.utils.controlling import control_trv
+        from custom_components.smarter_thermostat.utils.controlling import control_trv
 
         entity_id = "climate.trv_3"
 
@@ -186,26 +186,26 @@ class TestCalibrationReceivedReset:
 
         with (
             patch(
-                "custom_components.better_thermostat.utils.controlling.get_current_offset",
+                "custom_components.smarter_thermostat.utils.controlling.get_current_offset",
                 new_callable=AsyncMock,
             ) as mock_get_offset,
             patch(
-                "custom_components.better_thermostat.utils.controlling.convert_outbound_states"
+                "custom_components.smarter_thermostat.utils.controlling.convert_outbound_states"
             ) as mock_convert,
             patch(
-                "custom_components.better_thermostat.utils.controlling.set_offset",
+                "custom_components.smarter_thermostat.utils.controlling.set_offset",
                 new_callable=AsyncMock,
             ) as mock_set_offset,
             patch(
-                "custom_components.better_thermostat.utils.controlling.set_temperature",
+                "custom_components.smarter_thermostat.utils.controlling.set_temperature",
                 new_callable=AsyncMock,
             ),
             patch(
-                "custom_components.better_thermostat.utils.controlling.set_hvac_mode",
+                "custom_components.smarter_thermostat.utils.controlling.set_hvac_mode",
                 new_callable=AsyncMock,
             ),
             patch(
-                "custom_components.better_thermostat.utils.controlling.set_valve",
+                "custom_components.smarter_thermostat.utils.controlling.set_valve",
                 new_callable=AsyncMock,
             ),
             patch("asyncio.sleep", new_callable=AsyncMock),
@@ -245,7 +245,7 @@ class TestCalibrationReceivedReset:
         - New calibration should be sent
         - Flag should become False after sending
         """
-        from custom_components.better_thermostat.utils.controlling import control_trv
+        from custom_components.smarter_thermostat.utils.controlling import control_trv
 
         entity_id = "climate.trv_1"  # This one has calibration_received = True
 
@@ -256,26 +256,26 @@ class TestCalibrationReceivedReset:
 
         with (
             patch(
-                "custom_components.better_thermostat.utils.controlling.get_current_offset",
+                "custom_components.smarter_thermostat.utils.controlling.get_current_offset",
                 new_callable=AsyncMock,
             ) as mock_get_offset,
             patch(
-                "custom_components.better_thermostat.utils.controlling.convert_outbound_states"
+                "custom_components.smarter_thermostat.utils.controlling.convert_outbound_states"
             ) as mock_convert,
             patch(
-                "custom_components.better_thermostat.utils.controlling.set_offset",
+                "custom_components.smarter_thermostat.utils.controlling.set_offset",
                 new_callable=AsyncMock,
             ) as mock_set_offset,
             patch(
-                "custom_components.better_thermostat.utils.controlling.set_temperature",
+                "custom_components.smarter_thermostat.utils.controlling.set_temperature",
                 new_callable=AsyncMock,
             ),
             patch(
-                "custom_components.better_thermostat.utils.controlling.set_hvac_mode",
+                "custom_components.smarter_thermostat.utils.controlling.set_hvac_mode",
                 new_callable=AsyncMock,
             ),
             patch(
-                "custom_components.better_thermostat.utils.controlling.set_valve",
+                "custom_components.smarter_thermostat.utils.controlling.set_valve",
                 new_callable=AsyncMock,
             ),
             patch("asyncio.sleep", new_callable=AsyncMock),
@@ -310,7 +310,7 @@ class TestCalibrationReceivedReset:
         - Difference (0.3) is within tolerance (0.5)
         - Flag should be reset to True
         """
-        from custom_components.better_thermostat.utils.controlling import control_trv
+        from custom_components.smarter_thermostat.utils.controlling import control_trv
 
         entity_id = "climate.trv_3"
 
@@ -321,26 +321,26 @@ class TestCalibrationReceivedReset:
 
         with (
             patch(
-                "custom_components.better_thermostat.utils.controlling.get_current_offset",
+                "custom_components.smarter_thermostat.utils.controlling.get_current_offset",
                 new_callable=AsyncMock,
             ) as mock_get_offset,
             patch(
-                "custom_components.better_thermostat.utils.controlling.convert_outbound_states"
+                "custom_components.smarter_thermostat.utils.controlling.convert_outbound_states"
             ) as mock_convert,
             patch(
-                "custom_components.better_thermostat.utils.controlling.set_offset",
+                "custom_components.smarter_thermostat.utils.controlling.set_offset",
                 new_callable=AsyncMock,
             ),
             patch(
-                "custom_components.better_thermostat.utils.controlling.set_temperature",
+                "custom_components.smarter_thermostat.utils.controlling.set_temperature",
                 new_callable=AsyncMock,
             ),
             patch(
-                "custom_components.better_thermostat.utils.controlling.set_hvac_mode",
+                "custom_components.smarter_thermostat.utils.controlling.set_hvac_mode",
                 new_callable=AsyncMock,
             ),
             patch(
-                "custom_components.better_thermostat.utils.controlling.set_valve",
+                "custom_components.smarter_thermostat.utils.controlling.set_valve",
                 new_callable=AsyncMock,
             ),
             patch("asyncio.sleep", new_callable=AsyncMock),
@@ -373,7 +373,7 @@ class TestCalibrationReceivedReset:
         - Difference (0.6) is outside tolerance (0.5)
         - Flag should stay False
         """
-        from custom_components.better_thermostat.utils.controlling import control_trv
+        from custom_components.smarter_thermostat.utils.controlling import control_trv
 
         entity_id = "climate.trv_3"
 
@@ -384,26 +384,26 @@ class TestCalibrationReceivedReset:
 
         with (
             patch(
-                "custom_components.better_thermostat.utils.controlling.get_current_offset",
+                "custom_components.smarter_thermostat.utils.controlling.get_current_offset",
                 new_callable=AsyncMock,
             ) as mock_get_offset,
             patch(
-                "custom_components.better_thermostat.utils.controlling.convert_outbound_states"
+                "custom_components.smarter_thermostat.utils.controlling.convert_outbound_states"
             ) as mock_convert,
             patch(
-                "custom_components.better_thermostat.utils.controlling.set_offset",
+                "custom_components.smarter_thermostat.utils.controlling.set_offset",
                 new_callable=AsyncMock,
             ),
             patch(
-                "custom_components.better_thermostat.utils.controlling.set_temperature",
+                "custom_components.smarter_thermostat.utils.controlling.set_temperature",
                 new_callable=AsyncMock,
             ),
             patch(
-                "custom_components.better_thermostat.utils.controlling.set_hvac_mode",
+                "custom_components.smarter_thermostat.utils.controlling.set_hvac_mode",
                 new_callable=AsyncMock,
             ),
             patch(
-                "custom_components.better_thermostat.utils.controlling.set_valve",
+                "custom_components.smarter_thermostat.utils.controlling.set_valve",
                 new_callable=AsyncMock,
             ),
             patch("asyncio.sleep", new_callable=AsyncMock),

@@ -1,9 +1,9 @@
 {
-  "title": "Better Thermostat",
+  "title": "Smarter Thermostat",
   "config": {
     "step": {
       "user": {
-        "description": "Configura il tuo Better Thermostat per integrarlo con Home Assistant\n**Per maggiori informazioni: https://better-thermostat.org/configuration#first-step**",
+        "description": "Configura il tuo Smarter Thermostat per integrarlo con Home Assistant\n**Per maggiori informazioni: https://better-thermostat.org/configuration#first-step**",
         "data": {
           "name": "Nome",
           "thermostat": "Il termostato reale",
@@ -38,15 +38,15 @@
         }
       },
       "confirm": {
-        "title": "Conferma l’aggiunta di un Better Thermostat",
+        "title": "Conferma l’aggiunta di un Smarter Thermostat",
         "description": "Stai per aggiungere `{name}` a Home Assistant.\nCon {trv} come termostato reale"
       }
     },
     "error": {
       "failed": "Qualcosa è andato storto.",
       "no_name": "Per favore inserisci un nome.",
-      "no_off_mode": "Il tuo dispositivo è particolare e non ha una modalità 'off' :(\nBetter Thermostat userà invece la temperatura target minima.",
-      "no_outside_temp": "Non hai un sensore di temperatura esterna. Better Thermostat userà l’entità meteo al suo posto."
+      "no_off_mode": "Il tuo dispositivo è particolare e non ha una modalità 'off' :(\nSmarter Thermostat userà invece la temperatura target minima.",
+      "no_outside_temp": "Non hai un sensore di temperatura esterna. Smarter Thermostat userà l’entità meteo al suo posto."
     },
     "abort": {
       "single_instance_allowed": "È consentito un solo termostato per ogni dispositivo reale.",
@@ -56,7 +56,7 @@
   "options": {
     "step": {
       "user": {
-        "description": "Aggiorna le impostazioni del tuo Better Thermostat",
+        "description": "Aggiorna le impostazioni del tuo Smarter Thermostat",
         "data": {
           "name": "Nome",
           "thermostat": "Il termostato reale",

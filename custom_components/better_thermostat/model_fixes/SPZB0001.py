@@ -1,7 +1,7 @@
 """Model fixes for SPZB0001 devices.
 
 Device-specific quirks for SPZB0001 thermostats handled by the
-Better Thermostat integration.
+Smarter Thermostat integration.
 """
 
 import logging
@@ -32,7 +32,7 @@ async def check_operation_mode(self, entity_id, goal: str = "1"):
     reg_entity = entity_registry.async_get(entity_id)
     if reg_entity is None:
         _LOGGER.debug(
-            "better_thermostat %s: SPZB0001 check_operation_mode: no registry entity for %s",
+            "smarter_thermostat %s: SPZB0001 check_operation_mode: no registry entity for %s",
             self.device_name,
             entity_id,
         )
@@ -49,7 +49,7 @@ async def check_operation_mode(self, entity_id, goal: str = "1"):
             target_entity = ent.entity_id
     if target_entity is None:
         _LOGGER.debug(
-            "better_thermostat %s: SPZB0001 check_operation_mode: no target entity for %s",
+            "smarter_thermostat %s: SPZB0001 check_operation_mode: no target entity for %s",
             self.device_name,
             entity_id,
         )
@@ -59,7 +59,7 @@ async def check_operation_mode(self, entity_id, goal: str = "1"):
         return False
     if val.state != goal:
         _LOGGER.debug(
-            "better_thermostat %s: SPZB0001 check_operation_mode: setting target entity %s to %s from %s",
+            "smarter_thermostat %s: SPZB0001 check_operation_mode: setting target entity %s to %s from %s",
             self.device_name,
             target_entity,
             goal,

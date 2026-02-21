@@ -1,7 +1,7 @@
 """Model quirks for TS0601 thermostat devices.
 
 These helpers fix or adapt device-reported values for TS0601 thermostat
-devices used by the Better Thermostat integration.
+devices used by the Smarter Thermostat integration.
 """
 
 

@@ -450,7 +450,7 @@ def compute_mpc(inp: MpcInput, params: MpcParams) -> MpcOutput | None:
     entity = inp.entity_id or "unknown"
 
     _LOGGER.debug(
-        "better_thermostat %s: MPC input (%s) target=%s current=%s trv=%s slope=%s window_open=%s allowed=%s last_percent=%s key=%s",
+        "smarter_thermostat %s: MPC input (%s) target=%s current=%s trv=%s slope=%s window_open=%s allowed=%s last_percent=%s key=%s",
         name,
         entity,
         _round_for_debug(inp.target_temp_C, 3),
@@ -480,14 +480,14 @@ def compute_mpc(inp: MpcInput, params: MpcParams) -> MpcOutput | None:
         if state.is_calibration_active:
             state.is_calibration_active = False
             _LOGGER.info(
-                "better_thermostat %s: Calibration aborted (window_open=%s, heating_allowed=%s).",
+                "smarter_thermostat %s: Calibration aborted (window_open=%s, heating_allowed=%s).",
                 name,
                 inp.window_open,
                 inp.heating_allowed,
             )
 
         _LOGGER.debug(
-            "better_thermostat %s: MPC skip heating (%s) window_open=%s heating_allowed=%s",
+            "smarter_thermostat %s: MPC skip heating (%s) window_open=%s heating_allowed=%s",
             name,
             entity,
             inp.window_open,
@@ -497,7 +497,7 @@ def compute_mpc(inp: MpcInput, params: MpcParams) -> MpcOutput | None:
         percent = state.last_percent if state.last_percent is not None else 0.0
         delta_t = None
         _LOGGER.debug(
-            "better_thermostat %s: MPC missing temps (%s) reusing last_percent=%s",
+            "smarter_thermostat %s: MPC missing temps (%s) reusing last_percent=%s",
             name,
             entity,
             _round_for_debug(percent, 2),
@@ -601,7 +601,7 @@ def compute_mpc(inp: MpcInput, params: MpcParams) -> MpcOutput | None:
                 state.virtual_temp_ts = now
 
                 _LOGGER.debug(
-                    "better_thermostat %s: MPC virtual-temp forward %.4fK (u=%.1f, gain=%.4f, loss=%.4f)",
+                    "smarter_thermostat %s: MPC virtual-temp forward %.4fK (u=%.1f, gain=%.4f, loss=%.4f)",
                     inp.bt_name or "BT",
                     predicted_dT,
                     u * 100,
@@ -765,7 +765,7 @@ def compute_mpc(inp: MpcInput, params: MpcParams) -> MpcOutput | None:
                 if inp.current_temp_C <= (inp.target_temp_C - calib_hysteresis):
                     state.is_calibration_active = False
                     _LOGGER.info(
-                        "better_thermostat %s: Calibration finished (temp reached target - %.1fvK). Resuming control.",
+                        "smarter_thermostat %s: Calibration finished (temp reached target - %.1fvK). Resuming control.",
                         name,
                         calib_hysteresis,
                     )
@@ -784,14 +784,14 @@ def compute_mpc(inp: MpcInput, params: MpcParams) -> MpcOutput | None:
                         percent = 0.0
                         extra_debug["calib_active"] = True
                         _LOGGER.info(
-                            "better_thermostat %s: Starting forced calibration (chance %.2f, count %d). Forcing 0%% valve.",
+                            "smarter_thermostat %s: Starting forced calibration (chance %.2f, count %d). Forcing 0%% valve.",
                             name,
                             chance,
                             state.loss_learn_count,
                         )
 
         _LOGGER.debug(
-            "better_thermostat %s: MPC raw output (%s) percent=%s delta_T=%s debug=%s",
+            "smarter_thermostat %s: MPC raw output (%s) percent=%s delta_T=%s debug=%s",
             name,
             entity,
             _round_for_debug(percent, 2),
@@ -830,7 +830,7 @@ def compute_mpc(inp: MpcInput, params: MpcParams) -> MpcOutput | None:
     summary_perf_rate = debug.get("perf_room_rate")
 
     _LOGGER.debug(
-        "better_thermostat %s: mpc calibration for %s: e0=%sK gain=%s loss=%s horizon=%s | raw=%s%% out=%s%% min_eff=%s%% last=%s%% dead_hits=%s eval=%s cost=%s | trv_profile=%s conf=%s perf_bin=%s perf_rate=%s",
+        "smarter_thermostat %s: mpc calibration for %s: e0=%sK gain=%s loss=%s horizon=%s | raw=%s%% out=%s%% min_eff=%s%% last=%s%% dead_hits=%s eval=%s cost=%s | trv_profile=%s conf=%s perf_bin=%s perf_rate=%s",
         name,
         entity,
         _round_for_debug(summary_delta, 3),
@@ -1592,7 +1592,7 @@ def _detect_trv_profile(
 
     if prev_profile != state.trv_profile or state.profile_confidence != prev_conf:
         _LOGGER.debug(
-            "better_thermostat: TRV profile update profile=%s conf=%s samples=%s resp_ratio=%s percent=%s",
+            "smarter_thermostat: TRV profile update profile=%s conf=%s samples=%s resp_ratio=%s percent=%s",
             state.trv_profile,
             _round_for_debug(state.profile_confidence, 3),
             state.profile_samples,
@@ -1673,7 +1673,7 @@ def _post_process_percent(
         min_eff = state.min_effective_percent
         if min_eff is not None and min_eff > 0.0 and smooth > 0.0 and smooth < min_eff:
             _LOGGER.debug(
-                "better_thermostat %s: MPC pre-smooth clamp (%s) to min_effective=%s",
+                "smarter_thermostat %s: MPC pre-smooth clamp (%s) to min_effective=%s",
                 name,
                 entity,
                 _round_for_debug(min_eff, 2),
@@ -1691,7 +1691,7 @@ def _post_process_percent(
         if abs(delta) > du_max:
             limited = last_percent + du_max * (1 if delta > 0 else -1)
             _LOGGER.debug(
-                "better_thermostat %s: MPC du_max-limit (%s) raw=%s → limited=%s (max %s)",
+                "smarter_thermostat %s: MPC du_max-limit (%s) raw=%s → limited=%s (max %s)",
                 name,
                 entity,
                 _round_for_debug(smooth, 2),
@@ -1724,7 +1724,7 @@ def _post_process_percent(
             and percent_out < min_eff
         ):
             _LOGGER.debug(
-                "better_thermostat %s: MPC final clamp percent_out (%s) to min_effective=%s",
+                "smarter_thermostat %s: MPC final clamp percent_out (%s) to min_effective=%s",
                 name,
                 _round_for_debug(percent_out, 2),
                 _round_for_debug(min_eff, 2),
@@ -1797,7 +1797,7 @@ def _post_process_percent(
                 if deadzone_hit:
                     state.dead_zone_hits += 1
                     _LOGGER.debug(
-                        "better_thermostat %s: MPC dead-zone HIT (%s) hits=%s/%s "
+                        "smarter_thermostat %s: MPC dead-zone HIT (%s) hits=%s/%s "
                         "trv_temp_delta=%s room_temp_delta=%s expected=%s cmd=%s%%",
                         name,
                         entity,
@@ -1824,7 +1824,7 @@ def _post_process_percent(
                         )
                         state.dead_zone_hits = 0
                         _LOGGER.debug(
-                            "better_thermostat %s: MPC dead-zone RAISE (%s) new_min=%s",
+                            "smarter_thermostat %s: MPC dead-zone RAISE (%s) new_min=%s",
                             name,
                             entity,
                             _round_for_debug(state.min_effective_percent, 2),
@@ -1843,7 +1843,7 @@ def _post_process_percent(
                         )
                         state.min_effective_percent = new_min if new_min > 0.0 else None
                         _LOGGER.debug(
-                            "better_thermostat %s: MPC dead-zone DECAY (%s) new_min=%s",
+                            "smarter_thermostat %s: MPC dead-zone DECAY (%s) new_min=%s",
                             name,
                             entity,
                             _round_for_debug(state.min_effective_percent, 2),
@@ -1852,7 +1852,7 @@ def _post_process_percent(
                     state.dead_zone_hits = 0
                     if prev_hits:
                         _LOGGER.debug(
-                            "better_thermostat %s: MPC dead-zone RESET (%s) prev_hits=%s",
+                            "smarter_thermostat %s: MPC dead-zone RESET (%s) prev_hits=%s",
                             name,
                             entity,
                             prev_hits,
@@ -1918,7 +1918,7 @@ def _post_process_percent(
                 debug["hold_block"] = True
                 debug["hold_remaining_s"] = int(max(0.0, remaining))
                 _LOGGER.debug(
-                    "better_thermostat %s: MPC hold-time block (%s) last_percent=%s output=%s remaining_s=%s",
+                    "smarter_thermostat %s: MPC hold-time block (%s) last_percent=%s output=%s remaining_s=%s",
                     name,
                     entity,
                     _round_for_debug(state.last_percent, 2),

@@ -1,9 +1,9 @@
 {
-  "title": "Better Thermostat",
+  "title": "Smarter Thermostat",
   "config": {
     "step": {
       "user": {
-        "description": "Skonfiguruj swój Better Thermostat do integracji z Home Assistant\n**Więcej informacji znajdziesz na: https://better-thermostat.org/configuration#first-step**",
+        "description": "Skonfiguruj swój Smarter Thermostat do integracji z Home Assistant\n**Więcej informacji znajdziesz na: https://better-thermostat.org/configuration#first-step**",
         "data": {
           "name": "Nazwa",
           "thermostat": "Twój termostat",
@@ -35,12 +35,12 @@
         }
       },
       "confirm": {
-        "title": "Potwierdź dodanie Better Thermostat",
+        "title": "Potwierdź dodanie Smarter Thermostat",
         "description": "Zamierzasz dodać `{name}` do Home Assistant.\nUżywając {trv} jako termostatu"
       }
     },
     "error": {
-      "no_outside_temp": "Nie masz czujnika temperatury zewnętrznej. Better Thermostat zamiast tego użyje jednostki pogodowej.",
+      "no_outside_temp": "Nie masz czujnika temperatury zewnętrznej. Smarter Thermostat zamiast tego użyje jednostki pogodowej.",
       "failed": "coś poszło nie tak.",
       "no_name": "Proszę podać nazwę.",
       "no_off_mode": "Twoje urządzenie jest inne i nie ma trybu wyłączenia :(\nTo będzie działać, ale musisz stworzyć automatyzację, aby ustawić funkcje pod swoje urządzenie"
@@ -53,7 +53,7 @@
   "options": {
     "step": {
       "user": {
-        "description": "Zaktualizuj ustawienia Better Thermostat",
+        "description": "Zaktualizuj ustawienia Smarter Thermostat",
         "data": {
           "temperature_sensor": "Sensor temperatury",
           "humidity_sensor": "Sensor wilgotności",

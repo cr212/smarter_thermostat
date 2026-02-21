@@ -1,9 +1,9 @@
 {
-  "title": "Better Thermostat",
+  "title": "Smarter Thermostat",
   "config": {
     "step": {
       "user": {
-        "description": "Ρυθμίστε το Better Thermostat για να ενσωματωθεί στο Home Assistant\n**Εάν χρειάζεστε περισσότερες πληροφορίες: https://better-thermostat.org/configuration#first-step**",
+        "description": "Ρυθμίστε το Smarter Thermostat για να ενσωματωθεί στο Home Assistant\n**Εάν χρειάζεστε περισσότερες πληροφορίες: https://better-thermostat.org/configuration#first-step**",
         "data": {
           "name": "Όνομα",
           "thermostat": "Ο πραγματικός θερμοστάτης",
@@ -38,15 +38,15 @@
         }
       },
       "confirm": {
-        "title": "Επιβεβαιώστε την προσθήκη ενός Better Thermostat",
+        "title": "Επιβεβαιώστε την προσθήκη ενός Smarter Thermostat",
         "description": "Ετοιμάζεστε να προσθέσετε το `{name}` στο Home Assistant.\nΜε το {trv} ως τον πραγματικό θερμοστάτη"
       }
     },
     "error": {
       "failed": "Κάτι πήγε στραβά.",
       "no_name": "Παρακαλώ εισάγετε ένα όνομα.",
-      "no_off_mode": "Η συσκευή σας είναι πολύ ιδιαίτερη και δεν διαθέτει λειτουργία απενεργοποίησης :(\nΤο Better Thermostat θα χρησιμοποιήσει αντί αυτού τη ελάχιστη θερμοκρασία στόχο.",
-      "no_outside_temp": "Δεν έχετε αισθητήρα εξωτερικής θερμοκρασίας. Το Better Thermostat θα χρησιμοποιήσει αντί αυτού την οντότητα καιρού."
+      "no_off_mode": "Η συσκευή σας είναι πολύ ιδιαίτερη και δεν διαθέτει λειτουργία απενεργοποίησης :(\nΤο Smarter Thermostat θα χρησιμοποιήσει αντί αυτού τη ελάχιστη θερμοκρασία στόχο.",
+      "no_outside_temp": "Δεν έχετε αισθητήρα εξωτερικής θερμοκρασίας. Το Smarter Thermostat θα χρησιμοποιήσει αντί αυτού την οντότητα καιρού."
     },
     "abort": {
       "single_instance_allowed": "Επιτρέπεται μόνο μία εμφάνιση θερμοστάτη για κάθε πραγματικό θερμοστάτη.",
@@ -56,7 +56,7 @@
   "options": {
     "step": {
       "user": {
-        "description": "Ενημερώστε τις ρυθμίσεις του Better Thermostat",
+        "description": "Ενημερώστε τις ρυθμίσεις του Smarter Thermostat",
         "data": {
           "name": "Όνομα",
           "thermostat": "Ο πραγματικός θερμοστάτης",

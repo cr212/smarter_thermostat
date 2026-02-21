@@ -24,7 +24,7 @@ async def load_adapter(self, integration, entity_id, get_name=False):
             self.hass, "custom_components.better_thermostat.adapters." + integration
         )
         _LOGGER.debug(
-            "better_thermostat %s: uses adapter %s for trv %s",
+            "smarter_thermostat %s: uses adapter %s for trv %s",
             self.device_name,
             integration,
             entity_id,
@@ -34,7 +34,7 @@ async def load_adapter(self, integration, entity_id, get_name=False):
             self.hass, "custom_components.better_thermostat.adapters.generic"
         )
         _LOGGER.info(
-            "better_thermostat %s: integration: %s isn't native supported, feel free to open an issue, fallback adapter %s",
+            "smarter_thermostat %s: integration: %s isn't native supported, feel free to open an issue, fallback adapter %s",
             self.device_name,
             integration,
             "generic",
@@ -135,7 +135,7 @@ async def set_temperature(self, entity_id, temperature):
 
     if rounded != t:
         _LOGGER.debug(
-            "better_thermostat %s: delegate.set_temperature rounded %s -> %s (step=%s)",
+            "smarter_thermostat %s: delegate.set_temperature rounded %s -> %s (step=%s)",
             getattr(self, "device_name", "unknown"),
             t,
             rounded,
@@ -146,7 +146,7 @@ async def set_temperature(self, entity_id, temperature):
         self.real_trvs[entity_id]["last_temperature"] = rounded
     except Exception as e:
         _LOGGER.warning(
-            "better_thermostat %s: Failed to update last_temperature for entity_id %s: %s",
+            "smarter_thermostat %s: Failed to update last_temperature for entity_id %s: %s",
             getattr(self, "device_name", "unknown"),
             entity_id,
             e,
@@ -208,7 +208,7 @@ async def set_valve(self, entity_id, valve):
                     self.real_trvs[entity_id]["last_valve_method"] = "override"
                 except Exception:
                     _LOGGER.exception(
-                        "better_thermostat %s: Failed to set last_valve_percent or last_valve_method for %s in override",
+                        "smarter_thermostat %s: Failed to set last_valve_percent or last_valve_method for %s in override",
                         getattr(self, "device_name", "unknown"),
                         entity_id,
                     )
@@ -227,7 +227,7 @@ async def set_valve(self, entity_id, valve):
                 self.real_trvs[entity_id]["last_valve_method"] = "adapter"
             except Exception as exc:
                 _LOGGER.debug(
-                    "better_thermostat %s: Failed to record last_valve_percent/method for %s: %s",
+                    "smarter_thermostat %s: Failed to record last_valve_percent/method for %s: %s",
                     getattr(self, "device_name", "unknown"),
                     entity_id,
                     exc,
@@ -235,7 +235,7 @@ async def set_valve(self, entity_id, valve):
             return True
     except Exception:
         _LOGGER.debug(
-            "better_thermostat %s: delegate.set_valve failed for %s",
+            "smarter_thermostat %s: delegate.set_valve failed for %s",
             getattr(self, "device_name", "unknown"),
             entity_id,
         )

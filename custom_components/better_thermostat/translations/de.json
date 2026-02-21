@@ -1,9 +1,9 @@
 {
-  "title": "Better Thermostat",
+  "title": "Smarter Thermostat",
   "config": {
     "step": {
       "user": {
-        "description": "Einrichtung von Better Thermostat mit Home Assistant\n**Für mehr Informationen: https://better-thermostat.org/configuration#first-step**",
+        "description": "Einrichtung von Smarter Thermostat mit Home Assistant\n**Für mehr Informationen: https://better-thermostat.org/configuration#first-step**",
         "data": {
           "name": "Name",
           "thermostat": "Das reale Thermostat",
@@ -43,7 +43,7 @@
         }
       },
       "confirm": {
-        "title": "Bestätige das Hinzufügen eines Better Thermostat",
+        "title": "Bestätige das Hinzufügen eines Smarter Thermostat",
         "description": "Du bist dabei ein Gerät mit dem Namen `{name}` zu Home Assistant hinzuzufügen.\nMit {trv} als reales Thermostat\nund dem Kalibrierungsmodus:"
       }
     },
@@ -51,7 +51,7 @@
       "no_outside_temp": "Es kann keine Außentemperatur geladen werden.",
       "failed": "Ups, hier stimmt was nicht.",
       "no_name": "Du musst einen Namen vergeben.",
-      "no_off_mode": "Dein Gerät ist ein Sonderfall, es hat keinen OFF Modus :(\nBetter Thermostat wird stattdessen das TRV auf den Minimalwert setzen."
+      "no_off_mode": "Dein Gerät ist ein Sonderfall, es hat keinen OFF Modus :(\nSmarter Thermostat wird stattdessen das TRV auf den Minimalwert setzen."
     },
     "abort": {
       "single_instance_allowed": "Es ist nur ein einzelnes BT je realem Thermostat erlaubt.",
@@ -61,7 +61,7 @@
   "options": {
     "step": {
       "user": {
-        "description": "Aktualisiere die Better Thermostat Einstellungen",
+        "description": "Aktualisiere die Smarter Thermostat Einstellungen",
         "data": {
           "name": "Name",
           "thermostat": "Das reale Thermostat",

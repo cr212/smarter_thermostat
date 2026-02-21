@@ -1,4 +1,4 @@
-"""Constants for Better Thermostat."""
+"""Constants for Smarter Thermostat."""
 
 from enum import IntEnum, StrEnum
 import json
@@ -14,7 +14,7 @@ import voluptuous as vol
 _LOGGER = logging.getLogger(__name__)
 
 
-DEFAULT_NAME = "Better Thermostat"
+DEFAULT_NAME = "Smarter Thermostat"
 VERSION = "master"
 try:
     with open(
@@ -23,7 +23,7 @@ try:
         manifest = json.load(manifest_file)
         VERSION = manifest["version"]
 except (FileNotFoundError, KeyError, json.JSONDecodeError) as e:
-    _LOGGER.error("better_thermostat %s: could not read version from manifest file.", e)
+    _LOGGER.error("smarter_thermostat %s: could not read version from manifest file.", e)
 
 
 CONF_HEATER = "thermostat"
@@ -102,7 +102,7 @@ BETTERTHERMOSTAT_RESET_PID_SCHEMA = make_entity_service_schema(
 )
 
 
-class BetterThermostatEntityFeature(IntEnum):
+class SmarterThermostatEntityFeature(IntEnum):
     """Supported features of the climate entity."""
 
     TARGET_TEMPERATURE = 1

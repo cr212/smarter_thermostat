@@ -1,9 +1,9 @@
 {
-  "title": "Better Thermostat",
+  "title": "Smarter Thermostat",
   "config": {
     "step": {
       "user": {
-        "description": "Configurez Better Thermostat pour l'intégrer à Home Assistant\n**Si vous avez besoin de plus d'informations : https://better-thermostat.org/configuration#first-step**",
+        "description": "Configurez Smarter Thermostat pour l'intégrer à Home Assistant\n**Si vous avez besoin de plus d'informations : https://better-thermostat.org/configuration#first-step**",
         "data": {
           "name": "Nom",
           "thermostat": "Le vrai thermostat",
@@ -38,15 +38,15 @@
         }
       },
       "confirm": {
-        "title": "Confirmer l'ajout d'un Better Thermostat",
+        "title": "Confirmer l'ajout d'un Smarter Thermostat",
         "description": "Vous êtes sur le point d'ajouter `{name}` à Home Assistant.\nAvec {trv} en tant que vrai thermostat"
       }
     },
     "error": {
       "failed": "quelque chose s'est mal passé.",
       "no_name": "Veuillez entrer un nom.",
-      "no_off_mode": "Votre appareil est très spécial et n'a pas de mode hors tension :(\nBetter Thermostat utilisera plutôt la température cible minimale.",
-      "no_outside_temp": "Vous n'avez pas de capteur de température extérieure. Better Thermostat utilisera plutôt l'entité météo."
+      "no_off_mode": "Votre appareil est très spécial et n'a pas de mode hors tension :(\nSmarter Thermostat utilisera plutôt la température cible minimale.",
+      "no_outside_temp": "Vous n'avez pas de capteur de température extérieure. Smarter Thermostat utilisera plutôt l'entité météo."
     },
     "abort": {
       "single_instance_allowed": "Seule une instance de thermostat pour chaque vrai thermostat est autorisée.",
@@ -56,7 +56,7 @@
   "options": {
     "step": {
       "user": {
-        "description": "Mettez à jour les paramètres de Better Thermostat",
+        "description": "Mettez à jour les paramètres de Smarter Thermostat",
         "data": {
           "name": "Nom",
           "thermostat": "Le vrai thermostat",
