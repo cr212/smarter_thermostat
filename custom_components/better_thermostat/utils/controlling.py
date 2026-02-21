@@ -134,6 +134,9 @@ async def control_queue(self):
                     self.control_queue_task.task_done()
                     if not getattr(self, "in_maintenance", False):
                         self.ignore_states = False
+                        # Ensure state is written after control cycle (e.g. offset
+                        # changes) so attributes like trv_internal_temperature update
+                        self.async_write_ha_state()
     except asyncio.CancelledError:
         _LOGGER.debug(
             "better_thermostat %s: control_queue task cancelled, cleaning up",
