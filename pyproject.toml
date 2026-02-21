@@ -47,7 +47,7 @@ ignore = [
 convention = "numpy"
 
 [tool.ruff.lint.isort]
-known-first-party = ["custom_components.better_thermostat", "tests"]
+known-first-party = ["custom_components.smarter_thermostat", "tests"]
 force-sort-within-sections = true
 combine-as-imports = true
 split-on-trailing-comma = false

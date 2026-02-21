@@ -24,7 +24,7 @@ def mock_hass():
 
 @pytest.fixture
 def mock_bt_instance(mock_hass):
-    """Create a mock BetterThermostat instance."""
+    """Create a mock SmarterThermostat instance."""
     bt = MagicMock()
     bt.hass = mock_hass
     bt.device_name = "Test Thermostat"
@@ -42,7 +42,7 @@ class TestDeconzAdapter:
     @pytest.mark.anyio
     async def test_get_info_returns_false_when_state_is_none(self, mock_bt_instance):
         """Test that get_info returns support_offset=False when state is None."""
-        from custom_components.better_thermostat.adapters.deconz import get_info
+        from custom_components.smarter_thermostat.adapters.deconz import get_info
 
         mock_bt_instance.hass.states.get.return_value = None
 
@@ -53,7 +53,7 @@ class TestDeconzAdapter:
     @pytest.mark.anyio
     async def test_get_info_returns_true_when_offset_exists(self, mock_bt_instance):
         """Test that get_info returns support_offset=True when offset attribute exists."""
-        from custom_components.better_thermostat.adapters.deconz import get_info
+        from custom_components.smarter_thermostat.adapters.deconz import get_info
 
         mock_state = MagicMock()
         mock_state.attributes = {"offset": 0.0}
@@ -72,7 +72,7 @@ class TestMqttAdapter:
         self, mock_bt_instance
     ):
         """Test that get_offset_step returns 1.0 when state is None."""
-        from custom_components.better_thermostat.adapters.mqtt import get_offset_step
+        from custom_components.smarter_thermostat.adapters.mqtt import get_offset_step
 
         mock_bt_instance.hass.states.get.return_value = None
 
@@ -85,7 +85,7 @@ class TestMqttAdapter:
         self, mock_bt_instance
     ):
         """Test that get_min_offset returns -10.0 when state is None."""
-        from custom_components.better_thermostat.adapters.mqtt import get_min_offset
+        from custom_components.smarter_thermostat.adapters.mqtt import get_min_offset
 
         mock_bt_instance.hass.states.get.return_value = None
 
@@ -98,7 +98,7 @@ class TestMqttAdapter:
         self, mock_bt_instance
     ):
         """Test that get_max_offset returns 10.0 when state is None."""
-        from custom_components.better_thermostat.adapters.mqtt import get_max_offset
+        from custom_components.smarter_thermostat.adapters.mqtt import get_max_offset
 
         mock_bt_instance.hass.states.get.return_value = None
 
@@ -111,7 +111,7 @@ class TestMqttAdapter:
         self, mock_bt_instance
     ):
         """Test that get_offset_step returns attribute value when state exists."""
-        from custom_components.better_thermostat.adapters.mqtt import get_offset_step
+        from custom_components.smarter_thermostat.adapters.mqtt import get_offset_step
 
         mock_state = MagicMock()
         mock_state.attributes = {"step": 0.5}
@@ -130,7 +130,7 @@ class TestGenericAdapter:
         self, mock_bt_instance
     ):
         """Test that get_offset_step returns None when state is None."""
-        from custom_components.better_thermostat.adapters.generic import get_offset_step
+        from custom_components.smarter_thermostat.adapters.generic import get_offset_step
 
         mock_bt_instance.hass.states.get.return_value = None
 
@@ -143,7 +143,7 @@ class TestGenericAdapter:
         self, mock_bt_instance
     ):
         """Test that get_min_offset returns -6.0 when state is None."""
-        from custom_components.better_thermostat.adapters.generic import get_min_offset
+        from custom_components.smarter_thermostat.adapters.generic import get_min_offset
 
         mock_bt_instance.hass.states.get.return_value = None
 
@@ -156,7 +156,7 @@ class TestGenericAdapter:
         self, mock_bt_instance
     ):
         """Test that get_max_offset returns 6.0 when state is None."""
-        from custom_components.better_thermostat.adapters.generic import get_max_offset
+        from custom_components.smarter_thermostat.adapters.generic import get_max_offset
 
         mock_bt_instance.hass.states.get.return_value = None
 
@@ -169,7 +169,7 @@ class TestGenericAdapter:
         self, mock_bt_instance
     ):
         """Test that get_offset_step returns None when no calibration entity configured."""
-        from custom_components.better_thermostat.adapters.generic import get_offset_step
+        from custom_components.smarter_thermostat.adapters.generic import get_offset_step
 
         mock_bt_instance.real_trvs = {
             "climate.test_trv": {"local_temperature_calibration_entity": None}

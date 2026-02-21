@@ -53,7 +53,7 @@ class TestUnavailableTrvHandling:
     def test_state_change_triggers_new_control(self):
         """Document: TRV becoming available triggers new control cycle.
 
-        Better Thermostat listens for state changes on TRV entities.
+        Smarter Thermostat listens for state changes on TRV entities.
         When a TRV transitions from unavailable to available, this
         triggers trigger_trv_change() which queues a new control cycle.
 

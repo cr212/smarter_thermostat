@@ -2,11 +2,11 @@ import math
 
 import pytest
 
-from custom_components.better_thermostat.events import temperature as temp_events
+from custom_components.smarter_thermostat.events import temperature as temp_events
 
 
 class DummyBT:
-    """Dummy BetterThermostat instance for testing."""
+    """Dummy SmarterThermostat instance for testing."""
 
     def __init__(self):
         self.device_name = "dummy"

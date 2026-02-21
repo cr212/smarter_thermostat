@@ -19,7 +19,7 @@ import pytest
 
 @pytest.fixture
 def mock_bt_instance_no_calibration():
-    """Create a mock BetterThermostat instance without calibration configured."""
+    """Create a mock SmarterThermostat instance without calibration configured."""
     bt = MagicMock()
     bt.hass = MagicMock()
     bt.device_name = "Test Thermostat"
@@ -107,7 +107,7 @@ class TestFallbackModeSystemMode:
 
     def test_fallback_mode_returns_payload(self, mock_bt_instance_no_calibration):
         """Test that fallback mode returns a valid payload."""
-        from custom_components.better_thermostat.events.trv import (
+        from custom_components.smarter_thermostat.events.trv import (
             convert_outbound_states,
         )
 
@@ -128,7 +128,7 @@ class TestFallbackModeSystemMode:
         BUG: Currently the mode_remap is skipped in fallback mode,
         so heat is not converted to auto even when heat_auto_swapped is True.
         """
-        from custom_components.better_thermostat.events.trv import (
+        from custom_components.smarter_thermostat.events.trv import (
             convert_outbound_states,
         )
 
@@ -155,7 +155,7 @@ class TestFallbackModeSystemMode:
         so when hvac_mode is OFF on a device without OFF support, it's sent as-is
         instead of setting min_temp and system_mode=None.
         """
-        from custom_components.better_thermostat.events.trv import (
+        from custom_components.smarter_thermostat.events.trv import (
             convert_outbound_states,
         )
 
@@ -185,7 +185,7 @@ class TestFallbackModeTemperature:
 
     def test_fallback_mode_uses_target_temp(self, mock_bt_instance_no_calibration):
         """Test that fallback mode correctly uses bt_target_temp."""
-        from custom_components.better_thermostat.events.trv import (
+        from custom_components.smarter_thermostat.events.trv import (
             convert_outbound_states,
         )
 
@@ -200,7 +200,7 @@ class TestFallbackModeTemperature:
 
     def test_fallback_mode_no_calibration_offset(self, mock_bt_instance_no_calibration):
         """Test that fallback mode does not include calibration offset."""
-        from custom_components.better_thermostat.events.trv import (
+        from custom_components.smarter_thermostat.events.trv import (
             convert_outbound_states,
         )
 

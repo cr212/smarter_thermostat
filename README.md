@@ -1,10 +1,10 @@
-[![Active installations](https://badge.t-haber.de/badge/better_thermostat?kill_cache=1)](https://github.com/KartoffelToby/better_thermostat/)
-[![GitHub issues](https://img.shields.io/github/issues/KartoffelToby/better_thermostat?style=for-the-badge)](https://github.com/KartoffelToby/better_thermostat/issues)
-[![Version - 1.8.0](https://img.shields.io/badge/Version-1.8.0-009688?style=for-the-badge)](https://github.com/KartoffelToby/better_thermostat/releases)
+[![Active installations](https://badge.t-haber.de/badge/smarter_thermostat?kill_cache=1)](https://github.com/KartoffelToby/smarter_thermostat/)
+[![GitHub issues](https://img.shields.io/github/issues/KartoffelToby/smarter_thermostat?style=for-the-badge)](https://github.com/KartoffelToby/smarter_thermostat/issues)
+[![Version - 1.8.0](https://img.shields.io/badge/Version-1.8.0-009688?style=for-the-badge)](https://github.com/KartoffelToby/smarter_thermostat/releases)
 [![Discord](https://img.shields.io/discord/925725316540923914.svg?style=for-the-badge)](https://discord.gg/9BUegWTG3K)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
 
-# Better Thermostat
+# Smarter Thermostat
 
 **For more info visit: https://better-thermostat.org/**
 
@@ -17,9 +17,9 @@
 
 We've created a companion UI element which can display more information than the default thermostat element in Home Assistant. Check it out via HACS: [better-thermostat-ui-card](https://github.com/KartoffelToby/better-thermostat-ui-card)
 
-- If you have a question or need help please create a new [discussion](https://github.com/KartoffelToby/better_thermostat/discussions) or check if your question is already answered
-- If you have a suggestion, found a bug, or want to add a new device or function create a new [issue](https://github.com/KartoffelToby/better_thermostat/issues)
-- If you want to contribute to this project create a new [pull request](https://github.com/KartoffelToby/better_thermostat/pulls)
+- If you have a question or need help please create a new [discussion](https://github.com/KartoffelToby/smarter_thermostat/discussions) or check if your question is already answered
+- If you have a suggestion, found a bug, or want to add a new device or function create a new [issue](https://github.com/KartoffelToby/smarter_thermostat/issues)
+- If you want to contribute to this project create a new [pull request](https://github.com/KartoffelToby/smarter_thermostat/pulls)
 
 ### Features
 
@@ -39,7 +39,7 @@ This integration brings some smartness to your connected radiator thermostats se
 
 ### Advanced Control Algorithms
 
-Better Thermostat now supports multiple advanced control strategies to optimize your heating:
+Smarter Thermostat now supports multiple advanced control strategies to optimize your heating:
 
 - **MPC (Model Predictive Control)**: Uses a physical model of your room and radiator to predict future temperature changes and optimize valve opening.
 - **PID Controller**: A classic Proportional-Integral-Derivative controller that learns your room's characteristics to maintain a stable temperature. It features auto-tuning (currently in beta) to automatically find the best parameters (Kp, Ki, Kd) for your room.
@@ -55,7 +55,7 @@ Preset temperatures are now fully configurable via dedicated `number` entities.
 How it works:
 
 1. During setup or configuration, you can select which **Presets** you want to enable for this thermostat.
-2. For each enabled preset mode (e.g. Eco, Comfort, Sleep), a corresponding `number` entity is created (e.g., `number.better_thermostat_preset_eco`).
+2. For each enabled preset mode (e.g. Eco, Comfort, Sleep), a corresponding `number` entity is created (e.g., `number.smarter_thermostat_preset_eco`).
 3. These entities are located in the **Configuration** category of the device.
 4. You can adjust the temperature for each preset directly using these number sliders.
 5. The values are automatically persisted across Home Assistant restarts.
@@ -86,7 +86,7 @@ Activity:        22.0 °C
 
 ### How to setup
 
-Install this integration via HACS or copy the files from the [latest release](https://github.com/KartoffelToby/better_thermostat/releases/latest)
+Install this integration via HACS or copy the files from the [latest release](https://github.com/KartoffelToby/smarter_thermostat/releases/latest)
 
 Configuration details can be found in the [documentation](docs/Configuration/configuration.md) or on our website: [better-thermostat.org](https://better-thermostat.org/configuration)
 
@@ -108,7 +108,7 @@ group:
 
 #### Combine multiple TRV to one (Group)
 
-No worry, Better Thermostat supports grouping out of the box
+No worry, Smarter Thermostat supports grouping out of the box
 
 ---
 

@@ -1,6 +1,6 @@
 """Tests for the PID controller."""
 
-from custom_components.better_thermostat.utils.calibration.pid import (
+from custom_components.smarter_thermostat.utils.calibration.pid import (
     PIDParams,
     build_pid_key,
     compute_pid,
@@ -15,7 +15,7 @@ class TestPIDController:
     def setup_method(self):
         """Reset PID states before each test."""
         # Reset all states to ensure clean tests
-        import custom_components.better_thermostat.utils.calibration.pid as pid_module
+        import custom_components.smarter_thermostat.utils.calibration.pid as pid_module
 
         pid_module._PID_STATES.clear()
 

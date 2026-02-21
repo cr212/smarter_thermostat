@@ -7,11 +7,11 @@ LOCAL_BASED calibration. Not available in external temperature mode.
 
 import pytest
 
-from custom_components.better_thermostat.utils.const import (
+from custom_components.smarter_thermostat.utils.const import (
     ATTR_TRV_INTERNAL_TEMPERATURE,
     CalibrationType,
 )
-from custom_components.better_thermostat.utils.helpers import get_trv_internal_temperatures
+from custom_components.smarter_thermostat.utils.helpers import get_trv_internal_temperatures
 
 
 class TestTrvInternalTemperatureConstant:

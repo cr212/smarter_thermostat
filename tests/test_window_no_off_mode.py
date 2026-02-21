@@ -16,7 +16,7 @@ from unittest.mock import MagicMock
 from homeassistant.components.climate import HVACMode
 import pytest
 
-from custom_components.better_thermostat.utils.const import (
+from custom_components.smarter_thermostat.utils.const import (
     CalibrationMode,
     CalibrationType,
 )
@@ -24,7 +24,7 @@ from custom_components.better_thermostat.utils.const import (
 
 @pytest.fixture
 def mock_bt_instance():
-    """Create a mock BetterThermostat instance."""
+    """Create a mock SmarterThermostat instance."""
     bt = MagicMock()
     bt.hass = MagicMock()
     bt.device_name = "Test Thermostat"
@@ -58,7 +58,7 @@ class TestHandleWindowOpen:
 
     def test_returns_off_when_window_open(self, mock_bt_instance):
         """Test that handle_window_open returns OFF when window is open."""
-        from custom_components.better_thermostat.utils.controlling import (
+        from custom_components.smarter_thermostat.utils.controlling import (
             handle_window_open,
         )
 
@@ -71,7 +71,7 @@ class TestHandleWindowOpen:
 
     def test_returns_system_mode_when_window_closed(self, mock_bt_instance):
         """Test that handle_window_open returns system_mode when window is closed."""
-        from custom_components.better_thermostat.utils.controlling import (
+        from custom_components.smarter_thermostat.utils.controlling import (
             handle_window_open,
         )
 
@@ -89,7 +89,7 @@ class TestHandleWindowOpen:
         convert_outbound_states sets system_mode=None. Then when window closes,
         this function returns None instead of HEAT.
         """
-        from custom_components.better_thermostat.utils.controlling import (
+        from custom_components.smarter_thermostat.utils.controlling import (
             handle_window_open,
         )
 
@@ -113,7 +113,7 @@ class TestConvertOutboundStatesNoOffMode:
         This demonstrates part of the bug: when hvac_mode is OFF and no_off_system_mode
         is True, the function sets system_mode=None in the payload.
         """
-        from custom_components.better_thermostat.events.trv import (
+        from custom_components.smarter_thermostat.events.trv import (
             convert_outbound_states,
         )
 
@@ -130,7 +130,7 @@ class TestConvertOutboundStatesNoOffMode:
 
     def test_sets_system_mode_heat_when_heating(self, mock_bt_instance):
         """Test that convert_outbound_states sets system_mode=HEAT when heating."""
-        from custom_components.better_thermostat.events.trv import (
+        from custom_components.smarter_thermostat.events.trv import (
             convert_outbound_states,
         )
 
@@ -154,10 +154,10 @@ class TestWindowCloseRestoresHeating:
         go back to heating, but currently it doesn't because the control
         logic receives None instead of HEAT.
         """
-        from custom_components.better_thermostat.events.trv import (
+        from custom_components.smarter_thermostat.events.trv import (
             convert_outbound_states,
         )
-        from custom_components.better_thermostat.utils.controlling import (
+        from custom_components.smarter_thermostat.utils.controlling import (
             handle_window_open,
         )
 

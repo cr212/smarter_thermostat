@@ -17,8 +17,8 @@ remote_theme: just-the-docs/just-the-docs
 # you will see them accessed via {{ site.title }}, {{ site.github_repo }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: Better Thermostat
-description: Documentation for Better Thermostat
+title: Smarter Thermostat
+description: Documentation for Smarter Thermostat
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://better-thermostat.org/" # the base hostname & protocol for your site, e.g. http://example.com
 logo: /assets/logo.png
@@ -72,8 +72,8 @@ heading_anchors: true
 
 # Aux links for the upper right navigation
 aux_links:
-  "Better Thermostat on GitHub":
-    - "https://github.com/KartoffelToby/better_thermostat"
+  "Smarter Thermostat on GitHub":
+    - "https://github.com/KartoffelToby/smarter_thermostat"
 
 # Makes Aux links open in a new tab. Default is false
 aux_links_new_tab: true
@@ -84,8 +84,8 @@ nav_sort: case_sensitive # Capital letters sorted before lowercase
 
 # External navigation links
 nav_external_links:
-  - title: Better Thermostat on GitHub
-    url: https://github.com/KartoffelToby/better_thermostat
+  - title: Smarter Thermostat on GitHub
+    url: https://github.com/KartoffelToby/smarter_thermostat
 
 # Footer content
 # appears at the bottom of every page's main content
@@ -94,7 +94,7 @@ nav_external_links:
 back_to_top: true
 back_to_top_text: "Back to top"
 
-footer_content: "Distributed by an <a href=\"https://github.com/KartoffelToby/better_thermostat/blob/master/LICENSE\">AGPL-3.0 license.</a>"
+footer_content: "Distributed by an <a href=\"https://github.com/KartoffelToby/smarter_thermostat/blob/master/LICENSE\">AGPL-3.0 license.</a>"
 
 # Footer last edited timestamp
 last_edit_timestamp: true # show or hide edit time - page must have `last_modified_date` defined in the frontmatter
@@ -105,7 +105,7 @@ last_edit_time_format: "%b %e %Y at %I:%M %p" # uses ruby's time format: https:/
 # Footer "Edit this page on GitHub" link text
 gh_edit_link: true # show or hide edit this page link
 gh_edit_link_text: "Edit this page on GitHub"
-gh_edit_repository: "https://github.com/KartoffelToby/better_thermostat" # the github URL for your repo
+gh_edit_repository: "https://github.com/KartoffelToby/smarter_thermostat" # the github URL for your repo
 gh_edit_branch: "master" # the branch that your docs is served from
 #gh_edit_source: docs # the source that your files originate from
 gh_edit_view_mode: "tree" # "tree" or "edit" if you want the user to jump into the editor immediately

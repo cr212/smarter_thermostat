@@ -6,13 +6,13 @@ has_children: true
 permalink: configuration
 ---
 
-# Create a new Better Thermostat device
+# Create a new Smarter Thermostat device
 
-** Goto: `Settings` -> `Devices & Services` -> `Integrations` -> `+ Add Integration` -> `Better Thermostat` **
+** Goto: `Settings` -> `Devices & Services` -> `Integrations` -> `+ Add Integration` -> `Smarter Thermostat` **
 
 or click on the button below:
 
-<a href="https://my.home-assistant.io/redirect/config_flow_start/?domain=better_thermostat" target="_blank"><img src="https://my.home-assistant.io/badges/config_flow_start.svg" alt="Open your Home Assistant instance and start setting up a new integration." /></a>
+<a href="https://my.home-assistant.io/redirect/config_flow_start/?domain=smarter_thermostat" target="_blank"><img src="https://my.home-assistant.io/badges/config_flow_start.svg" alt="Open your Home Assistant instance and start setting up a new integration." /></a>
 
 
 # Configuration
@@ -69,7 +69,7 @@ group:
 
 **Calibration Mode**  This is a required field. It determines how the calibration should be calculated
 
-Better Thermostat offers several algorithms to control your heating:
+Smarter Thermostat offers several algorithms to control your heating:
 
 - ***Normal***: Simple and reliable - uses your external sensor to correct the TRV's internal sensor
 - ***Aggressive***: Pushes the TRV harder for faster heating (good for slow-heating rooms)

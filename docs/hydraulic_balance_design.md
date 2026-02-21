@@ -1,4 +1,4 @@
-# Decentralized Hydraulic Balance in Better Thermostat
+# Decentralized Hydraulic Balance in Smarter Thermostat
 
 This document captures the design and reasoning behind the decentralized hydraulic balance feature.
 
@@ -246,4 +246,4 @@ A: No. It’s optional. With valve feedback (via MQTT/Z2M), the algorithm can se
 This document is a living specification. Whenever we modify the hydraulic balance logic, configuration, adapters, or telemetry, update this file in the same change. Treat it as the single source of truth for the feature’s behavior, parameters, and integration points.
 
 ### Persistence
-Both the per-room balance learning state (EMA of slope and last percent/rate-limit timestamp) and the learned min/max open caps per TRV and target bucket are persisted across Home Assistant restarts using HA storage. Keys are scoped by the Better Thermostat entity `unique_id` and the TRV entity id (format: `<unique_id>:<trv_entity_id>[:<bucket>]`). State is loaded during entity startup and saved in a debounced manner after updates to avoid re-learning after restarts.
+Both the per-room balance learning state (EMA of slope and last percent/rate-limit timestamp) and the learned min/max open caps per TRV and target bucket are persisted across Home Assistant restarts using HA storage. Keys are scoped by the Smarter Thermostat entity `unique_id` and the TRV entity id (format: `<unique_id>:<trv_entity_id>[:<bucket>]`). State is loaded during entity startup and saved in a debounced manner after updates to avoid re-learning after restarts.

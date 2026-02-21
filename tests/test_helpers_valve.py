@@ -2,7 +2,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from custom_components.better_thermostat.utils.helpers import find_valve_entity
+from custom_components.smarter_thermostat.utils.helpers import find_valve_entity
 
 
 @pytest.fixture
@@ -45,13 +45,13 @@ async def test_find_valve_entity_ignores_sensor_pi_heating_demand():
     # We patch 'er.async_get' where 'er' is the imported module in helpers.py
     with (
         patch(
-            "custom_components.better_thermostat.utils.helpers.er.async_get"
+            "custom_components.smarter_thermostat.utils.helpers.er.async_get"
         ) as mock_er_get,
         patch(
-            "custom_components.better_thermostat.utils.helpers.dr.async_get"
+            "custom_components.smarter_thermostat.utils.helpers.dr.async_get"
         ) as mock_dr_get,
         patch(
-            "custom_components.better_thermostat.utils.helpers.async_entries_for_config_entry"
+            "custom_components.smarter_thermostat.utils.helpers.async_entries_for_config_entry"
         ) as mock_entries,
     ):
         mock_registry = MagicMock()
@@ -130,13 +130,13 @@ async def test_find_valve_entity_trvzb_valve_opening_degree_device_mismatch():
 
     with (
         patch(
-            "custom_components.better_thermostat.utils.helpers.er.async_get"
+            "custom_components.smarter_thermostat.utils.helpers.er.async_get"
         ) as mock_er_get,
         patch(
-            "custom_components.better_thermostat.utils.helpers.dr.async_get"
+            "custom_components.smarter_thermostat.utils.helpers.dr.async_get"
         ) as mock_dr_get,
         patch(
-            "custom_components.better_thermostat.utils.helpers.async_entries_for_config_entry"
+            "custom_components.smarter_thermostat.utils.helpers.async_entries_for_config_entry"
         ) as mock_entries,
     ):
         mock_registry = MagicMock()

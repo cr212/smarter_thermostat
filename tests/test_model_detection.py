@@ -96,7 +96,7 @@ class TestGetDeviceModelFunction:
 
     @pytest.fixture
     def mock_self(self):
-        """Create a mock BetterThermostat instance."""
+        """Create a mock SmarterThermostat instance."""
         mock = MagicMock()
         mock.hass = MagicMock()
         mock.device_name = "Test Thermostat"
@@ -106,7 +106,7 @@ class TestGetDeviceModelFunction:
     @pytest.mark.anyio
     async def test_get_device_model_z2m_format(self, mock_self):
         """Test get_device_model with Z2M format device.model."""
-        from custom_components.better_thermostat.utils.helpers import get_device_model
+        from custom_components.smarter_thermostat.utils.helpers import get_device_model
 
         # Mock entity registry
         mock_entry = MagicMock()
@@ -121,10 +121,10 @@ class TestGetDeviceModelFunction:
         mock_device.identifiers = set()
 
         with patch(
-            "custom_components.better_thermostat.utils.helpers.er.async_get"
+            "custom_components.smarter_thermostat.utils.helpers.er.async_get"
         ) as mock_er:
             with patch(
-                "custom_components.better_thermostat.utils.helpers.dr.async_get"
+                "custom_components.smarter_thermostat.utils.helpers.dr.async_get"
             ) as mock_dr:
                 mock_entity_reg = MagicMock()
                 mock_entity_reg.async_get.return_value = mock_entry
@@ -145,7 +145,7 @@ class TestGetDeviceModelFunction:
     @pytest.mark.anyio
     async def test_get_device_model_with_model_id(self, mock_self):
         """Test that model_id takes priority over model string."""
-        from custom_components.better_thermostat.utils.helpers import get_device_model
+        from custom_components.smarter_thermostat.utils.helpers import get_device_model
 
         mock_entry = MagicMock()
         mock_entry.device_id = "device_123"
@@ -158,10 +158,10 @@ class TestGetDeviceModelFunction:
         mock_device.identifiers = set()
 
         with patch(
-            "custom_components.better_thermostat.utils.helpers.er.async_get"
+            "custom_components.smarter_thermostat.utils.helpers.er.async_get"
         ) as mock_er:
             with patch(
-                "custom_components.better_thermostat.utils.helpers.dr.async_get"
+                "custom_components.smarter_thermostat.utils.helpers.dr.async_get"
             ) as mock_dr:
                 mock_entity_reg = MagicMock()
                 mock_entity_reg.async_get.return_value = mock_entry
@@ -179,7 +179,7 @@ class TestGetDeviceModelFunction:
     @pytest.mark.anyio
     async def test_get_device_model_plain_string(self, mock_self):
         """Test model detection with plain string (no parentheses)."""
-        from custom_components.better_thermostat.utils.helpers import get_device_model
+        from custom_components.smarter_thermostat.utils.helpers import get_device_model
 
         mock_entry = MagicMock()
         mock_entry.device_id = "device_123"
@@ -192,10 +192,10 @@ class TestGetDeviceModelFunction:
         mock_device.identifiers = set()
 
         with patch(
-            "custom_components.better_thermostat.utils.helpers.er.async_get"
+            "custom_components.smarter_thermostat.utils.helpers.er.async_get"
         ) as mock_er:
             with patch(
-                "custom_components.better_thermostat.utils.helpers.dr.async_get"
+                "custom_components.smarter_thermostat.utils.helpers.dr.async_get"
             ) as mock_dr:
                 mock_entity_reg = MagicMock()
                 mock_entity_reg.async_get.return_value = mock_entry

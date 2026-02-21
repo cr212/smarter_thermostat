@@ -16,7 +16,7 @@ Add the following lines to your configuration.yaml file and restart Home Assista
 logger:
   default: warning
   logs:
-    custom_components.better_thermostat: debug
+    custom_components.smarter_thermostat: debug
 ```
 
 ## Via services
@@ -27,6 +27,6 @@ Another option is to use the service `logger.set_level`. Go to Services under De
 ```yaml
 service: logger.set_level
 data:
-  custom_components.better_thermostat: debug
+  custom_components.smarter_thermostat: debug
 ```
 Click `Call Service`, no restart of Home Assistant is required.

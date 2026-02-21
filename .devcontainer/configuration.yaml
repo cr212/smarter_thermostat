@@ -13,7 +13,7 @@ lovelace:
 logger:
   default: CRITICAL
   logs:
-    custom_components.better_thermostat: debug
+    custom_components.smarter_thermostat: debug
 
 climate:
   - platform: generic_thermostat

@@ -30,9 +30,9 @@ The more information you provide, the higher the chances are that we can reporod
 
 ### Versions and HW
 
-<!-- Provide both, HA (Home Assistant) and BT (Better Thermostat) version -->
+<!-- Provide both, HA (Home Assistant) and BT (Smarter Thermostat) version -->
 Home Assistant: 
-Better Thermostat: 
+Smarter Thermostat: 
 <!-- Thermostat valve model(s) -->
 TRV(s):
 
@@ -41,7 +41,7 @@ TRV(s):
 **diagnostic data**
 <!--
 IMPORTANT:
-Download and paste the diagnostic data from your Better Thermostat Entity(s) below.
+Download and paste the diagnostic data from your Smarter Thermostat Entity(s) below.
 https://www.home-assistant.io/docs/configuration/troubleshooting/#download-diagnostics
 -->
 
