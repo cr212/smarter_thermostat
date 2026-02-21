@@ -36,9 +36,12 @@ class TestPIDController:
 
     def test_basic_pid_calculation(self):
         """Test basic PID calculation without auto-tuning."""
-        # Disable hold-time to allow immediate output changes
+        # Disable hold-time to allow immediate output changes.
+        # Use ki=0.5 so integral accumulates enough per step (0.5*2*1=1) that
+        # the rounded output increases: PID rounds to int, so ki=0.1 would give
+        # 20.2->20.4 both rounding to 20.
         params = PIDParams(
-            auto_tune=False, kp=10.0, ki=0.1, kd=5.0, min_hold_time_s=0.0
+            auto_tune=False, kp=10.0, ki=0.5, kd=5.0, min_hold_time_s=0.0
         )
         # First call to initialize
         percent1, _ = compute_pid(
@@ -49,10 +52,10 @@ class TestPIDController:
             inp_temp_slope_K_per_min=0.0,
             key="test_basic",
         )
-        # Error = 2.0, P = 10*2 = 20, I accumulates, D=0
+        # Error = 2.0, P = 10*2 = 20, I = 0.5*2*1 = 1, so u = 21
         assert percent1 > 0
 
-        # Second call with same error, I should accumulate
+        # Second call with same error, I should accumulate (1 + 1 = 2, u = 22)
         percent2, _ = compute_pid(
             params=params,
             inp_target_temp_C=22.0,
