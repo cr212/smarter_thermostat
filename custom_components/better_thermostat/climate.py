@@ -88,6 +88,7 @@ from .utils.const import (
     ATTR_STATE_MAIN_MODE,
     ATTR_STATE_OFF_TEMPERATURE,
     ATTR_STATE_PRESET_TEMPERATURE,
+    ATTR_TRV_INTERNAL_TEMPERATURE,
     ATTR_STATE_SAVED_TEMPERATURE,
     ATTR_STATE_WINDOW_OPEN,
     BETTERTHERMOSTAT_RESET_PID_SCHEMA,
@@ -126,6 +127,7 @@ from .utils.helpers import (
     find_battery_entity,
     get_device_model,
     get_hvac_bt_mode,
+    get_trv_internal_temperatures,
     normalize_hvac_mode,
 )
 from .utils.watcher import (
@@ -2864,6 +2866,14 @@ class BetterThermostat(ClimateEntity, RestoreEntity, ABC):
                     methods[trv_id] = m
             if methods:
                 dev_specific["valve_method"] = methods
+        except Exception:
+            pass
+
+        # TRV internal temperature (before offset): only in offset mode
+        try:
+            internal_temps = get_trv_internal_temperatures(self.real_trvs)
+            if internal_temps:
+                dev_specific[ATTR_TRV_INTERNAL_TEMPERATURE] = internal_temps
         except Exception:
             pass
 

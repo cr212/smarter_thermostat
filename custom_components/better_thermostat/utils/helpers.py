@@ -12,6 +12,7 @@ from homeassistant.helpers import device_registry as dr, entity_registry as er
 from homeassistant.helpers.entity_registry import async_entries_for_config_entry
 
 from custom_components.better_thermostat.utils.const import (
+    CalibrationType,
     CONF_HEAT_AUTO_SWAPPED,
     MAX_HEATING_POWER,
     MIN_HEATING_POWER,
@@ -76,6 +77,39 @@ def entity_uses_calibration_mode(bt, entity_id: str, expected: CalibrationMode) 
 def entity_uses_mpc_calibration(bt, entity_id: str) -> bool:
     """Check if entity uses MPC calibration mode."""
     return entity_uses_calibration_mode(bt, entity_id, CalibrationMode.MPC_CALIBRATION)
+
+
+def get_trv_internal_temperatures(real_trvs: dict[str, Any] | None) -> dict[str, float]:
+    """Compute TRV internal temperatures (before offset) for LOCAL_BASED TRVs.
+
+    In offset mode, the TRV reports displayed_temp = internal + offset.
+    So internal = reported - offset. Only available when using offset-based
+    calibration; in external temperature mode the TRV reports the external
+    value and the raw internal reading is not available.
+
+    Parameters
+    ----------
+    real_trvs : dict or None
+        The real_trvs dict from BetterThermostat, keyed by TRV entity_id.
+
+    Returns
+    -------
+    dict[str, float]
+        Map of TRV entity_id -> internal temperature (rounded to 1 decimal).
+    """
+    internal_temps: dict[str, float] = {}
+    for trv_id, info in (real_trvs or {}).items():
+        if info.get("advanced", {}).get("calibration") != CalibrationType.LOCAL_BASED:
+            continue
+        reported = info.get("current_temperature")
+        offset = info.get("last_calibration")
+        if reported is not None and offset is not None:
+            try:
+                internal = float(reported) - float(offset)
+                internal_temps[trv_id] = round(internal, 1)
+            except (TypeError, ValueError):
+                pass
+    return internal_temps
 
 
 def get_hvac_bt_mode(self, mode: str) -> str:
