@@ -8,6 +8,10 @@ import asyncio
 import logging
 
 from homeassistant.helpers import entity_registry as er
+from custom_components.smarter_thermostat.utils.const import (
+    CONF_TRV_UPDATES,
+    TrvUpdates,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -50,7 +54,9 @@ async def override_set_hvac_mode(self, entity_id, hvac_mode):
         blocking=True,
         context=self.context,
     )
-    return not self.use_latest_trv_valueq
+    child_lock = self.real_trvs[entity_id]["advanced"].get("child_lock")
+    use_latest_trv_value = not child_lock and self.real_trvs[entity_id]["advanced"].get(CONF_TRV_UPDATES) == TrvUpdates.USE_LATEST
+    return not use_latest_trv_value
 
 
 async def override_set_temperature(self, entity_id, temperature):

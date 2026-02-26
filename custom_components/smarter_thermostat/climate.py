@@ -429,7 +429,6 @@ class SmarterThermostat(ClimateEntity, RestoreEntity, ABC):
         self.bt_update_lock = False
         self.startup_running = True
         self._saved_temperature = None
-        self.use_latest_trv_value = True
         # ECO mode removed; preserved eco preset via PRESET_ECO
         self._preset_temperature = (
             None  # Temperature saved before entering any preset mode

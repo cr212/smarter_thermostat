@@ -21,8 +21,10 @@ from custom_components.smarter_thermostat.model_fixes.model_quirks import (
 )
 from custom_components.smarter_thermostat.utils.const import (
     CONF_HOMEMATICIP,
+    CONF_TRV_UPDATES,
     CalibrationMode,
     CalibrationType,
+    TrvUpdates,
 )
 from custom_components.smarter_thermostat.utils.helpers import (
     convert_to_float,
@@ -65,15 +67,16 @@ async def trigger_trv_change(self, event):
         )
         return
     # set context HACK TO FIND OUT IF AN EVENT WAS SEND BY BT
+    child_lock = self.real_trvs[entity_id]["advanced"].get("child_lock")
+    use_latest_trv_value = not child_lock and self.real_trvs[entity_id]["advanced"].get(CONF_TRV_UPDATES) == TrvUpdates.USE_LATEST
 
     # Check if the update is coming from the code
-    if not self.use_latest_trv_value and self.context == event.context:
+    if not use_latest_trv_value and self.context == event.context:
         return
 
     # _LOGGER.debug(f"smarter_thermostat {self.device_name}: TRV {entity_id} update received")
 
     _org_trv_state = self.hass.states.get(entity_id)
-    child_lock = self.real_trvs[entity_id]["advanced"].get("child_lock")
 
     # Dynamische Modell-Erkennung: nur einmalig (z. B. beim Start) – nicht bei jedem Event
     try:
@@ -159,7 +162,7 @@ async def trigger_trv_change(self, event):
                     "last_calibration"
                 ] = await get_current_offset(self, entity_id)
 
-    if self.ignore_states:
+    if not use_latest_trv_value and self.ignore_states:
         return
 
     try:
@@ -220,11 +223,11 @@ async def trigger_trv_change(self, event):
             if (
                 child_lock is False
                 and self.real_trvs[entity_id]["system_mode_received"] is True
-                and (self.use_latest_trv_value or self.real_trvs[entity_id]["last_hvac_mode"] != _org_trv_state.state
+                and (use_latest_trv_value or self.real_trvs[entity_id]["last_hvac_mode"] != _org_trv_state.state)
             ):
                 self.bt_hvac_mode = mapped_state
 
-    if self.use_latest_trv_value and self.real_trvs[entity_id]["hvac_mode"] == self.real_trvs[entity_id]["last_hvac_mode"]:
+    if use_latest_trv_value and self.real_trvs[entity_id]["hvac_mode"] == self.real_trvs[entity_id]["last_hvac_mode"]:
         self.real_trvs[entity_id]["system_mode_received"] = True
 
     # Hinweis: Kein Caching von hvac_action mehr – BT liest direkt vom TRV-State in climate.py
@@ -278,7 +281,7 @@ async def trigger_trv_change(self, event):
             and not child_lock
             and self.real_trvs[entity_id]["system_mode_received"] is True
             and self.window_open is False
-            and (self.use_latest_trv_value or (
+            and (use_latest_trv_value or (
                 _new_heating_setpoint
                 not in (
                     _old_heating_setpoint,
