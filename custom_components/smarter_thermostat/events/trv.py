@@ -67,7 +67,7 @@ async def trigger_trv_change(self, event):
     # set context HACK TO FIND OUT IF AN EVENT WAS SEND BY BT
 
     # Check if the update is coming from the code
-    if self.context == event.context:
+    if not self.use_latest_trv_value and self.context == event.context:
         return
 
     # _LOGGER.debug(f"smarter_thermostat {self.device_name}: TRV {entity_id} update received")
@@ -220,9 +220,12 @@ async def trigger_trv_change(self, event):
             if (
                 child_lock is False
                 and self.real_trvs[entity_id]["system_mode_received"] is True
-                and self.real_trvs[entity_id]["last_hvac_mode"] != _org_trv_state.state
+                and (self.use_latest_trv_value or self.real_trvs[entity_id]["last_hvac_mode"] != _org_trv_state.state
             ):
                 self.bt_hvac_mode = mapped_state
+
+    if self.use_latest_trv_value and self.real_trvs[entity_id]["hvac_mode"] == self.real_trvs[entity_id]["last_hvac_mode"]:
+        self.real_trvs[entity_id]["system_mode_received"] = True
 
     # Hinweis: Kein Caching von hvac_action mehr – BT liest direkt vom TRV-State in climate.py
 
@@ -271,14 +274,19 @@ async def trigger_trv_change(self, event):
             _new_heating_setpoint
             not in (
                 self.bt_target_temp,
-                _old_heating_setpoint,
-                self.real_trvs[entity_id]["last_temperature"],
             )
             and not child_lock
-            and self.real_trvs[entity_id]["target_temp_received"] is True
             and self.real_trvs[entity_id]["system_mode_received"] is True
-            and self.real_trvs[entity_id]["hvac_mode"] is not HVACMode.OFF
             and self.window_open is False
+            and (self.use_latest_trv_value or (
+                _new_heating_setpoint
+                not in (
+                    _old_heating_setpoint,
+                    self.real_trvs[entity_id]["last_temperature"]
+                )
+                and self.real_trvs[entity_id]["target_temp_received"]
+                and self.real_trvs[entity_id]["hvacmode"] is not HVACMode.OFF
+            ))
         ):
             _calibration_type = self.real_trvs[entity_id]["advanced"].get("calibration")
             if _calibration_type == CalibrationType.TARGET_TEMP_BASED:

@@ -50,7 +50,7 @@ async def override_set_hvac_mode(self, entity_id, hvac_mode):
         blocking=True,
         context=self.context,
     )
-    return True
+    return not self.use_latest_trv_valueq
 
 
 async def override_set_temperature(self, entity_id, temperature):
