@@ -102,7 +102,7 @@ async def async_get_action_capabilities(
             "extra_fields": vol.Schema(
                 {
                     vol.Required(ATTR_HVAC_MODE): vol.In(
-                        [HVACMode.HEAT, HVACMode.OFF, HVACMode.HEAT_COOL]
+                        [HVACMode.HEAT, HVACMode.OFF, HVACMode.HEAT_COOL, HVACMode.AUTO]
                     )
                 }
             )

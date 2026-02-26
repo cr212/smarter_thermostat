@@ -398,7 +398,7 @@ class SmarterThermostat(ClimateEntity, RestoreEntity, ABC):
         self._unit = unit
         self._device_class = device_class
         self._state_class = state_class
-        self._hvac_list = [HVACMode.HEAT, HVACMode.OFF]
+        self._hvac_list = [HVACMode.HEAT, HVACMode.OFF, HVACMode.AUTO]
         self._preset_mode = PRESET_NONE
         self.map_on_hvac_mode = HVACMode.HEAT
         self.next_valve_maintenance = datetime.now() + timedelta(
@@ -1491,7 +1491,7 @@ class SmarterThermostat(ClimateEntity, RestoreEntity, ABC):
                         set(current_hvac_modes), key=current_hvac_modes.count
                     )
                     if _temp_bt_hvac_mode is not HVACMode.OFF:
-                        self.bt_hvac_mode = HVACMode.HEAT
+                        self.bt_hvac_mode = HVACMode.AUTO
                     else:
                         self.bt_hvac_mode = HVACMode.OFF
                     _LOGGER.debug(
@@ -1548,8 +1548,9 @@ class SmarterThermostat(ClimateEntity, RestoreEntity, ABC):
                 HVACMode.OFF,
                 HVACMode.HEAT_COOL,
                 HVACMode.HEAT,
+                HVACMode.AUTO,
             ):
-                self.bt_hvac_mode = HVACMode.HEAT
+                self.bt_hvac_mode = HVACMode.AUTO
 
             _LOGGER.debug(
                 "smarter_thermostat %s: writing initial state...", self.device_name
@@ -1642,6 +1643,9 @@ class SmarterThermostat(ClimateEntity, RestoreEntity, ABC):
                     self.real_trvs[trv]["local_calibration_step"] = 0.5
 
                 _s = self.hass.states.get(trv)
+                if _s.state is not None:
+                    _LOGGER.debug("Overriding BT_hvac_mode on startup to underlying TRV state %s", _s.state)
+                    self.bt_hvac_mode = _s.state
                 _attrs = _s.attributes if _s else {}
                 _LOGGER.debug(
                     "smarter_thermostat %s: reading TRV %s attributes...",
@@ -3127,7 +3131,7 @@ class SmarterThermostat(ClimateEntity, RestoreEntity, ABC):
             self._tolerance_last_action = HVACAction.IDLE
             return HVACAction.IDLE
 
-        heating_allowed = self.hvac_mode in (HVACMode.HEAT, HVACMode.HEAT_COOL)
+        heating_allowed = self.hvac_mode in (HVACMode.HEAT, HVACMode.HEAT_COOL, HVACMode.AUTO)
         action = HVACAction.IDLE
         tolerance_hold = False
 
@@ -3303,7 +3307,7 @@ class SmarterThermostat(ClimateEntity, RestoreEntity, ABC):
         """
 
         hvac_mode_norm = normalize_hvac_mode(hvac_mode)
-        if hvac_mode_norm in (HVACMode.HEAT, HVACMode.HEAT_COOL, HVACMode.OFF):
+        if hvac_mode_norm in (HVACMode.HEAT, HVACMode.HEAT_COOL, HVACMode.OFF, HVACMode.AUTO):
             self.bt_hvac_mode = get_hvac_bt_mode(self, hvac_mode_norm)
         else:
             _LOGGER.error(
@@ -3341,7 +3345,7 @@ class SmarterThermostat(ClimateEntity, RestoreEntity, ABC):
                 if hvac_mode_val is not None
                 else None
             )
-            if hvac_mode_norm in (HVACMode.HEAT, HVACMode.HEAT_COOL, HVACMode.OFF):
+            if hvac_mode_norm in (HVACMode.HEAT, HVACMode.HEAT_COOL, HVACMode.OFF, HVACMode.AUTO):
                 self.bt_hvac_mode = hvac_mode_norm
             else:
                 _LOGGER.error(
