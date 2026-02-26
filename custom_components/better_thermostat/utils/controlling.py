@@ -68,7 +68,8 @@ async def control_queue(self):
             else:
                 controls_to_process = await self.control_queue_task.get()
                 if controls_to_process is not None:
-                    self.ignore_states = True
+                    if not self.use_latest_trv_value:
+                        self.ignore_states = True
 
                     # Calculate heating power once per cycle
                     try:
