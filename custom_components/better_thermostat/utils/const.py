@@ -43,6 +43,7 @@ CONF_MAX_TEMP = "max_temp"
 CONF_PRECISION = "precision"
 CONF_CALIBRATION = "calibration"
 CONF_CHILD_LOCK = "child_lock"
+CONF_TRV_UPDATES = "trv_updates"
 CONF_PROTECT_OVERHEATING = "protect_overheating"
 CONF_CALIBRATION_MODE = "calibration_mode"
 CONF_HEAT_AUTO_SWAPPED = "heat_auto_swapped"
@@ -127,6 +128,13 @@ class CalibrationMode(StrEnum):
     MPC_CALIBRATION = "mpc_calibration"
     TPI_CALIBRATION = "tpi_calibration"
     PID_CALIBRATION = "pid_calibration"
+
+class TrvUpdates(StrEnum):
+    """How to handle real TRV updates of mode and target temp"""
+
+    CHILD_LOCK = "child_lock"
+    HYBRID_MODE = "hybrid_trv_updates"
+    USE_LATEST = "use_latest_trv_updates"
 
 
 # Heating power calibration constants

@@ -28,6 +28,7 @@ from .utils.const import (
     CONF_CALIBRATION,
     CONF_CALIBRATION_MODE,
     CONF_CHILD_LOCK,
+    CONF_TRV_UPDATES,
     CONF_COOLER,
     CONF_HEAT_AUTO_SWAPPED,
     CONF_HEATER,
@@ -49,6 +50,7 @@ from .utils.const import (
     CONF_WINDOW_TIMEOUT_AFTER,
     CalibrationMode,
     CalibrationType,
+    TrvUpdates,
 )
 from .utils.helpers import get_device_model, get_trv_intigration
 
@@ -287,9 +289,37 @@ def _build_advanced_fields(
             CONF_VALVE_MAINTENANCE, default=get_bool(CONF_VALVE_MAINTENANCE, False)
         )
     ] = bool
-    ordered[vol.Optional(CONF_CHILD_LOCK, default=get_bool(CONF_CHILD_LOCK, False))] = (
-        bool
+    options = []
+    options.append(
+        selector.SelectOptionDict(
+            value=TrvUpdates.CHILD_LOCK, label="Child lock"
+        )
     )
+
+    options.append(
+        selector.SelectOptionDict(
+            value=TrvUpdates.HYBRID_MODE, label="Hybrid"
+        )
+    )
+
+    options.append(
+        selector.SelectOptionDict(
+            value=TrvUpdates.USE_LATEST, label="Latest"
+        )
+    )
+
+    trv_updates_selector = selector.SelectSelector(
+        selector.SelectSelectorConfig(
+            options=options, mode=selector.SelectSelectorMode.DROPDOWN
+        )
+    )
+
+    trv_updates_default = get_value(CONF_TRV_UPDATES, TrvUpdates.HYBRID_MODE)
+    if get_bool(CONF_CHILD_LOCK, False):
+        trv_updates_default = TrvUpdates.CHILD_LOCK
+    # 1) Calibration + protection flags
+    ordered[vol.Required(CONF_TRV_UPDATES, default=trv_updates_default)] = trv_updates_selector
+
     ordered[
         vol.Optional(CONF_HOMEMATICIP, default=get_bool(CONF_HOMEMATICIP, homematic))
     ] = bool
@@ -298,7 +328,7 @@ def _build_advanced_fields(
 
 
 def _normalize_advanced_submission(
-    data: dict[str, Any], *, default_calibration: str, homematic: bool, has_auto: bool
+    data: dict[str, Any], *, default_calibration: str, homematic: bool, has_auto: bool, errors: dict,
 ) -> dict[str, Any]:
     normalized: dict[str, Any] = dict(data)
     normalized[CONF_CALIBRATION] = normalized.get(CONF_CALIBRATION, default_calibration)
@@ -317,7 +347,12 @@ def _normalize_advanced_submission(
     normalized[CONF_VALVE_MAINTENANCE] = _as_bool(
         normalized.get(CONF_VALVE_MAINTENANCE), False
     )
-    normalized[CONF_CHILD_LOCK] = _as_bool(normalized.get(CONF_CHILD_LOCK), False)
+    normalized[CONF_TRV_UPDATES] = normalized.get(CONF_TRV_UPDATES, TrvUpdates.HYBRID_MODE)
+    normalized[CONF_CHILD_LOCK] = normalized[CONF_TRV_UPDATES] == TrvUpdates.CHILD_LOCK
+
+    if normalized[CONF_TRV_UPDATES] == TrvUpdates.USE_LATEST and normalized[CONF_CALIBRATION] == CalibrationType.TARGET_TEMP_BASED:
+        errors["base"] = "use_latest_target_temp"
+
     normalized[CONF_HOMEMATICIP] = _as_bool(normalized.get(CONF_HOMEMATICIP), homematic)
 
     _LOGGER.debug("Normalized advanced submission: %s", normalized)
@@ -695,6 +730,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_advanced(self, user_input=None, _trv_config=None):
         """Handle the advanced step of the config flow."""
+        errors = {}
         trv_cfg = _trv_config if isinstance(_trv_config, dict) else None
         if trv_cfg is None:
             trv_cfg = self._active_trv_config
@@ -720,37 +756,39 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 default_calibration=ctx["default_calibration"],
                 homematic=ctx["homematic"],
                 has_auto=ctx["has_auto"],
+                errors=errors,
             )
-            _LOGGER.debug(
-                "ConfigFlow advanced step storing data for %s (index %s): %s",
-                trv_cfg.get("trv"),
-                self.i,
-                advanced_data,
-            )
-            self.trv_bundle[self.i]["advanced"] = advanced_data
-            self.trv_bundle[self.i]["adapter"] = None
-
-            self.i += 1
-            self._active_trv_config = None
-            if len(self.trv_bundle) > self.i:
+            if len(errors) == 0:
                 _LOGGER.debug(
-                    "ConfigFlow advanced step moving to next TRV index=%s", self.i
+                    "ConfigFlow advanced step storing data for %s (index %s): %s",
+                    trv_cfg.get("trv"),
+                    self.i,
+                    advanced_data,
                 )
-                return await self.async_step_advanced(None, self.trv_bundle[self.i])
+                self.trv_bundle[self.i]["advanced"] = advanced_data
+                self.trv_bundle[self.i]["adapter"] = None
 
-            _has_off_mode = True
-            for trv in self.trv_bundle:
-                entity_id = trv.get("trv")
-                state_obj = self.hass.states.get(entity_id) if entity_id else None
-                hvac_modes = []
-                if state_obj and hasattr(state_obj, "attributes"):
-                    hvac_modes = state_obj.attributes.get("hvac_modes", []) or []
-                if HVACMode.OFF not in hvac_modes:
-                    _has_off_mode = False
+                self.i += 1
+                self._active_trv_config = None
+                if len(self.trv_bundle) > self.i:
+                    _LOGGER.debug(
+                        "ConfigFlow advanced step moving to next TRV index=%s", self.i
+                    )
+                    return await self.async_step_advanced(None, self.trv_bundle[self.i])
 
-            if not _has_off_mode:
-                return await self.async_step_confirm(None, "no_off_mode")
-            return await self.async_step_confirm()
+                _has_off_mode = True
+                for trv in self.trv_bundle:
+                    entity_id = trv.get("trv")
+                    state_obj = self.hass.states.get(entity_id) if entity_id else None
+                    hvac_modes = []
+                    if state_obj and hasattr(state_obj, "attributes"):
+                        hvac_modes = state_obj.attributes.get("hvac_modes", []) or []
+                    if HVACMode.OFF not in hvac_modes:
+                        _has_off_mode = False
+
+                if not _has_off_mode:
+                    return await self.async_step_confirm(None, "no_off_mode")
+                return await self.async_step_confirm()
 
         user_input = user_input or {}
         info = ctx.get("info", {})
@@ -772,6 +810,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             step_id="advanced",
             data_schema=vol.Schema(fields),
             last_step=False,
+            errors=errors,
             description_placeholders={"trv": ctx.get("trv_id") or "-"},
         )
 
@@ -851,6 +890,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         self, user_input=None, _trv_config=None, _update_config=None
     ):
         """Manage the advanced options."""
+        errors = {}
         trv_cfg = _trv_config if isinstance(_trv_config, dict) else None
         if trv_cfg is None:
             trv_cfg = self._active_trv_config
@@ -876,39 +916,41 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                 default_calibration=ctx["default_calibration"],
                 homematic=ctx["homematic"],
                 has_auto=ctx["has_auto"],
+                errors=errors,
             )
-            _LOGGER.debug(
-                "OptionsFlow advanced step storing data for %s (index %s): %s",
-                trv_cfg.get("trv"),
-                self.i,
-                advanced_data,
-            )
-            self.trv_bundle[self.i]["advanced"] = advanced_data
-            self.trv_bundle[self.i]["adapter"] = None
-
-            self.i += 1
-            if len(self.trv_bundle) - 1 >= self.i:
-                self._last_step = True
-
-            if len(self.trv_bundle) > self.i:
-                self._active_trv_config = None
-                return await self.async_step_advanced(
-                    None, self.trv_bundle[self.i], _update_config
+            if len(errors) == 0:
+                _LOGGER.debug(
+                    "OptionsFlow advanced step storing data for %s (index %s): %s",
+                    trv_cfg.get("trv"),
+                    self.i,
+                    advanced_data,
                 )
+                self.trv_bundle[self.i]["advanced"] = advanced_data
+                self.trv_bundle[self.i]["adapter"] = None
 
-            self.updated_config[CONF_HEATER] = self.trv_bundle
-            _LOGGER.debug("Updated config: %s", self.updated_config)
-            _LOGGER.debug(
-                "OptionsFlow writing heater bundle: %s",
-                self.updated_config.get(CONF_HEATER),
-            )
-            self.hass.config_entries.async_update_entry(
-                self._config_entry, data=self.updated_config
-            )
-            self._active_trv_config = None
-            return self.async_create_entry(
-                title=self.updated_config["name"], data=self.updated_config
-            )
+                self.i += 1
+                if len(self.trv_bundle) - 1 >= self.i:
+                    self._last_step = True
+
+                if len(self.trv_bundle) > self.i:
+                    self._active_trv_config = None
+                    return await self.async_step_advanced(
+                        None, self.trv_bundle[self.i], _update_config
+                    )
+
+                self.updated_config[CONF_HEATER] = self.trv_bundle
+                _LOGGER.debug("Updated config: %s", self.updated_config)
+                _LOGGER.debug(
+                    "OptionsFlow writing heater bundle: %s",
+                    self.updated_config.get(CONF_HEATER),
+                )
+                self.hass.config_entries.async_update_entry(
+                    self._config_entry, data=self.updated_config
+                )
+                self._active_trv_config = None
+                return self.async_create_entry(
+                    title=self.updated_config["name"], data=self.updated_config
+                )
 
         user_input = user_input or {}
         info = ctx.get("info", {})
@@ -921,9 +963,10 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
             support_offset=info.get("support_offset", False),
         )
         _LOGGER.debug(
-            "OptionsFlow advanced step showing form for trv=%s with defaults=%s",
+            "OptionsFlow advanced step showing form for trv=%s with defaults=%s, errors=%s",
             ctx.get("trv_id"),
             existing_adv,
+            errors,
         )
         self.device_name = user_input.get(CONF_NAME, "-")
 
@@ -931,6 +974,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
             step_id="advanced",
             data_schema=vol.Schema(fields),
             last_step=self._last_step,
+            errors=errors,
             description_placeholders={"trv": ctx.get("trv_id") or "-"},
         )
 
