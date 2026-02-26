@@ -201,7 +201,7 @@ async def trigger_trv_change(self, event):
     except Exception:
         pass
 
-    if mapped_state in (HVACMode.OFF, HVACMode.HEAT, HVACMode.HEAT_COOL):
+    if mapped_state in (HVACMode.OFF, HVACMode.HEAT, HVACMode.HEAT_COOL, HVACMode.AUTO):
         if (
             self.real_trvs[entity_id]["hvac_mode"] != _org_trv_state.state
             and not child_lock
@@ -350,7 +350,7 @@ def convert_inbound_states(self, entity_id, state: State) -> str | None:
 
     remapped_state = mode_remap(self, entity_id, str(state.state), True)
 
-    if remapped_state not in (HVACMode.OFF, HVACMode.HEAT):
+    if remapped_state not in (HVACMode.OFF, HVACMode.HEAT, HVACMode.AUTO):
         return None
     return remapped_state
 

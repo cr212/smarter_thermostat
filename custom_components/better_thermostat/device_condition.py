@@ -29,7 +29,7 @@ HVAC_MODE_CONDITION = vol.Schema(
         vol.Required(CONF_ENTITY_ID): cv.entity_id,
         vol.Required(CONF_TYPE): "is_hvac_mode",
         vol.Required(ATTR_HVAC_MODE): vol.In(
-            [HVACMode.OFF, HVACMode.HEAT, HVACMode.HEAT_COOL]
+            [HVACMode.OFF, HVACMode.HEAT, HVACMode.HEAT_COOL, HVACMode.AUTO]
         ),
     }
 )
