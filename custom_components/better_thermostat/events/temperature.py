@@ -193,7 +193,7 @@ async def trigger_temperature_change(self, event):
 
     # Basis-Debounce (Sekunden) für normale Geräte; durch Anti-Flicker können wir hier auf 5s runter
     # gesetzt werden. HomematicIP erhält unten weiterhin ein höheres Intervall (600s).
-    _time_diff = 5
+    _time_diff = 45
     # Signifikanz-Schwelle: 0.11°C (um 0.1°C Rauschen zu filtern).
     # Wir ignorieren die Toleranz-Einstellung hier, um auch bei größerer Regel-Toleranz
     # präzise Sensor-Updates zu erhalten.

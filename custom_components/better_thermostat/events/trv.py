@@ -117,7 +117,7 @@ async def trigger_trv_change(self, event):
         "TRV_current_temp",
     )
 
-    _time_diff = 5
+    _time_diff = 60
     try:
         for trv in self.all_trvs:
             if trv["advanced"][CONF_HOMEMATICIP]:
