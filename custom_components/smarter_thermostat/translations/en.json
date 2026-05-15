@@ -16,6 +16,8 @@
           "window_off_delay": "Delay before the thermostat turns off when the window is opened",
           "window_off_delay_after": "Delay before the thermostat turns on when the window is closed",
           "outdoor_sensor": "If you have an outdoor sensor, you can use it to get the outdoor temperature",
+          "boiler_load_sensor": "Boiler load sensor (optional)",
+          "boiler_load_threshold": "Boiler load below which the TRV should be fully open to prevent double modulation",
           "weather": "Your weather entity to get the outdoor temperature",
           "target_temp_step": "Target temperature step",
           "presets": "Enabled Presets"
@@ -71,6 +73,8 @@
           "temperature_sensor": "Temperature Sensor",
           "humidity_sensor": "Humidity sensor",
           "window_sensors": "Window Sensor",
+          "boiler_load_sensor": "Boiler load sensor (optional)",
+          "boiler_load_threshold": "Boiler load below which the TRV should be fully open to prevent double modulation",
           "off_temperature": "The outdoor temperature when the thermostat turns off",
           "tolerance": "Tolerance, to prevent the thermostat from turning on and off too often.",
           "window_off_delay": "Delay before the thermostat turns off when the window is opened",
