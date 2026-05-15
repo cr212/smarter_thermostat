@@ -233,6 +233,24 @@ async def control_cooler(self):
             context=self.context,
         )
 
+def apply_boiler_threshold(self, target_pct):
+    try:
+        if self.boiler_load_sensor and self.boiler_load_threshold:
+            boiler_load = self.hass.states.get(self.boiler_load_sensor)
+            if boiler_load and boiler_load < self.boiler_load_threshold:
+                _LOGGER.debug("smarter_thermostat: %s: overriding target valve as boiler is modulating, %s%% to 100%% (boiler load is %s / %s)",
+                                self.device_name, target_pct, boiler_load, self.boiler_load_threshold)
+                target_pct = 100
+    except Exception as ex:
+        _LOGGER.debug(
+            "smarter_thermostat %s: boiler_load_threshold not applied for %s (%s)",
+            self.device_name,
+            heater_entity_id,
+            ex
+        )
+    return target_pct
+
+
 
 async def control_trv(self, heater_entity_id=None):
     """Control the TRV.
@@ -376,6 +394,7 @@ async def control_trv(self, heater_entity_id=None):
                         _source = "balance"
                 if bal is not None:
                     target_pct = int(round(bal.get("valve_percent", 0)))
+                    target_pct = apply_boiler_threshold(self, target_pct)
                     _LOGGER.debug(
                         "smarter_thermostat %s: TO TRV set_valve: %s to: %s%% (source=%s)",
                         self.device_name,
@@ -671,6 +690,7 @@ async def control_trv(self, heater_entity_id=None):
                     _source = "balance"
             if bal is not None:
                 target_pct = int(round(bal.get("valve_percent", 0)))
+                target_pct = apply_boiler_threshold(self, target_pct)
                 _LOGGER.debug(
                     "smarter_thermostat %s: TO TRV set_valve: %s to: %s%% (source=%s)",
                     self.device_name,

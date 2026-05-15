@@ -38,6 +38,8 @@ from .utils.const import (
     CONF_NO_SYSTEM_MODE_OFF,
     CONF_OFF_TEMPERATURE,
     CONF_OUTDOOR_SENSOR,
+    CONF_BOILER_LOAD_SENSOR,
+    CONF_BOILER_LOAD_THRESHOLD,
     CONF_PRESETS,
     CONF_PROTECT_OVERHEATING,
     CONF_SENSOR,
@@ -487,6 +489,12 @@ def _build_user_fields(
         device_class="temperature",
     )
     add_entity_selector(
+        CONF_BOILER_LOAD_SENSOR,
+        domain=["sensor", "input_number", "number"],
+    )
+    add_field(CONF_BOILER_LOAD_THRESHOLD, float, default=80.0)
+
+    add_entity_selector(
         CONF_SENSOR_WINDOW, domain=["group", "sensor", "input_boolean", "binary_sensor"]
     )
     add_entity_selector(CONF_WEATHER, domain="weather")
@@ -580,6 +588,8 @@ def _normalize_user_submission(
         CONF_SENSOR_WINDOW,
         CONF_HUMIDITY,
         CONF_OUTDOOR_SENSOR,
+        CONF_BOILER_LOAD_SENSOR,
+        CONF_BOILER_LOAD_THRESHOLD,
         CONF_WEATHER,
     )
     for key in optional_keys:

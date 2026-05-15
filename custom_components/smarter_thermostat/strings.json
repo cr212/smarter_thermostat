@@ -15,6 +15,8 @@
                                         "window_off_delay": "Delay before the thermostat should turn off when the window is opened",
                                         "window_off_delay_after": "Delay before the thermostat should turn on when the window is closed",
                                         "outdoor_sensor": "Outdoor temperature sensor",
+                                        "boiler_load_sensor": "Boiler load sensor (optional)",
+                                        "boiler_load_threshold": "Boiler load below which the TRV should be fully open to prevent double modulation",
                                         "weather": "Weather entity to get the outdoor temperature",
                                         "presets": "Enabled Presets"
                                 },
