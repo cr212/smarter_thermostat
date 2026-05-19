@@ -100,7 +100,6 @@ from .utils.const import (
     CONF_OFF_TEMPERATURE,
     CONF_OUTDOOR_SENSOR,
     CONF_BOILER_LOAD_SENSOR,
-    CONF_BOILER_LOAD_THRESHOLD,
     CONF_PRESETS,
     CONF_SENSOR,
     CONF_SENSOR_WINDOW,
@@ -233,7 +232,6 @@ async def async_setup_entry(hass, entry, async_add_entities):
         device_class="smarter_thermostat",
         state_class="smarter_thermostat_state",
         boiler_load_sensor=entry.data.get(CONF_BOILER_LOAD_SENSOR, None),
-        boiler_load_threshold=entry.data.get(CONF_BOILER_LOAD_THRESHOLD, None),
     )
     hass.data[DOMAIN][entry.entry_id]["climate"] = bt_entity
     async_add_entities([bt_entity])
@@ -335,7 +333,6 @@ class SmarterThermostat(ClimateEntity, RestoreEntity, ABC):
         device_class,
         state_class,
         boiler_load_sensor,
-        boiler_load_threshold,
     ):
         """Initialize the thermostat.
 
@@ -357,7 +354,6 @@ class SmarterThermostat(ClimateEntity, RestoreEntity, ABC):
         self.weather_entity = weather_entity or None
         self.outdoor_sensor = outdoor_sensor or None
         self.boiler_load_sensor = boiler_load_sensor or None
-        self.boiler_load_threshold = boiler_load_threshold or None
         # Robust off temperature parsing: preserve 0.0 and ignore invalid strings
         self.off_temperature = None
         if off_temperature not in (None, "", "None"):  # allow numeric 0
