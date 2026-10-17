@@ -9,7 +9,7 @@ import logging
 from homeassistant.components.climate.const import HVACMode
 from homeassistant.core import State, callback
 
-from custom_components.better_thermostat.utils.helpers import convert_to_float
+from custom_components.smarter_thermostat.utils.helpers import convert_to_float
 
 _LOGGER = logging.getLogger(__name__)
 

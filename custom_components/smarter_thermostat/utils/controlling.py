@@ -6,22 +6,22 @@ import logging
 from homeassistant.components.climate.const import PRESET_BOOST, HVACMode
 from homeassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
 
-from custom_components.better_thermostat.adapters.delegate import (
+from custom_components.smarter_thermostat.adapters.delegate import (
     get_current_offset,
     set_hvac_mode,
     set_offset,
     set_temperature,
     set_valve,
 )
-from custom_components.better_thermostat.events.trv import convert_outbound_states
-from custom_components.better_thermostat.model_fixes.model_quirks import (
+from custom_components.smarter_thermostat.events.trv import convert_outbound_states
+from custom_components.smarter_thermostat.model_fixes.model_quirks import (
     override_set_hvac_mode,
 )
-from custom_components.better_thermostat.utils.const import (
+from custom_components.smarter_thermostat.utils.const import (
     CalibrationMode,
     CalibrationType,
 )
-from custom_components.better_thermostat.utils.helpers import convert_to_float
+from custom_components.smarter_thermostat.utils.helpers import convert_to_float
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -233,30 +233,41 @@ async def control_cooler(self):
             context=self.context,
         )
 
+
 def apply_boiler_threshold(self, target_pct, heater_entity_id):
     try:
         if target_pct > 0 and self.boiler_load_sensor:
-            boiler_load = convert_to_float(str(self.hass.states.get(self.boiler_load_sensor).state),
-                        self.boiler_load_sensor,
-                        'Get boiler load')
+            boiler_load = convert_to_float(
+                str(self.hass.states.get(self.boiler_load_sensor).state),
+                self.boiler_load_sensor,
+                "Get boiler load",
+            )
             if boiler_load and boiler_load > 0:
                 prev = target_pct
                 target_pct = min(100, int(float(prev * 100) / (boiler_load)))
-                if (target_pct != int(prev)):
-                    _LOGGER.debug("smarter_thermostat: %s: overriding target valve as boiler is modulating, %s%% to %s%% (boiler load is %s)",
-                                    self.device_name, prev, target_pct, boiler_load)
+                if target_pct != int(prev):
+                    _LOGGER.debug(
+                        "smarter_thermostat: %s: overriding target valve as boiler is modulating, %s%% to %s%% (boiler load is %s)",
+                        self.device_name,
+                        prev,
+                        target_pct,
+                        boiler_load,
+                    )
                 else:
-                    _LOGGER.debug("smarter_thermostat: %s: not overriding target valve %s%%  (boiler load is %s)",
-                                    self.device_name, target_pct, boiler_load)
+                    _LOGGER.debug(
+                        "smarter_thermostat: %s: not overriding target valve %s%%  (boiler load is %s)",
+                        self.device_name,
+                        target_pct,
+                        boiler_load,
+                    )
     except Exception as ex:
         _LOGGER.debug(
             "smarter_thermostat %s: boiler_load_sensor not applied for %s (%s)",
             self.device_name,
             heater_entity_id,
-            ex
+            ex,
         )
     return target_pct
-
 
 
 async def control_trv(self, heater_entity_id=None):
@@ -401,7 +412,9 @@ async def control_trv(self, heater_entity_id=None):
                         _source = "balance"
                 if bal is not None:
                     target_pct = int(round(bal.get("valve_percent", 0)))
-                    target_pct = apply_boiler_threshold(self, target_pct, heater_entity_id)
+                    target_pct = apply_boiler_threshold(
+                        self, target_pct, heater_entity_id
+                    )
                     _LOGGER.debug(
                         "smarter_thermostat %s: TO TRV set_valve: %s to: %s%% (source=%s)",
                         self.device_name,
@@ -725,7 +738,8 @@ async def control_trv(self, heater_entity_id=None):
         _LOGGER.debug(
             "smarter_thermostat %s: set_valve not applied for %s (unsupported or %s)",
             self.device_name,
-            heater_entity_id, e
+            heater_entity_id,
+            e,
         )
 
     _new_hvac_mode = handle_window_open(self, _remapped_states)

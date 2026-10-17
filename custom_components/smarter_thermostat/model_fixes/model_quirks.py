@@ -26,7 +26,7 @@ async def load_model_quirks(self, model, entity_id):
         re.sub(r"[^A-Za-z0-9_-]+", "_", model_str.replace("/", "_")).strip("_")
         or "default"
     )
-    module_path = f"custom_components.better_thermostat.model_fixes.{model_sanitized}"
+    module_path = f"custom_components.smarter_thermostat.model_fixes.{model_sanitized}"
 
     try:
         self.model_quirks = await async_import_module(self.hass, module_path)
@@ -39,7 +39,7 @@ async def load_model_quirks(self, model, entity_id):
         )
     except ImportError as e:
         # Fallback to default and log the reason
-        default_module = "custom_components.better_thermostat.model_fixes.default"
+        default_module = "custom_components.smarter_thermostat.model_fixes.default"
         try:
             self.model_quirks = await async_import_module(self.hass, default_module)
             _LOGGER.debug(

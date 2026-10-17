@@ -16,8 +16,8 @@ from homeassistant.core import callback
 from homeassistant.helpers import issue_registry as ir
 from homeassistant.helpers.event import async_call_later
 
-from custom_components.better_thermostat.utils.const import CONF_HOMEMATICIP
-from custom_components.better_thermostat.utils.helpers import convert_to_float
+from custom_components.smarter_thermostat.utils.const import CONF_HOMEMATICIP
+from custom_components.smarter_thermostat.utils.helpers import convert_to_float
 
 _LOGGER = logging.getLogger(__name__)
 

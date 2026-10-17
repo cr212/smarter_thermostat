@@ -11,7 +11,7 @@ from homeassistant.components.climate.const import HVACMode
 from homeassistant.helpers import device_registry as dr, entity_registry as er
 from homeassistant.helpers.entity_registry import async_entries_for_config_entry
 
-from custom_components.better_thermostat.utils.const import (
+from custom_components.smarter_thermostat.utils.const import (
     CONF_HEAT_AUTO_SWAPPED,
     MAX_HEATING_POWER,
     MIN_HEATING_POWER,

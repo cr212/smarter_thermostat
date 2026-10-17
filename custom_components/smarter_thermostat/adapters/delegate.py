@@ -4,7 +4,7 @@ import logging
 
 from homeassistant.helpers.importlib import async_import_module
 
-from custom_components.better_thermostat.utils.helpers import round_by_step
+from custom_components.smarter_thermostat.utils.helpers import round_by_step
 
 from ..utils.retry import async_retry
 
@@ -21,7 +21,7 @@ async def load_adapter(self, integration, entity_id, get_name=False):
 
     try:
         self.adapter = await async_import_module(
-            self.hass, "custom_components.better_thermostat.adapters." + integration
+            self.hass, "custom_components.smarter_thermostat.adapters." + integration
         )
         _LOGGER.debug(
             "smarter_thermostat %s: uses adapter %s for trv %s",
@@ -31,7 +31,7 @@ async def load_adapter(self, integration, entity_id, get_name=False):
         )
     except Exception:
         self.adapter = await async_import_module(
-            self.hass, "custom_components.better_thermostat.adapters.generic"
+            self.hass, "custom_components.smarter_thermostat.adapters.generic"
         )
         _LOGGER.info(
             "smarter_thermostat %s: integration: %s isn't native supported, feel free to open an issue, fallback adapter %s",

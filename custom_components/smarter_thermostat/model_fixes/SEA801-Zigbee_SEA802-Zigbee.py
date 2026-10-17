@@ -6,7 +6,7 @@ SEA801/SEA802 based devices.
 
 import logging
 
-from custom_components.better_thermostat.utils.helpers import (
+from custom_components.smarter_thermostat.utils.helpers import (
     entity_uses_mpc_calibration,
 )
 

@@ -11,7 +11,7 @@ from homeassistant.const import STATE_OFF
 from homeassistant.core import callback
 from homeassistant.helpers import issue_registry as ir
 
-from custom_components.better_thermostat import DOMAIN
+from custom_components.smarter_thermostat import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
