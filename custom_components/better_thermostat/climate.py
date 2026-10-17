@@ -93,13 +93,13 @@ from .utils.const import (
     ATTR_TRV_INTERNAL_TEMPERATURE,
     BETTERTHERMOSTAT_RESET_PID_SCHEMA,
     BETTERTHERMOSTAT_SET_TEMPERATURE_SCHEMA,
+    CONF_BOILER_LOAD_SENSOR,
     CONF_COOLER,
     CONF_HEATER,
     CONF_HUMIDITY,
     CONF_MODEL,
     CONF_OFF_TEMPERATURE,
     CONF_OUTDOOR_SENSOR,
-    CONF_BOILER_LOAD_SENSOR,
     CONF_PRESETS,
     CONF_SENSOR,
     CONF_SENSOR_WINDOW,
@@ -416,6 +416,8 @@ class SmarterThermostat(ClimateEntity, RestoreEntity, ABC):
         self.bt_max_temp = 30
         self.bt_target_temp = 5.0
         self.bt_target_cooltemp = None
+        # The state saved before the last stop, read when the entity is added.
+        self._saved_state: State | None = None
         self._support_flags = SUPPORT_FLAGS | ClimateEntityFeature.PRESET_MODE
         self.bt_hvac_mode = None
         # Track min/max encountered target temps (initialize to default span)
@@ -558,6 +560,11 @@ class SmarterThermostat(ClimateEntity, RestoreEntity, ABC):
             return _LOGGER.error(
                 "You updated from version before 1.0.0-Beta36 of the Smarter Thermostat integration, you need to remove the BT devices (integration) and add it again."
             )
+        # Home Assistant writes its restore cache once it has started and
+        # drops the saved state of every entity that already publishes one,
+        # so the saved state is read now and not in the startup, which waits
+        # until Home Assistant has started.
+        self._saved_state = await self.async_get_last_state()
 
         if self.cooler_entity_id is not None:
             self._hvac_list.remove(HVACMode.HEAT)
@@ -1216,13 +1223,8 @@ class SmarterThermostat(ClimateEntity, RestoreEntity, ABC):
                 self.window_open = False
 
             # Check If we have an old state
-            _LOGGER.debug(
-                "smarter_thermostat %s: calling async_get_last_state", self.device_name
-            )
-            old_state = await self.async_get_last_state()
-            _LOGGER.debug(
-                "smarter_thermostat %s: async_get_last_state returned", self.device_name
-            )
+            """Restore the state saved before the last stop or fall back to defaults."""
+            old_state = self._saved_state
             if old_state is not None:
                 _LOGGER.debug(
                     "smarter_thermostat %s: restoring state...", self.device_name
@@ -1648,7 +1650,10 @@ class SmarterThermostat(ClimateEntity, RestoreEntity, ABC):
 
                 _s = self.hass.states.get(trv)
                 if _s.state is not None:
-                    _LOGGER.debug("Overriding BT_hvac_mode on startup to underlying TRV state %s", _s.state)
+                    _LOGGER.debug(
+                        "Overriding BT_hvac_mode on startup to underlying TRV state %s",
+                        _s.state,
+                    )
                     self.bt_hvac_mode = _s.state
                 _attrs = _s.attributes if _s else {}
                 _LOGGER.debug(
@@ -3140,7 +3145,11 @@ class SmarterThermostat(ClimateEntity, RestoreEntity, ABC):
             self._tolerance_last_action = HVACAction.IDLE
             return HVACAction.IDLE
 
-        heating_allowed = self.hvac_mode in (HVACMode.HEAT, HVACMode.HEAT_COOL, HVACMode.AUTO)
+        heating_allowed = self.hvac_mode in (
+            HVACMode.HEAT,
+            HVACMode.HEAT_COOL,
+            HVACMode.AUTO,
+        )
         action = HVACAction.IDLE
         tolerance_hold = False
 
@@ -3316,7 +3325,12 @@ class SmarterThermostat(ClimateEntity, RestoreEntity, ABC):
         """
 
         hvac_mode_norm = normalize_hvac_mode(hvac_mode)
-        if hvac_mode_norm in (HVACMode.HEAT, HVACMode.HEAT_COOL, HVACMode.OFF, HVACMode.AUTO):
+        if hvac_mode_norm in (
+            HVACMode.HEAT,
+            HVACMode.HEAT_COOL,
+            HVACMode.OFF,
+            HVACMode.AUTO,
+        ):
             self.bt_hvac_mode = get_hvac_bt_mode(self, hvac_mode_norm)
         else:
             _LOGGER.error(
@@ -3354,7 +3368,12 @@ class SmarterThermostat(ClimateEntity, RestoreEntity, ABC):
                 if hvac_mode_val is not None
                 else None
             )
-            if hvac_mode_norm in (HVACMode.HEAT, HVACMode.HEAT_COOL, HVACMode.OFF, HVACMode.AUTO):
+            if hvac_mode_norm in (
+                HVACMode.HEAT,
+                HVACMode.HEAT_COOL,
+                HVACMode.OFF,
+                HVACMode.AUTO,
+            ):
                 self.bt_hvac_mode = hvac_mode_norm
             else:
                 _LOGGER.error(
